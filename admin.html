@@ -116,7 +116,7 @@ details.more summary{cursor:pointer;color:var(--warm);font-size:13px;margin-top:
       <li>اضغط <b>Generate token</b> وانسخ المفتاح والصقه هنا.</li>
     </ol>
     <label class="f" for="tok">مفتاح GitHub</label>
-    <input type="password" id="tok" required placeholder="github_pat_…">
+    <input type="text" id="tok" required placeholder="github_pat_…" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off" style="font-family:ui-monospace,Menlo,monospace;font-size:13px">
     <div style="margin-top:16px;display:flex;justify-content:center"><button class="btn primary" type="submit" id="setupBtn">ربط وحفظ</button></div>
     <div class="msg" id="setupMsg" role="status"></div>
     <p class="note" style="margin-top:10px">يُحفظ المفتاح مشفّراً بكلمة المرور، فلا يُفتح إلا بها.</p>
@@ -257,7 +257,13 @@ $('#loginForm').addEventListener('submit', async e => {
 $('#setupForm').addEventListener('submit', async e => {
   e.preventDefault();
   const msg = $('#setupMsg'); msg.className = 'msg'; msg.textContent = 'جارٍ التحقق من المفتاح…'; $('#setupBtn').disabled = true;
-  TOKEN = $('#tok').value.trim();
+  // keep only the visible ASCII characters a GitHub key is made of (pasting can add invisible marks)
+  TOKEN = $('#tok').value.replace(/[^\x21-\x7E]/g, '');
+  if (!/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(TOKEN)) {
+    msg.className = 'msg err'; $('#setupBtn').disabled = false;
+    msg.textContent = 'هذا لا يبدو مفتاح GitHub. المفتاح يبدأ بـ github_pat_ ويُنسخ كاملاً بزر النسخ بجانبه في GitHub.';
+    TOKEN = null; return;
+  }
   try {
     const repo = await gh('');
     if (!repo.permissions || !repo.permissions.push) throw Object.assign(new Error('perm'), { status: 403 });
@@ -268,7 +274,7 @@ $('#setupForm').addEventListener('submit', async e => {
     toast('تم الربط. لن تحتاج هذه الخطوة مرة أخرى.');
   } catch (err) {
     TOKEN = null; msg.className = 'msg err';
-    msg.textContent = err.status === 401 ? 'المفتاح غير صحيح.' : err.status === 403 || err.status === 404 ? 'المفتاح لا يملك صلاحية الكتابة على kimiya-albalaya؛ راجع الخطوتين ٢ و٣.' : 'تعذّر الربط، حاول مرة أخرى.';
+    msg.textContent = err.status === 401 ? 'رفض GitHub هذا المفتاح (قد يكون منتهياً أو نُسخ ناقصاً). أنشئ مفتاحاً جديداً وانسخه بزر النسخ ثم الصقه هنا.' : err.status === 403 || err.status === 404 ? 'المفتاح لا يملك صلاحية الكتابة على kimiya-albalaya؛ راجع الخطوتين ٢ و٣.' : 'تعذّر الربط، حاول مرة أخرى.';
   } finally { $('#setupBtn').disabled = false; }
 });
 
