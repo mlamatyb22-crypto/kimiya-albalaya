@@ -31,6 +31,7 @@
   --maroon:#E7C98C; --maroon-2:#E2B977; --gold:#EDBE6A; --ok:#7CC4A0; --err:#F08A80; color-scheme:dark}
 
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.9;direction:rtl}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:#2E1B10}
 a{color:inherit}
@@ -68,6 +69,13 @@ a{color:inherit}
 .hero-text .orn{margin:16px 0}
 .hero-text .actions{justify-content:flex-start}
 @media (max-width:720px){.hero-grid{grid-template-columns:1fr;text-align:center;gap:26px}.hero .cover{max-width:300px;margin:0 auto}.hero-text{align-items:center}.hero-text .orn{margin:16px auto}.hero-text .actions{justify-content:center}}
+.admin-pill{background:rgba(237,190,106,.18)!important}
+.modal{position:fixed;inset:0;z-index:30;background:rgba(30,18,10,.6);display:grid;place-items:center;padding:16px}
+.modal form{width:min(380px,100%);background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:24px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.modal h2{font-family:var(--f-display);font-weight:400;font-size:28px;color:var(--maroon);margin:0 0 4px;text-align:center}
+.modal p{margin:0 0 14px;text-align:center;color:var(--muted);font-family:var(--f-label);font-size:14px}
+.modal input{width:100%;font:inherit;font-family:var(--f-label);font-size:16px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.modal .acts{display:flex;gap:8px;justify-content:center;margin-top:16px}
 /* sections */
 section.block{padding-block:48px}
 .h2{font-family:var(--f-display);font-size:38px;color:var(--maroon);text-align:center;margin:0;line-height:1.4}
@@ -79,8 +87,7 @@ section.block{padding-block:48px}
 .toc ol{list-style:none;margin:0;padding:0}
 .toc li a{display:flex;align-items:center;gap:10px;padding:6px 0;text-decoration:none;font-size:17px;line-height:1.5}
 .toc li a:hover{color:var(--maroon-2)}
-.n{flex:none;width:24px;height:24px;display:inline-grid;place-items:center;border:1px solid var(--gold);transform:rotate(45deg)}
-.n b{transform:rotate(-45deg);font-family:var(--f-label);font-size:12px;font-weight:600;color:var(--maroon)}
+.n{flex:none;min-width:30px;height:30px;padding:0 6px;display:inline-grid;place-items:center;border-radius:999px;background:#C98A2E;color:#2E1B10;font-family:var(--f-body);font-weight:700;font-size:19px;line-height:1}
 
 .part{position:relative;overflow:hidden;text-align:center;color:#FFF0D2;background:linear-gradient(180deg,#5A3318,#2E1B10)}
 .part .geo{position:absolute;inset:0;width:100%;height:100%;opacity:.08;color:#EDBE6A}
@@ -92,9 +99,9 @@ section.block{padding-block:48px}
 /* rule leaf */
 .rule{padding-block:44px;border-bottom:1px solid var(--line);scroll-margin-top:64px}
 .rule-head{display:flex;flex-direction:column;align-items:center;text-align:center}
-.star{position:relative;width:58px;height:58px;display:grid;place-items:center;color:var(--gold)}
+.star{position:relative;width:76px;height:76px;display:grid;place-items:center;color:var(--gold)}
 .star svg{position:absolute;inset:0;width:100%;height:100%}
-.star span{position:relative;font-family:var(--f-label);font-weight:700;font-size:20px;color:var(--maroon)}
+.star span{position:relative;font-family:var(--f-body);font-weight:700;font-size:34px;line-height:1;color:#2E1B10}
 .rule-head .lbl{font-family:var(--f-label);font-size:12px;letter-spacing:1px;color:var(--gold);margin-top:2px}
 .rule h3{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1.5;color:var(--maroon);margin:6px 0 0;text-wrap:balance}
 .rule h3 .q{display:block;font-family:var(--f-body);font-size:24px;color:var(--maroon-2)}
@@ -158,6 +165,7 @@ section.block{padding-block:48px}
         <circle cx="100" cy="100" r="52" stroke-width="1"/><path d="M90 66 H110 M93 66 V92 L74 126 Q70 136 80 138 H120 Q130 136 126 126 L107 92 V66" stroke-width="2.2" stroke-linejoin="round"/></g>
       <g fill="currentColor"><path d="M100 52 Q95 59 100 62 Q105 59 100 52 Z"/><path d="M80 120 Q100 112 120 120 L124 128 Q126 135 118 136 H82 Q74 135 76 128 Z" opacity=".55"/><circle cx="95" cy="104" r="2"/><circle cx="104" cy="98" r="1.4"/></g>
     </symbol>
+    <symbol id="star8solid" viewBox="0 0 100 100"><g fill="#E0A848" stroke="#9A6418" stroke-width="2"><rect x="18" y="18" width="64" height="64"/><rect x="18" y="18" width="64" height="64" transform="rotate(45 50 50)"/></g><g fill="#F3C772"><rect x="25" y="25" width="50" height="50"/><rect x="25" y="25" width="50" height="50" transform="rotate(45 50 50)"/></g></symbol>
     <symbol id="film" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="10" width="36" height="28" rx="3"/><path d="M20 18 L30 24 L20 30 Z" fill="currentColor"/></g></symbol>
     <pattern id="geo" width="56" height="56" patternUnits="userSpaceOnUse"><g fill="none" stroke="currentColor" stroke-width="1"><rect x="14" y="14" width="28" height="28"/><rect x="14" y="14" width="28" height="28" transform="rotate(45 28 28)"/><path d="M0 0 L14 14 M56 0 L42 14 M0 56 L14 42 M56 56 L42 42"/><circle cx="28" cy="28" r="5"/></g></pattern>
   </defs>
@@ -166,7 +174,7 @@ section.block{padding-block:48px}
 <header class="bar">
   <div class="wrap">
     <a class="brand" href="#top">كيمياء البلايا والمحن</a>
-    <nav><a class="pill" href="#toc">الفهرس</a><a class="pill" href="book.pdf" download="كيمياء البلايا والمحن.pdf">تحميل PDF</a></nav>
+    <nav><button class="pill admin-pill" type="button" id="adminOpen">⚙ الإدارة</button><a class="pill" href="#toc">الفهرس</a><a class="pill" href="book.pdf" download="كيمياء البلايا والمحن.pdf">تحميل PDF</a></nav>
   </div>
 </header>
 
@@ -175,10 +183,10 @@ section.block{padding-block:48px}
   <div class="wrap hero-grid">
     <img class="cover" src="cover.jpg" alt="غلاف كتاب كيمياء البلايا والمحن" width="1024" height="1536">
     <div class="hero-text">
-      <div class="kicker">قواعدُ قرآنيةٌ وروائية</div>
-      <h1>كيمياءُ<small>البلايا والمِحَن</small></h1>
+      <div class="kicker" id="heroKicker">قواعدُ قرآنيةٌ وروائية</div>
+      <h1><span id="heroT1">كيمياءُ</span><small id="heroT2">البلايا والمِحَن</small></h1>
       <div class="orn"><i></i></div>
-      <p>كيف يتحوّل البلاءُ إلى قُربٍ من الله؛ عشرُ قواعد في مواجهة المِحَن قبل نزولها وأثناءه، من كتاب الله وأحاديث أهل البيت عليهم السلام.</p>
+      <p id="heroSub"></p>
       <div class="actions"><a class="btn-gold solid" href="#toc">ابدأ القراءة</a><a class="btn-gold ghost" href="book.pdf" download="كيمياء البلايا والمحن.pdf">تحميل نسخة PDF</a></div>
     </div>
   </div>
@@ -203,71 +211,53 @@ section.block{padding-block:48px}
   </div>
 </section>
 
+<div class="modal" id="adminModal" hidden>
+  <form id="adminForm" autocomplete="off">
+    <h2>إدارة الموقع</h2>
+    <p>أدخل كلمة المرور للدخول إلى صفحة التعديل</p>
+    <label for="adminPw" class="sr" style="position:absolute;left:-9999px">كلمة المرور</label>
+    <input type="password" id="adminPw" placeholder="كلمة المرور" required>
+    <div class="acts"><button class="btn primary" type="submit">دخول</button><button class="btn" type="button" id="adminCancel">إلغاء</button></div>
+  </form>
+</div>
 <div class="toast" id="toast" role="status" hidden></div>
 
+<script src="common.js"></script>
 <script>
-const RULES = [
-  { id:'r1', num:'١', stage:1, ord:'الأولى', name:'قاعدة التهيئة الاعتقادية', motto:'مَنْ لَمْ يَرْضَ بِقَضَائِي',
-    narr:'رُوي عن النبيّ (صلّى الله عليه وآله): قال الله جلّ جلاله:',
-    text:'مَنْ لَمْ يَرْضَ بِقَضَائِي، وَلَمْ يُؤْمِنْ بِقَدَرِي، فَلْيَلْتَمِسْ إِلَهاً غَيْرِي', src:'مختصر البصائر، ص٣٦٠/٣' },
-  { id:'r2', num:'٢', stage:1, ord:'الثانية', name:'قاعدة التهيئة النفسية', motto:'مَثَلُ الَّذِينَ خَلَوْا مِن قَبْلِكُم', quran:true,
-    narr:'قال الله تعالى:',
-    text:'أَمْ حَسِبْتُمْ أَن تَدْخُلُوا الْجَنَّةَ وَلَمَّا يَأْتِكُم مَّثَلُ الَّذِينَ خَلَوْا مِن قَبْلِكُم ۖ مَّسَّتْهُمُ الْبَأْسَاءُ وَالضَّرَّاءُ وَزُلْزِلُوا حَتَّىٰ يَقُولَ الرَّسُولُ وَالَّذِينَ آمَنُوا مَعَهُ مَتَىٰ نَصْرُ اللَّهِ ۗ أَلَا إِنَّ نَصْرَ اللَّهِ قَرِيبٌ', src:'سورة البقرة، الآية ٢١٤' },
-  { id:'r3', num:'٣', stage:1, ord:'الثالثة', name:'قاعدة', motto:'مَنْ لَهِجَ قَلْبُهُ بِحُبِّ الدُّنْيَا',
-    narr:'رُوي عن أمير المؤمنين عليه السلام:',
-    text:'وَمَنْ لَهِجَ قَلْبُهُ بِحُبِّ الدُّنْيَا الْتَاطَ قَلْبُهُ مِنْهَا بِثَلَاثٍ: هَمٍّ لَا يُغِبُّهُ، وَحِرْصٍ لَا يَتْرُكُهُ، وَأَمَلٍ لَا يُدْرِكُهُ' },
-  { id:'r4', num:'٤', stage:1, ord:'الرابعة', name:'قاعدة', motto:'تتركُ البسملة فيمتحنُك الله بمكروه!',
-    narr:'رُوي عن الإمام الصادق عليه السلام:',
-    text:'ولربّما ترك في افتتاح أمرٍ بعضُ شيعتنا «بسم الله الرحمن الرحيم» فيمتحنه الله بمكروه، وينبّهه على شكر الله تعالى والثناء عليه، ويمحو فيه عنه وصمة تقصيره عند تركه قول: «بسم الله»' },
-  { id:'r5', num:'٥', stage:1, ord:'الخامسة', name:'قاعدة', motto:'ادفعوا أمواجَ البلاء',
-    narr:'رُوي عن أمير المؤمنين عليه السلام:',
-    text:'ادفعوا أمواجَ البلاء بالدعاء؛ ما المُبتلى الذي اشتدّ به البلاء بأحوجَ إلى الدعاء من المُعافى الذي لا يأمنُ البلاء', src:'نهج البلاغة' },
-  { id:'r6', num:'٦', stage:2, ord:'السادسة', name:'القاعدة الزينبية', motto:'مَا رَأَيْتُ إِلَّا جَمِيلاً',
-    narr:'روى السيّد ابن طاووس:',
-    ctx:'أنَّ ابْنَ زِيَادٍ لمّا جَلَسَ فِي الْقَصْرِ لِلنَّاسِ وَأَذِنَ إِذْناً عَامّاً، قَالَ (مخاطباً السيدة زينب عليها السلام): كَيْفَ رَأَيْتِ صُنْعَ اللَّهِ بِأَخِيكِ وَأَهْلِ بَيْتِكِ؟ فَقَالَتْ عليها السلام:',
-    text:'مَا رَأَيْتُ إِلَّا جَمِيلاً؛ هَؤُلَاءِ قَوْمٌ كَتَبَ اللَّهُ عَلَيْهِمُ الْقَتْلَ فَبَرَزُوا إِلَى مَضَاجِعِهِمْ، وَسَيَجْمَعُ اللَّهُ بَيْنَكَ وَبَيْنَهُمْ فَتُحَاجُّ وَتُخَاصَمُ، فَانْظُرْ لِمَنِ الْفَلْجُ يَوْمَئِذٍ' },
-  { id:'r7', num:'٧', stage:2, ord:'السابعة', name:'قاعدة الأمير عليه السلام', motto:'فَزِعُوا إِلَى رَبِّهِم',
-    narr:'رُوي عن أمير المؤمنين عليه السلام:',
-    text:'ولو أنّ الناس حين تنزل بهم النِّقَم، وتزول عنهم النِّعَم، فزِعوا إلى ربّهم بصدقٍ من نيّاتهم، ووَلَهٍ من قلوبهم، لردّ عليهم كلَّ شارد، وأصلح لهم كلَّ فاسد' },
-  { id:'r8', num:'٨', stage:2, ord:'الثامنة', name:'قاعدة الإمام الصادق عليه السلام', motto:'مَنْ عَرَفَ قَدْرَ الصَّبْرِ لَا يَصْبِرُ عَمَّا مِنْهُ الصَّبْرُ',
-    narr:'رُوي عن الإمام الصادق عليه السلام:',
-    text:'وَمَنْ عَرَفَ قَدْرَ الصَّبْرِ لَا يَصْبِرُ عَمَّا مِنْهُ الصَّبْرُ؛ قَالَ اللَّهُ تَعَالَى فِي قِصَّةِ مُوسَى بْنِ عِمْرَانَ (عليه السلام) وَخَضِرٍ (عليه السلام): ﴿وَكَيْفَ تَصْبِرُ عَلَىٰ مَا لَمْ تُحِطْ بِهِ خُبْرًا﴾', src:'مسكّن الفؤاد، ص٥٣' },
-  { id:'r9', num:'٩', stage:2, ord:'التاسعة', name:'قاعدة العامّ الصابر', motto:'لَمْ يَجْزَعْ بِهَتْكِ سِتْرِهِ',
-    narr:'رُوي عن الإمام الصادق عليه السلام:',
-    text:'فَمَنْ صَبَرَ كُرْهاً، وَلَمْ يَشْكُ إِلَى الْخَلْقِ، وَلَمْ يَجْزَعْ بِهَتْكِ سِتْرِهِ، فَهُوَ مِنَ الْعَامِّ، وَنَصِيبُهُ مَا قَالَ اللَّهُ عَزَّ وَجَلَّ: ﴿وَبَشِّرِ الصَّابِرِينَ﴾ أَيْ بِالْجَنَّةِ وَالْمَغْفِرَةِ', src:'مسكّن الفؤاد، ص٥٣' },
-  { id:'r10', num:'١٠', stage:2, ord:'العاشرة', name:'قاعدة الخاصّ الصابر', motto:'صَبَرَ عَلَى سَكِينَةٍ وَوَقَارٍ',
-    narr:'رُوي عن الإمام الصادق عليه السلام:',
-    text:'وَمَنِ اسْتَقْبَلَ الْبَلَاءَ بِالرُّحْبِ، وَصَبَرَ عَلَى سَكِينَةٍ وَوَقَارٍ، فَهُوَ مِنَ الْخَاصِّ، وَنَصِيبُهُ مَا قَالَ تَعَالَى: ﴿إِنَّ اللَّهَ مَعَ الصَّابِرِينَ﴾', src:'مسكّن الفؤاد، ص٥٣' },
-];
-const PARTS = {
-  1: { stage:'المرحلة الأولى', title:'قبل نزول البلاء', desc:'التهيئةُ والوقاية: أن يُعِدَّ المؤمنُ قلبَه وعقيدتَه قبل أن تطرق المحنةُ بابه.' },
-  2: { stage:'المرحلة الثانية', title:'أثناء نزول البلاء', desc:'الثباتُ والمواجهة: كيف يستقبل المؤمنُ المحنة إذا نزلت، فيصبر ويرضى ويفزع إلى ربّه.' },
-};
-const VIDEO_EXT = { 'video/mp4':'mp4', 'video/webm':'webm', 'video/quicktime':'mov' };
-// Videos live in media/ and are listed in data/media.json: { "r1": { "path": "media/r1.mp4", "type": "video/mp4" } }
-let media = {};
+// Everything shown here comes from data/content.json, which the admin page (admin.html) edits.
+let DATA = { hero: {}, parts: {}, rules: [] };
+let RULES = [];
 
 const $ = (s, el = document) => el.querySelector(s);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
 
 function toast(msg, err) {
   const t = $('#toast'); t.textContent = msg; t.className = 'toast' + (err ? ' err' : ''); t.hidden = false;
   clearTimeout(toast.h); toast.h = setTimeout(() => { t.hidden = true; }, 3800);
 }
 
+function renderHero() {
+  const h = DATA.hero || {};
+  $('#heroKicker').textContent = h.kicker || '';
+  $('#heroT1').textContent = h.title1 || '';
+  $('#heroT2').textContent = h.title2 || '';
+  $('#heroSub').textContent = h.subtitle || '';
+}
+
 function renderToc() {
-  $('#tocList').innerHTML = [1, 2].map(s => `
-    <div><h3><a href="#part${s}" style="text-decoration:none">${PARTS[s].stage} · ${PARTS[s].title}</a></h3><ol>
-      ${RULES.filter(r => r.stage === s).map(r => `<li><a href="#${r.id}"><span class="n"><b>${r.num}</b></span><span>${esc(r.name === 'قاعدة' ? r.motto : r.name)}</span></a></li>`).join('')}
+  $('#tocList').innerHTML = ['1', '2'].map(s => `
+    <div><h3><a href="#part${s}" style="text-decoration:none">${esc(DATA.parts[s].stage)} · ${esc(DATA.parts[s].title)}</a></h3><ol>
+      ${RULES.filter(r => String(r.stage) === s).map(r => `<li><a href="#${r.id}"><span class="n">${r.num}</span><span>${esc(r.name === 'قاعدة' ? r.motto : r.name)}</span></a></li>`).join('')}
     </ol></div>`).join('');
 }
 
 function ruleHtml(r) {
   const [o, c] = r.quran ? ['﴿', '﴾'] : ['«', '»'];
+  const img = r.image || `cards/${r.id}.jpg`;
   return `
   <article class="rule" id="${r.id}"><div class="wrap">
     <div class="rule-head">
-      <div class="star"><svg><use href="#star8"/></svg><span>${r.num}</span></div>
+      <div class="star"><svg><use href="#star8solid"/></svg><span>${r.num}</span></div>
       <div class="lbl">القاعدة ${r.ord}</div>
       <h3>${esc(r.name)}<span class="q">«${esc(r.motto)}»</span></h3>
     </div>
@@ -278,14 +268,14 @@ function ruleHtml(r) {
     <div class="media">
       <div class="panel">
         <div class="panel-t"><span>صورة القاعدة</span></div>
-        <img src="cards/${r.id}.jpg" alt="بطاقة القاعدة ${r.ord}: ${esc(r.motto)}" loading="lazy">
+        <img src="${esc(img)}" alt="بطاقة القاعدة ${r.ord}: ${esc(r.motto)}" loading="lazy">
         <div class="row">
           <button class="btn primary" type="button" data-act="share" data-kind="img" data-id="${r.id}">مشاركة الصورة</button>
-          <a class="btn" href="cards/${r.id}.jpg" download="كيمياء البلايا والمحن - القاعدة ${r.ord}.jpg">حفظ</a>
+          <a class="btn" href="${esc(img)}" download="كيمياء البلايا والمحن - القاعدة ${r.ord}.jpg">حفظ</a>
           <button class="btn" type="button" data-act="copy-link" data-id="${r.id}">نسخ الرابط</button>
         </div>
       </div>
-      <div class="panel" id="v-${r.id}"></div>
+      <div class="panel">${videoHtml(r)}</div>
     </div>
     <div class="row" style="justify-content:space-between;margin-top:18px">
       <a class="btn" href="#toc">↩ الفهرس</a>
@@ -294,43 +284,28 @@ function ruleHtml(r) {
   </div></article>`;
 }
 
+function videoHtml(r) {
+  const v = r.video;
+  if (!v || !v.path) return `<div class="panel-t"><span>مقطع القاعدة</span></div>
+    <div class="vbox"><div class="empty"><svg><use href="#film"/></svg>المقطع قريباً</div></div>`;
+  return `<div class="panel-t"><span>مقطع القاعدة</span></div>
+    <div class="vbox"><video controls playsinline preload="metadata" src="${esc(v.path)}"></video></div>
+    <div class="row">
+      <button class="btn primary" type="button" data-act="share" data-kind="vid" data-id="${r.id}">مشاركة المقطع</button>
+      <a class="btn" href="${esc(v.path)}" download="كيمياء البلايا والمحن - مقطع القاعدة ${r.ord}.${KB.videoExt(v.type)}">حفظ</a>
+      <button class="btn" type="button" data-act="copy-link" data-id="${r.id}">نسخ الرابط</button>
+    </div>`;
+}
+
 function renderRules() {
-  RULES.forEach((r, i) => { r.next = RULES[i + 1] && RULES[i + 1].id; });
   let html = '';
-  [1, 2].forEach(s => {
+  ['1', '2'].forEach(s => {
+    const p = DATA.parts[s];
     html += `<section class="part" id="part${s}"><svg class="geo" aria-hidden="true"><rect width="100%" height="100%" fill="url(#geo)"/></svg>
-      <div class="wrap"><div class="stage">${PARTS[s].stage}</div><h2>${PARTS[s].title}</h2><div class="orn"><i></i></div><p>${PARTS[s].desc}</p></div></section>`;
-    html += RULES.filter(r => r.stage === s).map(ruleHtml).join('');
+      <div class="wrap"><div class="stage">${esc(p.stage)}</div><h2>${esc(p.title)}</h2><div class="orn"><i></i></div><p>${esc(p.desc)}</p></div></section>`;
+    html += RULES.filter(r => String(r.stage) === s).map(ruleHtml).join('');
   });
   $('#rules').innerHTML = html;
-  RULES.forEach(r => renderVideo(r.id));
-}
-
-function renderVideo(id) {
-  const box = $('#v-' + id), m = media[id], r = RULES.find(x => x.id === id);
-  if (m && m.path) {
-    const ext = VIDEO_EXT[m.type] || 'mp4';
-    box.innerHTML = `
-      <div class="panel-t"><span>مقطع القاعدة</span></div>
-      <div class="vbox"><video controls playsinline preload="metadata" src="${esc(m.path)}"${m.poster ? ` poster="${esc(m.poster)}"` : ''}></video></div>
-      <div class="row">
-        <button class="btn primary" type="button" data-act="share" data-kind="vid" data-id="${id}">مشاركة المقطع</button>
-        <a class="btn" href="${esc(m.path)}" download="كيمياء البلايا والمحن - مقطع القاعدة ${r.ord}.${ext}">حفظ</a>
-        <button class="btn" type="button" data-act="copy-link" data-id="${id}">نسخ الرابط</button>
-      </div>`;
-  } else {
-    box.innerHTML = `
-      <div class="panel-t"><span>مقطع القاعدة</span></div>
-      <div class="vbox"><div class="empty"><svg><use href="#film"/></svg>المقطع قريباً</div></div>`;
-  }
-}
-
-async function loadMedia() {
-  try {
-    const res = await fetch('data/media.json', { cache: 'no-cache' });
-    if (res.ok) media = (await res.json()) || {};
-  } catch (e) { media = {}; }
-  RULES.forEach(r => renderVideo(r.id));
 }
 
 function ruleLink(id) { return location.href.split('#')[0] + '#' + id; }
@@ -339,9 +314,9 @@ async function share(id, kind) {
   const r = RULES.find(x => x.id === id);
   const title = `كيمياء البلايا والمحن · القاعدة ${r.ord}`;
   const text = `${title}: «${r.motto}»`;
-  const url = kind === 'img' ? `cards/${id}.jpg` : media[id].path;
-  const type = kind === 'img' ? 'image/jpeg' : (media[id].type || 'video/mp4');
-  const name = `${title}.${kind === 'img' ? 'jpg' : (VIDEO_EXT[type] || 'mp4')}`;
+  const url = kind === 'img' ? (r.image || `cards/${id}.jpg`) : r.video.path;
+  const type = kind === 'img' ? 'image/jpeg' : (r.video.type || 'video/mp4');
+  const name = `${title}.${kind === 'img' ? 'jpg' : KB.videoExt(type)}`;
   try {
     if (navigator.canShare) {
       toast('جارٍ تجهيز الملف للمشاركة…');
@@ -370,10 +345,30 @@ document.addEventListener('click', e => {
   if (b.dataset.act === 'copy-link') copyLink(b.dataset.id);
 });
 
-renderToc();
-renderRules();
-loadMedia();
-if (location.hash) { const t = document.getElementById(decodeURIComponent(location.hash.slice(1))); if (t) setTimeout(() => t.scrollIntoView(), 60); }
+// Admin button: ask for the password here, then hand it to admin.html for this tab only
+const modal = $('#adminModal');
+$('#adminOpen').addEventListener('click', () => { modal.hidden = false; $('#adminPw').focus(); });
+$('#adminCancel').addEventListener('click', () => { modal.hidden = true; $('#adminPw').value = ''; });
+modal.addEventListener('click', e => { if (e.target === modal) $('#adminCancel').click(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.hidden) $('#adminCancel').click(); });
+$('#adminForm').addEventListener('submit', e => {
+  e.preventDefault();
+  try { sessionStorage.setItem('kb_pw', $('#adminPw').value); } catch (_) {}
+  location.href = 'admin.html';
+});
+
+(async () => {
+  try {
+    const res = await fetch('data/content.json?v=' + Date.now(), { cache: 'no-store' });
+    DATA = await res.json();
+  } catch (e) {
+    $('#rules').innerHTML = '<div class="wrap" style="padding-block:40px;text-align:center">تعذّر تحميل المحتوى، أعد تحميل الصفحة.</div>';
+    return;
+  }
+  RULES = KB.numberRules(DATA.rules);
+  renderHero(); renderToc(); renderRules();
+  if (location.hash) { const t = document.getElementById(decodeURIComponent(location.hash.slice(1))); if (t) setTimeout(() => t.scrollIntoView(), 60); }
+})();
 </script>
 </body>
 </html>
