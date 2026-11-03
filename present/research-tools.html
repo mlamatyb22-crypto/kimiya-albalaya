@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>أدوات جمع المعلومات ومراحل البحث العلمي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<style>
+:root{
+  color-scheme:light;
+  --page:#DDE6E0; --chrome:#1E3A56; --chromeText:#F3F6F4;
+  --navy:#1E3A56; --navy2:#142B42; --green:#2F8A6A; --mint:#8FD3B6; --paper:#F6F8F4; --ink:#1B2632; --muted:#5A6B78; --orange:#D9822B; --soft:#E4F1EA;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ color-scheme:dark; --page:#0B141C; --chrome:#22445F; } }
+:root[data-theme="dark"]{ color-scheme:dark; --page:#0B141C; --chrome:#22445F; }
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--page);font-family:'Tajawal','Segoe UI',Tahoma,sans-serif;color:var(--ink)}
+#wrap{position:fixed;inset:0;display:grid;place-items:center}
+#deck{position:relative;width:1600px;height:900px;transform-origin:center center;flex:none}
+.slide{position:absolute;inset:0;background:var(--paper);border-radius:6px;overflow:hidden;padding:80px 96px 90px;display:flex;flex-direction:column;gap:34px;opacity:0;visibility:hidden;transform:translateX(-60px);transition:opacity .55s ease, transform .55s ease, visibility .55s}
+.slide.on{opacity:1;visibility:visible;transform:none}
+.slide.back{transform:translateX(60px)}
+.slide::after{content:"";position:absolute;left:0;right:0;bottom:0;height:18px;background:linear-gradient(90deg,var(--navy) 0 60%,var(--green) 60%)}
+.dark{background:radial-gradient(120% 90% at 100% 0%,#26506F 0%,var(--navy) 50%,var(--navy2) 100%);color:#F3F6F4}
+.dark::after{background:linear-gradient(90deg,var(--green) 0 40%,transparent 40%)}
+.tag{font-size:28px;font-weight:700;color:var(--green)}
+.dark .tag{color:var(--mint)}
+h1{font-size:84px;line-height:1.15;font-weight:800}
+h2{font-size:58px;line-height:1.15;font-weight:800;color:var(--navy)}
+.dark h2{color:#fff}
+.def{font-size:34px;line-height:1.6;background:#fff;border-right:10px solid var(--green);padding:22px 30px;border-radius:18px;box-shadow:0 8px 24px rgba(30,58,86,.07)}
+.row{display:flex;gap:26px}
+.row>*{flex:1}
+.card{background:#fff;border-radius:22px;padding:26px 28px;display:flex;flex-direction:column;gap:10px;box-shadow:0 8px 24px rgba(30,58,86,.08);border-top:8px solid var(--green)}
+.card.n2{border-top-color:var(--navy)}
+.card h3{font-size:36px;color:var(--navy);font-weight:800}
+.card p{font-size:27px;line-height:1.55;color:#33434F}
+.ex{font-size:25px;line-height:1.5;color:var(--green);font-weight:700;background:var(--soft);border-radius:12px;padding:10px 14px}
+.ex::before{content:"مثال: ";color:var(--navy)}
+.big{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:30px 10px}
+.big i{font-style:normal;font-size:90px;line-height:1}
+.big b{font-size:42px;color:var(--navy)}
+.big span{font-size:26px;color:var(--muted);line-height:1.5}
+.list{display:flex;flex-direction:column;gap:16px}
+.li{display:flex;align-items:center;gap:20px;font-size:32px;background:#fff;border-radius:16px;padding:16px 22px;box-shadow:0 6px 18px rgba(30,58,86,.06)}
+.li .n{flex:none;width:52px;height:52px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-weight:800;font-size:28px}
+.li small{color:var(--muted);font-size:25px;margin-right:auto}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.st{background:#fff;border-radius:18px;padding:20px 22px;display:flex;flex-direction:column;gap:6px;box-shadow:0 6px 18px rgba(30,58,86,.07)}
+.st em{font-style:normal;font-size:44px;font-weight:800;color:var(--green);line-height:1}
+.st:nth-child(n+5) em{color:var(--navy)}
+.st b{font-size:29px;color:var(--navy)}
+.st span{font-size:23px;color:var(--muted);line-height:1.45}
+.q{font-size:44px;font-weight:800;color:var(--navy);line-height:1.4}
+.ans{font-size:32px;font-weight:700;color:#fff;background:var(--green);border-radius:16px;padding:14px 22px;display:inline-block}
+.vs{display:flex;gap:26px;align-items:stretch}
+.vs .card{flex:1}
+.arrow{align-self:center;font-size:56px;color:var(--orange);font-weight:800}
+.foot{position:absolute;left:96px;right:96px;bottom:34px;display:flex;justify-content:space-between;font-size:22px;color:var(--muted)}
+.dark .foot{color:#9FB6C6}
+/* builds */
+.f{opacity:0;transform:translateY(34px);transition:opacity .5s ease, transform .5s cubic-bezier(.2,.8,.2,1)}
+.f.z{transform:scale(.75)}
+.f.s{transform:translateX(70px)}
+.f.on{opacity:1;transform:none}
+.hint{position:absolute;left:96px;top:44px;font-size:20px;color:var(--muted);opacity:.0;transition:opacity .4s}
+.slide.more .hint{opacity:.7}
+.dark .hint{color:#9FB6C6}
+/* quiz */
+.quiz h2{font-size:50px;line-height:1.3}
+.opts{display:flex;flex-direction:column;gap:16px}
+.opt{display:flex;align-items:center;gap:22px;background:#fff;border-radius:20px;padding:18px 26px;font-size:36px;font-weight:700;color:var(--navy);box-shadow:0 8px 24px rgba(30,58,86,.08);border-right:10px solid var(--navy);transition:transform .4s,opacity .4s,background .4s,color .4s}
+.opt em{font-style:normal;flex:none;width:58px;height:58px;border-radius:50%;background:var(--soft);color:var(--navy);display:grid;place-items:center;font-size:30px;font-weight:800}
+.slide:has(.ansx.on) .opt.ok{background:var(--green);color:#fff;transform:scale(1.03);border-right-color:#fff}
+.slide:has(.ansx.on) .opt.ok em{background:#fff;color:var(--green)}
+.slide:has(.ansx.on) .opt:not(.ok){opacity:.35}
+.tmr{height:12px;background:rgba(30,58,86,.12);border-radius:8px;overflow:hidden;margin-top:6px}
+.tmr i{display:block;height:100%;width:100%;background:var(--orange);border-radius:8px}
+.opts.on .tmr i{animation:tm 12s linear forwards}
+@keyframes tm{to{width:0}}
+.ansx{font-size:32px;line-height:1.55;font-weight:700;color:#fff;background:var(--navy);border-radius:20px;padding:20px 28px}
+.ansx b{color:var(--mint)}
+.tf{display:flex;align-items:center;gap:20px;background:#fff;border-radius:18px;padding:16px 24px;font-size:31px;font-weight:700;color:var(--navy);box-shadow:0 6px 18px rgba(30,58,86,.07)}
+.tf .v{flex:none;margin-right:auto;font-size:27px;font-weight:800;border-radius:14px;padding:8px 18px;color:#fff}
+.tf .v.y{background:var(--green)}.tf .v.n{background:#C0543A}
+.tf .v small{display:block;font-size:20px;font-weight:500;opacity:.95}
+#score{position:absolute;left:96px;top:30px;z-index:7;display:none;gap:14px;align-items:center;direction:rtl}
+body.q #score{display:flex}
+#score div{background:var(--navy);color:#fff;border-radius:16px;padding:6px 18px;font-size:22px;font-weight:700;display:flex;gap:10px;align-items:center}
+#score div b{font-size:34px;color:var(--mint);min-width:34px;text-align:center}
+#score div.b2{background:var(--green)}#score div.b2 b{color:#fff}
+.bigscore{display:flex;gap:40px;justify-content:center;align-items:stretch}
+.bigscore>div{flex:1;max-width:420px;text-align:center;background:rgba(255,255,255,.1);border-radius:26px;padding:26px}
+.bigscore b{display:block;font-size:130px;line-height:1;color:var(--mint);font-weight:800}
+.bigscore span{font-size:34px;font-weight:700}
+#finalRes{font-size:64px;font-weight:800;color:#fff;text-align:center}
+#rScore{display:none;flex-direction:column;gap:8px}
+#rScore .tm{display:flex;align-items:center;gap:8px;background:#1E3A56;border-radius:14px;padding:6px 12px;font-size:17px}
+#rScore .tm b{font-size:26px;color:#8FD3B6;min-width:30px;text-align:center}
+#rScore .tm span{flex:1;font-weight:700}
+#rScore button{height:46px;min-width:56px;border:0;border-radius:12px;background:#2F8A6A;color:#fff;font-family:inherit;font-size:20px;font-weight:800;touch-action:manipulation}
+#rScore button.m{background:#22445F}
+/* chrome */
+#bar{position:fixed;left:0;right:0;bottom:0;height:4px;background:rgba(127,140,150,.25);z-index:5}
+#bar i{display:block;height:100%;width:0;background:var(--green);transition:width .4s}
+#ui{position:fixed;left:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;gap:8px;z-index:6;opacity:.25;transition:opacity .3s}
+#ui:hover,#ui:focus-within{opacity:1}
+#ui button{font-family:inherit;border:0;background:var(--chrome);color:var(--chromeText);height:44px;min-width:44px;padding:0 14px;border-radius:22px;font-size:17px;font-weight:700;cursor:pointer}
+#notes{position:fixed;right:14px;left:14px;bottom:calc(66px + env(safe-area-inset-bottom,0px));z-index:6;background:var(--chrome);color:var(--chromeText);border-radius:16px;padding:14px 18px;font-size:18px;line-height:1.7;display:none;max-width:760px;margin-inline-start:auto}
+#notes.show{display:block}
+#help{position:fixed;inset:0;z-index:8;display:grid;place-items:center;background:rgba(10,20,30,.55)}
+#help div{background:var(--paper);color:var(--ink);border-radius:20px;padding:26px 30px;max-width:520px;width:calc(100% - 32px);font-size:18px;line-height:1.8}
+#help b{color:var(--navy)}
+#qr{position:fixed;inset:0;z-index:9;display:none;place-items:center;background:rgba(10,20,30,.6)}
+#qr.show{display:grid}
+#qr>div{background:var(--paper);color:var(--ink);border-radius:20px;padding:24px 28px;text-align:center;font-size:18px;line-height:1.7;max-width:420px;width:calc(100% - 32px)}
+#qrbox{display:grid;place-items:center;margin:14px auto;background:#fff;padding:12px;border-radius:12px;width:max-content}
+#qr button{margin-top:10px;font-family:inherit;border:0;background:var(--green);color:#fff;height:44px;padding:0 22px;border-radius:22px;font-size:17px;font-weight:700;cursor:pointer}
+#conn{position:fixed;right:14px;top:calc(14px + env(safe-area-inset-top,0px));z-index:6;background:var(--chrome);color:var(--chromeText);border-radius:16px;padding:6px 12px;font-size:14px;display:none}
+/* phone remote */
+#remote{display:none;position:fixed;inset:0;flex-direction:column;gap:12px;padding:calc(14px + env(safe-area-inset-top,0px)) 14px calc(14px + env(safe-area-inset-bottom,0px));background:#142B42;color:#F3F6F4;overflow:auto}
+body.rm #remote{display:flex}
+body.rm #wrap,body.rm #ui,body.rm #help,body.rm #bar,body.rm #notes{display:none!important}
+body.rm{overflow:auto}
+#rTop{display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#9FB6C6}
+#rDot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#C0543A;margin-left:6px}
+#rDot.ok{background:#4CC38A}
+#rTitle{font-size:22px;font-weight:800;line-height:1.35}
+#rStep{font-size:15px;color:#8FD3B6;font-weight:700}
+#rNext{flex:1;min-height:200px;border:0;border-radius:24px;background:#2F8A6A;color:#fff;font-family:inherit;font-size:34px;font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;cursor:pointer;touch-action:manipulation}
+#rNext:active{transform:scale(.98);background:#277558}
+#rNext small{font-size:16px;font-weight:500;opacity:.9;line-height:1.5;max-width:100%}
+#rNext:disabled{opacity:.45}
+#rRow{display:flex;gap:10px}
+#rRow button{flex:1;height:56px;border:0;border-radius:16px;background:#22445F;color:#F3F6F4;font-family:inherit;font-size:18px;font-weight:700;cursor:pointer;touch-action:manipulation}
+#rNote{background:#1E3A56;border-radius:16px;padding:12px 14px;font-size:16px;line-height:1.7;color:#E6EDF2}
+#rNote b{color:#8FD3B6}
+#rMsg{font-size:14px;color:#F0B27A;line-height:1.6}
+#help button{margin-top:14px;font-family:inherit;border:0;background:var(--green);color:#fff;height:46px;padding:0 24px;border-radius:23px;font-size:18px;font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="deck">
+<div id="score"><div>الفريق الأول <b id="sA">0</b></div><div class="b2">الفريق الثاني <b id="sB">0</b></div></div>
+
+<!-- 1 -->
+<section class="slide dark" data-note="سلام عليكم، عرضنا اليوم عن درسين: أدوات جمع المعلومات، ومراحل البحث العلمي.">
+  <div class="tag">البحث ومصادر المعلومات</div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:30px">
+    <h1>أدوات جمع المعلومات<br>ومراحل البحث العلمي</h1>
+    <div class="row" style="max-width:900px">
+      <div class="f s" style="font-size:32px;color:var(--mint);font-weight:700">الدرس 3 · كيف يجمع الباحث معلوماته؟</div>
+    </div>
+    <div class="f s" style="font-size:32px;color:var(--mint);font-weight:700">الدرس 4 · كيف يرتب الباحث بحثه؟</div>
+    <div class="f" style="font-size:28px;color:#C9D6DF">إعداد الطالب: [اسمك]</div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-note="أدوات البحث هي الوسائل اللي يجمع فيها الباحث المعلومات، ويقدر يستخدم أكثر من أداة في نفس البحث. أهمها ثلاث.">
+  <div class="tag">الدرس 3</div>
+  <h2>ما هي أدوات البحث؟</h2>
+  <div class="def f">الوسائل التي يستخدمها الباحث للحصول على المعلومات، ويمكنه استخدام أكثر من أداة في بحث واحد</div>
+  <div class="row" style="flex:1">
+    <div class="card big f z"><i>👁️</i><b>الملاحظة</b><span>أشاهد بنفسي</span></div>
+    <div class="card big f z n2"><i>🗣️</i><b>المقابلة</b><span>أسأل وجهًا لوجه</span></div>
+    <div class="card big f z"><i>📝</i><b>الاستبانة</b><span>أسئلة مكتوبة</span></div>
+  </div>
+  <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-note="الملاحظة: أراقب الظاهرة وأسجلها وقت حدوثها. مثال الكتاب: ملاحظة سلوك الطلاب في تجربة التسخين والتبريد. وتمتاز بأربع ميزات.">
+  <div class="tag">أولًا · الملاحظة 👁️</div>
+  <h2>أشاهد وأسجّل وقت الحدوث</h2>
+  <div class="def f">مراقبة دقيقة مخطط لها لدراسة ظاهرة، وتدوين تغيراتها مباشرة وقت حدوثها</div>
+  <div class="ex f" style="font-size:30px">ملاحظة سلوك الطلاب أثناء تجربة التسخين والتبريد في معمل الفيزياء</div>
+  <div class="row">
+    <div class="card f"><h3>الدقة</h3><p>تدرس تصرفات لا تُدرس إلا بها</p></div>
+    <div class="card f n2"><h3>السهولة</h3><p>لا تحتاج جهدًا كبيرًا</p></div>
+    <div class="card f"><h3>الموضوعية</h3><p>بعيدة عن التحيز</p></div>
+    <div class="card f n2"><h3>المباشرة</h3><p>الحقائق وقت حدوثها</p></div>
+  </div>
+  <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-note="أنواع الملاحظة أربعة. المقيدة فيها خطة وأهداف قبل، وغير المقيدة بدون تحديد مسبق. المباشرة أشوفها بنفسي، وغير المباشرة عن طريق شخص ثاني.">
+  <div class="tag">الملاحظة</div>
+  <h2>أنواع الملاحظة</h2>
+  <div class="row" style="flex:1">
+    <div class="card f"><h3>المقيدة</h3><p>مخطط لها وفق أهداف مسبقة</p><div class="ex">مراقبة ظاهرة التأخر الصباحي</div></div>
+    <div class="card f n2"><h3>غير المقيدة</h3><p>دون تحديد مسبق لنوع المعلومات</p><div class="ex">ملاحظة خدمات المقصف المدرسي</div></div>
+  </div>
+  <div class="row" style="flex:1">
+    <div class="card f"><h3>المباشرة</h3><p>أشاهد الظاهرة بنفسي دون وسيط</p><div class="ex">التزام الطلاب بلائحة السلوك</div></div>
+    <div class="card f n2"><h3>غير المباشرة</h3><p>عن طريق وسيط مثل الزملاء</p><div class="ex">زميل يرفع مشكلات الفصل للموجّه</div></div>
+  </div>
+  <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
+</section>
+
+<!-- 5 -->
+<section class="slide" data-note="المقابلة: محادثة وجهًا لوجه مع عينة الدراسة، مفيدة لما المعلومة ما تنجاب إلا بالكلام المباشر. حسب نوع الأسئلة: مغلقة إجابتها محددة، مفتوحة يتكلم بحرية، أو الاثنين مع بعض.">
+  <div class="tag">ثانيًا · المقابلة 🗣️</div>
+  <h2>أسأل وجهًا لوجه</h2>
+  <div class="def f">محادثة يجريها الباحث مع عينة الدراسة، خاصة عندما لا نحصل على المعلومة إلا بالمقابلة</div>
+  <div class="row">
+    <div class="card f"><h3>مغلقة</h3><p>إجابة محددة: نعم أو لا</p><div class="ex">هل تجد صعوبة في الرياضيات؟</div></div>
+    <div class="card f n2"><h3>مفتوحة</h3><p>إجابة حرة وتفصيلية</p><div class="ex">ما رأيك بخدمات المقصف؟</div></div>
+    <div class="card f"><h3>مغلقة / مفتوحة</h3><p>تجمع النوعين</p><div class="ex">هل تؤيد اللائحة؟ ولماذا؟</div></div>
+  </div>
+  <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-note="وحسب الغرض: استطلاعية تجمع آراء، تشخيصية تفهم سبب المشكلة، وعلاجية تساعد صاحب المشكلة يحلها. ومن ميزات المقابلة أنها ممتازة لتشخيص المشكلات وتدعم الأدوات الثانية.">
+  <div class="tag">المقابلة</div>
+  <h2>أنواعها حسب الغرض</h2>
+  <div class="row" style="flex:1">
+    <div class="card f"><h3>استطلاعية</h3><p>تجمع آراء أشخاص يمثلون مجموعاتهم</p><div class="ex">آراء طلاب أول ثانوي في المقررات</div></div>
+    <div class="card f n2"><h3>تشخيصية</h3><p>تفهم المشكلة وأسبابها وخطورتها</p><div class="ex">أسباب ضعف المشاركة في الأنشطة</div></div>
+    <div class="card f"><h3>علاجية</h3><p>تساعد صاحب المشكلة على فهم نفسه وعلاجها</p><div class="ex">طالب يعاني من ضعف دراسي</div></div>
+  </div>
+  <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-note="الاستبانة: أسئلة مكتوبة نرسلها للعينة ويجاوبون. أكبر ميزة أنها توصل لعدد كبير بسرعة، وما يحتاج المستجيب يكتب اسمه. وأنواعها ثلاثة، والمزيج هو الأشهر.">
+  <div class="tag">ثالثًا · الاستبانة 📝</div>
+  <h2>أسئلة مكتوبة لعدد كبير</h2>
+  <div class="def f">أسئلة مكتوبة ترسل إلى أفراد العينة ليجيبوا عنها ويعيدوها إلى الباحث</div>
+  <div class="row">
+    <div class="card f"><h3>الموضوعية</h3><p>لا يشترط اسم المستجيب</p></div>
+    <div class="card f n2"><h3>الهدفية</h3><p>تصل لأشخاص بعيدين بسرعة</p></div>
+    <div class="card f"><h3>الإيجاز</h3><p>وقت كاف للتفكير</p></div>
+    <div class="card f n2"><h3>الدقة</h3><p>أسئلة مرتبة ومقننة</p></div>
+  </div>
+  <div class="f" style="font-size:32px;font-weight:700;color:var(--navy)">أنواعها: مفتوحة · مغلقة · <span style="color:var(--green)">مفتوحة/مغلقة وهي الأكثر شيوعًا</span></div>
+  <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-note="عشان أصمم استبانة صح أمشي على خمس خطوات بالترتيب. والتجربة الأولية يعني أجربها على عدد قليل قبل ما أوزعها، عشان أكتشف الأسئلة الغامضة.">
+  <div class="tag">الاستبانة</div>
+  <h2>خطوات تصميم الاستبانة</h2>
+  <div class="list" style="flex:1;justify-content:center">
+    <div class="li f s"><span class="n">1</span>تحديد مجتمع البحث والعينة</div>
+    <div class="li f s"><span class="n">2</span>صياغة الأسئلة حول الأهداف</div>
+    <div class="li f s"><span class="n">3</span>التجربة الأولية<small>أجربها على عدد قليل أولًا</small></div>
+    <div class="li f s"><span class="n">4</span>التحكيم من ذوي الخبرة<small>مثل المعلمين</small></div>
+    <div class="li f s"><span class="n">5</span>التأكد من صدقها وثباتها</div>
+  </div>
+  <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
+</section>
+
+<!-- 9 -->
+<section class="slide dark" data-note="سؤال للفصل: اسأل زملاءك قبل ما تظهر الإجابة. اضغط مرة لكل إجابة.">
+  <div class="tag">سؤال للفصل 🤔</div>
+  <h2>أي أداة تناسب؟</h2>
+  <div class="list" style="flex:1;justify-content:center;gap:26px">
+    <div class="f" style="display:flex;justify-content:space-between;align-items:center;gap:20px"><div class="q" style="color:#fff">سلوك الطلاب في الأيام الأخيرة من الدراسة</div></div>
+    <div class="f z"><span class="ans">الملاحظة 👁️ لأنه سلوك نشاهده وقت حدوثه</span></div>
+    <div class="f" style="margin-top:14px"><div class="q" style="color:#fff">آراء طلاب في مدارس بمدن مختلفة</div></div>
+    <div class="f z"><span class="ans">الاستبانة 📝 لأنهم متباعدون وعددهم كبير</span></div>
+    <div class="f" style="margin-top:14px"><div class="q" style="color:#fff">أسباب التهور في القيادة عند الشباب</div></div>
+    <div class="f z"><span class="ans">المقابلة 🗣️ لفهم الدوافع بعمق</span></div>
+  </div>
+  <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
+</section>
+
+<!-- 10 -->
+<section class="slide" data-note="الدرس الرابع: البحث العلمي له ثمان مراحل مرتبة، والترتيب ينظم أفكار الباحث ويسهل على المعلم متابعته.">
+  <div class="tag">الدرس 4</div>
+  <h2>ثماني مراحل للبحث العلمي</h2>
+  <div class="grid4" style="flex:1;align-content:center">
+    <div class="st f z"><em>1</em><b>تحديد المشكلة</b><span>اختيارها وصياغتها</span></div>
+    <div class="st f z"><em>2</em><b>الفصل الأول</b><span>المقدمة والأهداف والحدود</span></div>
+    <div class="st f z"><em>3</em><b>الفصل الثاني</b><span>الإطار النظري والدراسات السابقة</span></div>
+    <div class="st f z"><em>4</em><b>الفصل الثالث</b><span>المنهج والعينة والأدوات</span></div>
+    <div class="st f z"><em>5</em><b>الفصل الرابع</b><span>النتائج والتوصيات</span></div>
+    <div class="st f z"><em>6</em><b>المراجع والملاحق</b><span>توثيق المصادر</span></div>
+    <div class="st f z"><em>7</em><b>التصميم والإخراج</b><span>العنوان والمحتويات</span></div>
+    <div class="st f z"><em>8</em><b>مناقشة البحث</b><span>العرض أمام الطلاب</span></div>
+  </div>
+  <div class="foot"><span>مراحل البحث العلمي</span><span class="pg"></span></div>
+</section>
+
+<!-- 11 -->
+<section class="slide" data-note="أول وأهم مرحلة هي المشكلة. المشكلة إما سؤال يحتاج إجابة أو موقف غامض يحتاج تفسير. ونلقاها من خبرتنا أو قراءاتنا أو من توصيات الأبحاث السابقة.">
+  <div class="tag">مشكلة البحث</div>
+  <h2>ما هي المشكلة؟ ومن أين نجدها؟</h2>
+  <div class="row">
+    <div class="card f"><h3>سؤال يحتاج إجابة</h3><div class="ex">ما تأثير برامج تلفزيونية معينة على تربية الأطفال؟</div></div>
+    <div class="card f n2"><h3>موقف غامض يحتاج تفسيرًا</h3><div class="ex">تأخر معاملات المراجعين رغم كثرة الموظفين</div></div>
+  </div>
+  <div class="row">
+    <div class="card big f z"><i>🧠</i><b style="font-size:32px">الخبرة الشخصية</b></div>
+    <div class="card big f z n2"><i>📚</i><b style="font-size:32px">القراءات والدراسات</b></div>
+    <div class="card big f z"><i>🔎</i><b style="font-size:32px">الأبحاث السابقة</b></div>
+  </div>
+  <div class="foot"><span>مراحل البحث العلمي</span><span class="pg"></span></div>
+</section>
+
+<!-- 12 -->
+<section class="slide" data-note="نفس المشكلة نقدر نكتبها بطريقتين. صيغة السؤال أوضح وأدق. ولازم الصياغة تحتوي المتغيرات، هنا المتغيرات: الذكاء والتحصيل.">
+  <div class="tag">صياغة المشكلة</div>
+  <h2>نفس المشكلة بطريقتين</h2>
+  <div class="vs">
+    <div class="card f"><h3>صياغة تقريرية</h3><p style="font-size:32px">علاقة الذكاء بالتحصيل الدراسي عند طلاب المرحلة الابتدائية</p></div>
+    <div class="arrow f z">←</div>
+    <div class="card f n2"><h3>صياغة سؤال ✓ أوضح</h3><p style="font-size:32px">ما أثر الذكاء على التحصيل الدراسي عند طلاب المرحلة الابتدائية؟</p></div>
+  </div>
+  <div class="def f">شرط مهم: أن تتضمن الصياغة متغيرات الدراسة، وهي هنا <b style="color:var(--green)">الذكاء</b> و<b style="color:var(--green)">التحصيل الدراسي</b></div>
+  <div class="foot"><span>مراحل البحث العلمي</span><span class="pg"></span></div>
+</section>
+
+<!-- 13 -->
+<section class="slide" data-note="قبل ما أختار المشكلة أتأكد من خمس أشياء، وبعد ما أصيغها أقيمها بأربعة أسئلة.">
+  <div class="tag">مشكلة البحث</div>
+  <h2>كيف أختارها وأقيّمها؟</h2>
+  <div class="row" style="flex:1">
+    <div class="card f"><h3>عند الاختيار أراعي</h3>
+      <p>✓ اهتمامي وميولي<br>✓ قدرتي العلمية<br>✓ فائدة البحث<br>✓ توفر المراجع<br>✓ توفر الإمكانات المادية</p></div>
+    <div class="card f n2"><h3>ولتقويمها أسأل</h3>
+      <p>❓ هل الموضوع حديث أم مكرر؟<br>❓ هل الصياغة واضحة ومحددة؟<br>❓ هل توجّه الاهتمام لبحوث أخرى؟<br>❓ هل يمكن تعميم النتائج؟</p></div>
+  </div>
+  <div class="foot"><span>مراحل البحث العلمي</span><span class="pg"></span></div>
+</section>
+
+<!-- 14 -->
+<section class="slide dark" data-note="الخلاصة، وشكرًا لكم. هل عندكم أسئلة؟">
+  <div class="tag">الخلاصة</div>
+  <h2>تذكّر</h2>
+  <div class="row" style="flex:1;align-items:center">
+    <div class="card f"><h3>الدرس 3</h3><p>👁️ الملاحظة للسلوك وقت حدوثه<br>🗣️ المقابلة للتعمق مع الأفراد<br>📝 الاستبانة لعدد كبير بسرعة</p></div>
+    <div class="card f n2"><h3>الدرس 4</h3><p>8 مراحل تبدأ بالمشكلة<br>المشكلة تُختار بعناية<br>وتُصاغ بوضوح ويفضل كسؤال</p></div>
+  </div>
+  <div class="f z" style="text-align:center;font-size:56px;font-weight:800;color:var(--mint)">الآن وقت التحدي 🎯</div>
+</section>
+
+<section class="slide dark quiz" data-note="تحدي الفصل: قسّم الفصل فريقين. أضغط التالي لتظهر الخيارات ويبدأ العداد، ثم مرة ثانية لتظهر الإجابة. الفريق اللي يجاوب صح تعطيه نقطة من أزرار الجوال.">
+  <div class="tag">تحدّي الفصل 🎯</div>
+  <h2>جاهزين؟ فريقين وست أسئلة</h2>
+  <div class="list" style="gap:18px">
+    <div class="li f s" style="background:rgba(255,255,255,.1);color:#fff"><span class="n">1</span>قسّموا الفصل إلى فريقين</div>
+    <div class="li f s" style="background:rgba(255,255,255,.1);color:#fff"><span class="n">2</span>تظهر الخيارات ويبدأ العدّاد (12 ثانية)</div>
+    <div class="li f s" style="background:rgba(255,255,255,.1);color:#fff"><span class="n">3</span>الفريق الذي يجيب صح يأخذ نقطة</div>
+  </div>
+</section>
+<section class="slide quiz" data-note="الإجابة الصحيحة: الملاحظة. سلوك نشاهده ونسجله وقت حدوثه. أعطِ الفريق الفائز نقطة من زر +1.">
+  <div class="tag">سؤال 1 من 6</div>
+  <h2>أي أداة تناسب دراسة سلوك الطلاب في آخر أيام الدراسة؟</h2>
+  <div class="opts f"><div style="display:flex;flex-direction:column;gap:16px"><div class="opt ok"><em>أ</em>الملاحظة</div><div class="opt"><em>ب</em>المقابلة</div><div class="opt"><em>ج</em>الاستبانة</div></div><div class="tmr"><i></i></div></div>
+  <div class="ansx f z">✓ الإجابة: <b>الملاحظة</b><br>سلوك نشاهده ونسجله وقت حدوثه.</div>
+  <div class="foot"><span>تحدي الفصل</span><span class="pg"></span></div>
+</section>
+<section class="slide quiz" data-note="الإجابة الصحيحة: الاستبانة. الاستبانة تصل لأفراد متباعدين في وقت قصير. أعطِ الفريق الفائز نقطة من زر +1.">
+  <div class="tag">سؤال 2 من 6</div>
+  <h2>نبي نعرف آراء طلاب في مدارس بمدن مختلفة. أي أداة أنسب؟</h2>
+  <div class="opts f"><div style="display:flex;flex-direction:column;gap:16px"><div class="opt"><em>أ</em>الملاحظة</div><div class="opt"><em>ب</em>المقابلة</div><div class="opt ok"><em>ج</em>الاستبانة</div></div><div class="tmr"><i></i></div></div>
+  <div class="ansx f z">✓ الإجابة: <b>الاستبانة</b><br>الاستبانة تصل لأفراد متباعدين في وقت قصير.</div>
+  <div class="foot"><span>تحدي الفصل</span><span class="pg"></span></div>
+</section>
+<section class="slide quiz" data-note="الإجابة الصحيحة: الملاحظة غير المباشرة. غير المباشرة: عبر وسيط. والمباشرة: دون وسيط. أعطِ الفريق الفائز نقطة من زر +1.">
+  <div class="tag">سؤال 3 من 6</div>
+  <h2>ملاحظة الظاهرة عن طريق وسيط مثل الزملاء تسمى؟</h2>
+  <div class="opts f"><div style="display:flex;flex-direction:column;gap:16px"><div class="opt"><em>أ</em>الملاحظة المقيدة</div><div class="opt"><em>ب</em>الملاحظة المباشرة</div><div class="opt ok"><em>ج</em>الملاحظة غير المباشرة</div></div><div class="tmr"><i></i></div></div>
+  <div class="ansx f z">✓ الإجابة: <b>الملاحظة غير المباشرة</b><br>غير المباشرة: عبر وسيط. والمباشرة: دون وسيط.</div>
+  <div class="foot"><span>تحدي الفصل</span><span class="pg"></span></div>
+</section>
+<section class="slide quiz" data-note="الإجابة الصحيحة: سؤال مفتوح. المفتوح: يجيب المبحوث بحرية وبالتفصيل. أعطِ الفريق الفائز نقطة من زر +1.">
+  <div class="tag">سؤال 4 من 6</div>
+  <h2>سؤال «ما رأيك بخدمات المقصف المدرسي؟» من أي نوع؟</h2>
+  <div class="opts f"><div style="display:flex;flex-direction:column;gap:16px"><div class="opt"><em>أ</em>سؤال مغلق</div><div class="opt ok"><em>ب</em>سؤال مفتوح</div><div class="opt"><em>ج</em>سؤال مغلق/مفتوح</div></div><div class="tmr"><i></i></div></div>
+  <div class="ansx f z">✓ الإجابة: <b>سؤال مفتوح</b><br>المفتوح: يجيب المبحوث بحرية وبالتفصيل.</div>
+  <div class="foot"><span>تحدي الفصل</span><span class="pg"></span></div>
+</section>
+<section class="slide quiz" data-note="الإجابة الصحيحة: تحديد مشكلة البحث. نبدأ بتحديد المشكلة ثم ننتقل للفصول. أعطِ الفريق الفائز نقطة من زر +1.">
+  <div class="tag">سؤال 5 من 6</div>
+  <h2>ما أول مرحلة من مراحل البحث العلمي؟</h2>
+  <div class="opts f"><div style="display:flex;flex-direction:column;gap:16px"><div class="opt"><em>أ</em>إعداد الفصل الأول</div><div class="opt ok"><em>ب</em>تحديد مشكلة البحث</div><div class="opt"><em>ج</em>مناقشة البحث</div></div><div class="tmr"><i></i></div></div>
+  <div class="ansx f z">✓ الإجابة: <b>تحديد مشكلة البحث</b><br>نبدأ بتحديد المشكلة ثم ننتقل للفصول.</div>
+  <div class="foot"><span>تحدي الفصل</span><span class="pg"></span></div>
+</section>
+<section class="slide quiz" data-note="الإجابة الصحيحة: ما أثر الذكاء على التحصيل الدراسي؟ (سؤال). صيغة السؤال أكثر تحديدًا ووضوحًا. أعطِ الفريق الفائز نقطة من زر +1.">
+  <div class="tag">سؤال 6 من 6</div>
+  <h2>أي صياغة للمشكلة أوضح وأدق؟</h2>
+  <div class="opts f"><div style="display:flex;flex-direction:column;gap:16px"><div class="opt"><em>أ</em>علاقة الذكاء بالتحصيل الدراسي (تقريرية)</div><div class="opt ok"><em>ب</em>ما أثر الذكاء على التحصيل الدراسي؟ (سؤال)</div></div><div class="tmr"><i></i></div></div>
+  <div class="ansx f z">✓ الإجابة: <b>ما أثر الذكاء على التحصيل الدراسي؟ (سؤال)</b><br>صيغة السؤال أكثر تحديدًا ووضوحًا.</div>
+  <div class="foot"><span>تحدي الفصل</span><span class="pg"></span></div>
+</section>
+<section class="slide quiz" data-note="جولة صح أو خطأ: اقرأ العبارة، دع الفريقين يجيبون، ثم اضغط لإظهار الحكم. الإجابات: خطأ، صح، خطأ، صح.">
+  <div class="tag">جولة سريعة ⚡</div>
+  <h2>صح أم خطأ؟</h2>
+  <div class="list" style="gap:18px;justify-content:center;flex:1"><div class="tf"><span>الاستبانة تتطلب ذكر اسم المستجيب.</span><span class="v n f z">خطأ<small>لا يُشترط الاسم</small></span></div><div class="tf"><span>المقابلة أنسب أداة لتقويم الصفات الشخصية.</span><span class="v y f z">صح</span></div><div class="tf"><span>الإطار النظري يُعدّ في الفصل الرابع.</span><span class="v n f z">خطأ<small>هو في الفصل الثاني</small></span></div><div class="tf"><span>المشكلة قد تكون موقفًا غامضًا يحتاج تفسيرًا.</span><span class="v y f z">صح</span></div></div>
+  <div class="foot"><span>تحدي الفصل</span><span class="pg"></span></div>
+</section>
+<section class="slide dark quiz" data-note="النتيجة النهائية. اضغط لإظهار الفائز ثم كلمة الشكر. لا تنسَ تدعو زملاءك لأسئلتهم.">
+  <div class="tag">نتيجة التحدي 🏆</div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:34px">
+    <div class="bigscore"><div><span>الفريق الأول</span><b id="fA">0</b></div><div><span>الفريق الثاني</span><b id="fB">0</b></div></div>
+    <div class="f z" id="finalRes"></div>
+    <div class="f" style="text-align:center;font-size:44px;font-weight:800;color:var(--mint)">شكرًا لكم 🌿 هل عندكم أسئلة؟</div>
+  </div>
+</section>
+
+</div></div>
+
+<div id="bar"><i></i></div>
+<div id="notes"></div>
+<div id="ui">
+  <button id="bPrev" aria-label="السابق">→</button>
+  <button id="bNext" aria-label="التالي">←</button>
+  <button id="bNotes">ملاحظاتي</button>
+  <button id="bFull">ملء الشاشة</button>
+  <button id="bPhone">📱 ريموت الجوال</button>
+</div>
+<div id="conn"></div>
+<div id="qr"><div>
+  <b style="font-size:20px;color:var(--navy)">حوّل جوالك إلى ريموت</b><br>
+  امسح الرمز بكاميرا جوالك (يلزم أن يكون العرض مرفوعًا على رابط عام)
+  <div id="qrbox"></div>
+  <div style="font-size:14px;color:var(--muted);direction:ltr;word-break:break-all" id="qrlink"></div>
+  <button id="qrClose">تم</button>
+</div></div>
+<div id="remote">
+  <div id="rTop"><span><span id="rDot"></span><span id="rConn">جارٍ الاتصال…</span></span><span id="rCount">– / –</span></div>
+  <div id="rTitle">ريموت العرض</div>
+  <div id="rStep"></div>
+  <button id="rNext" disabled><span>التالي ◀</span><small id="rUp"></small></button>
+  <div id="rRow"><button id="rPrev" disabled>▶ رجوع</button><button id="rFirst" disabled>البداية</button></div>
+  <div id="rScore">
+    <div class="tm"><span>الفريق الأول</span><button class="m" id="rA0">−</button><b id="rA">0</b><button id="rA1">+1</button></div>
+    <div class="tm"><span>الفريق الثاني</span><button class="m" id="rB0">−</button><b id="rB">0</b><button id="rB1">+1</button></div>
+  </div>
+  <div id="rNote"><b>ماذا أقول:</b> <span id="rNoteT">افتح العرض على الشاشة بنفس الحساب.</span></div>
+  <div id="rMsg"></div>
+</div>
+<div id="help"><div>
+  <b>طريقة العرض</b><br>
+  كل ضغطة على الريموت أو المسافة أو السهم تُظهر النقطة التالية، وبعد آخر نقطة تنتقل للشريحة التالية.<br>
+  <b>التالي:</b> ريموت العرض · المسافة · ← → · Page Down · لمس الشاشة<br>
+  <b>الرجوع:</b> زر الرجوع في الريموت · Page Up<br>
+  <b>1</b> و <b>2</b> نقطة للفريق (في التحدي) · <b>N</b> ملاحظاتك الخاصة · <b>F</b> ملء الشاشة<br>
+  <b>📱 ريموت الجوال:</b> اضغط الزر أسفل الشاشة وامسح الرمز بجوالك
+  <br><button id="bGo">ابدأ العرض</button>
+</div></div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let s=0, step=0;
+const frags=k=>[...slides[k].querySelectorAll('.f')];
+slides.forEach((el,k)=>{const pg=el.querySelector('.pg'); if(pg) pg.textContent=(k+1)+' / '+slides.length; const h=document.createElement('div'); h.className='hint'; h.textContent='اضغط للمتابعة'; el.appendChild(h);});
+function show(k, st, dir){
+  slides.forEach((el,j)=>{el.classList.toggle('on',j===k); el.classList.toggle('back', j!==k && dir<0);});
+  s=k; step=st;
+  document.body.classList.toggle('q', slides[k].classList.contains('quiz')); if(typeof updScore==='function') updScore(true);
+  frags(k).forEach((f,j)=>f.classList.toggle('on', j<st));
+  slides[k].classList.toggle('more', st<frags(k).length);
+  document.querySelector('#bar i').style.width=((k+1)/slides.length*100)+'%';
+  document.getElementById('notes').textContent=slides[k].dataset.note||'';
+  try{ history.replaceState(null,'','#s'+(k+1)); }catch(e){}
+}
+function next(){
+  const fs=frags(s);
+  if(step<fs.length){ fs[step].classList.add('on'); step++; slides[s].classList.toggle('more', step<fs.length); }
+  else if(s<slides.length-1) show(s+1,0,1);
+  broadcast();
+}
+function prev(){
+  if(step>0){ step--; frags(s)[step].classList.remove('on'); slides[s].classList.add('more'); }
+  else if(s>0) show(s-1, frags(s-1).length, -1);
+  broadcast();
+}
+/* ---------- phone remote via room ---------- */
+let peerId='';
+function remoteUrl(){ return location.href.split('#')[0]+'#remote='+peerId; }
+const isRemote=/^#remote=/.test(location.hash);
+const REMOTE_ID=isRemote?location.hash.slice(8):'';
+let room=null, seen=new Set(), lastState=null;
+var sc=[0,0];
+function updScore(quiet){
+  const g=id=>document.getElementById(id);
+  g('sA').textContent=sc[0]; g('sB').textContent=sc[1]; g('fA').textContent=sc[0]; g('fB').textContent=sc[1];
+  g('finalRes').textContent = sc[0]===sc[1] ? (sc[0]+sc[1]===0 ? '' : 'تعادل! 🤝') : (sc[0]>sc[1] ? 'الفريق الأول فاز 🏆' : 'الفريق الثاني فاز 🏆');
+  if(!quiet) broadcast();
+}
+function addScore(i,d){ sc[i]=Math.max(0,sc[i]+d); updScore(); }
+function clip(t,n){ t=(t||'').replace(/\s+/g,' ').trim(); return t.length>n? t.slice(0,n)+'…' : t; }
+function stateNow(){
+  const el=slides[s]; const fs=frags(s);
+  const h=el.querySelector('h2,h1');
+  return {s:s, n:slides.length, step:step, steps:fs.length, a:sc[0], b:sc[1], q:el.classList.contains('quiz')?1:0,
+    title:clip(h?h.textContent:'',90), note:clip(el.dataset.note||'',600),
+    up: step<fs.length ? clip(fs[step].textContent,110) : (s<slides.length-1 ? 'الشريحة التالية' : 'نهاية العرض')};
+}
+function broadcast(){ if(room && !isRemote){ room.emit('state', stateNow()).catch(()=>{}); } }
+function setConn(ok){ const c=document.getElementById('conn'); if(isRemote) return; c.style.display=ok?'block':'none'; c.textContent='📱 الريموت جاهز'; }
+function makeRoom(){
+  const handlers={}, conns=new Set(), peerHandlers=[];
+  const dispatch=msg=>{ if(!msg||typeof msg.topic!=='string') return; (handlers[msg.topic]||[]).forEach(fn=>{ try{ fn({topic:msg.topic,data:msg.data,sameTab:false,isMe:false}); }catch(e){} }); };
+  const notify=()=>{ const peers=[...conns].filter(c=>c.open).map(()=>({presence:{role:'remote'}})); peerHandlers.forEach(fn=>{ try{ fn({peers}); }catch(e){} }); };
+  const api={
+    emit(topic,data){ const m={topic:topic,data:data}; conns.forEach(c=>{ try{ if(c.open) c.send(m); }catch(e){} }); return Promise.resolve(); },
+    on(topic,fn){ (handlers[topic]=handlers[topic]||[]).push(fn); return function(){}; },
+    presence(){ return Promise.resolve(); },
+    onPeers(fn){ peerHandlers.push(fn); return function(){}; }
+  };
+  if(!window.Peer) return Promise.resolve(null);
+  const wire=c=>{
+    conns.add(c);
+    c.on('open',()=>{ notify(); if(isRemote){ try{ c.send({topic:'hello',data:{}}); }catch(e){} } });
+    c.on('data',dispatch);
+    c.on('close',()=>{ conns.delete(c); notify(); if(isRemote){ document.getElementById('rDot').classList.remove('ok'); document.getElementById('rConn').textContent='انقطع الاتصال… جارٍ المحاولة'; setTimeout(connect,2500); } });
+    c.on('error',()=>{});
+  };
+  let peer;
+  function connect(){ if(!isRemote||!peer||peer.destroyed) return; try{ wire(peer.connect(REMOTE_ID,{reliable:true})); }catch(e){} }
+  try{
+    if(isRemote){
+      peer=new Peer();
+      peer.on('open',connect);
+      peer.on('error',()=>{ document.getElementById('rMsg').textContent='تعذّر الاتصال بالعرض. تأكد من الإنترنت وأن العرض مفتوح على الشاشة.'; setTimeout(()=>{ if(peer.disconnected) try{peer.reconnect();}catch(e){} },3000); });
+    } else {
+      peer=new Peer('masar-'+Math.random().toString(36).slice(2,10));
+      peer.on('open',id=>{ peerId=id; });
+      peer.on('connection',wire);
+      peer.on('disconnected',()=>{ try{ peer.reconnect(); }catch(e){} });
+      peer.on('error',()=>{});
+    }
+  }catch(e){ return Promise.resolve(null); }
+  return Promise.resolve(api);
+}
+async function initRoom(){
+  try{ room = await makeRoom(); }catch(e){ room=null; }
+  if(!room){
+    if(isRemote){ document.getElementById('rConn').textContent='غير متصل'; document.getElementById('rMsg').textContent='تعذّر الاتصال بالعرض. تأكد من الإنترنت وأن العرض مفتوح على الشاشة، ثم أعد فتح الصفحة.'; }
+    return;
+  }
+  if(isRemote){
+    room.on('state', m=>{ if(m.sameTab) return; renderRemote(m.data); }, e=>{ document.getElementById('rMsg').textContent='انقطع الاتصال، أعد فتح الصفحة.'; });
+    room.presence({role:'remote'}).catch(()=>{});
+    room.emit('hello',{}).catch(()=>{});
+    setTimeout(()=>{ if(!lastState){ document.getElementById('rMsg').textContent='بانتظار العرض… تأكد أن العرض مفتوح على الشاشة.'; room.emit('hello',{}).catch(()=>{}); } },3000);
+  } else {
+    room.presence({role:'screen'}).catch(()=>{});
+    room.on('nav', m=>{
+      const d=m.data||{}; if(!d.id || seen.has(d.id)) return; seen.add(d.id);
+      if(d.cmd==='next') next(); else if(d.cmd==='prev') prev(); else if(d.cmd==='first'){ show(0,0,-1); broadcast(); }
+      else if(d.cmd==='a+') addScore(0,1); else if(d.cmd==='a-') addScore(0,-1); else if(d.cmd==='b+') addScore(1,1); else if(d.cmd==='b-') addScore(1,-1);
+    });
+    room.on('hello', ()=>broadcast());
+    room.onPeers && room.onPeers(ps=>{ const list=Array.isArray(ps)?ps:(ps&&ps.peers)||[]; setConn(list.some(p=>p.presence&&p.presence.role==='remote')); broadcast(); });
+    broadcast(); setInterval(broadcast, 8000);
+  }
+}
+function renderRemote(d){
+  if(!d||typeof d!=='object') return; lastState=d;
+  const $=id=>document.getElementById(id);
+  $('rDot').classList.add('ok'); $('rConn').textContent='متصل بالعرض'; $('rMsg').textContent='';
+  $('rCount').textContent=(Number(d.s)+1)+' / '+Number(d.n);
+  $('rTitle').textContent=String(d.title||'');
+  $('rStep').textContent= d.steps>0 ? ('النقطة '+Math.min(d.step,d.steps)+' من '+d.steps) : '';
+  $('rUp').textContent= d.up ? ('القادم: '+String(d.up)) : '';
+  $('rNoteT').textContent=String(d.note||'—');
+  $('rA').textContent=Number(d.a)||0; $('rB').textContent=Number(d.b)||0; $('rScore').style.display = d.q ? 'flex' : 'none';
+  ['rNext','rPrev','rFirst'].forEach(id=>$(id).disabled=false);
+}
+function send(cmd){
+  if(!room) return;
+  const id=Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+  room.emit('nav',{cmd:cmd,id:id}).catch(err=>{ document.getElementById('rMsg').textContent = (err&&err.code==='not_permitted') ? 'تعذّر إرسال الأمر.' : 'لم يُرسل الأمر، حاول مرة ثانية.'; });
+  try{ navigator.vibrate && navigator.vibrate(15); }catch(e){}
+}
+if(isRemote){
+  document.body.classList.add('rm');
+  document.getElementById('rNext').onclick=()=>send('next');
+  document.getElementById('rPrev').onclick=()=>send('prev');
+  document.getElementById('rFirst').onclick=()=>send('first');
+  [['rA1','a+'],['rA0','a-'],['rB1','b+'],['rB0','b-']].forEach(([id,c])=>{ document.getElementById(id).onclick=()=>send(c); });
+}
+initRoom();
+document.getElementById('bPhone').onclick=e=>{
+  e.stopPropagation();
+  document.getElementById('qr').classList.add('show');
+  if(!peerId){ document.getElementById('qrbox').textContent='جارٍ تجهيز الاتصال… أغلق وأعد الضغط بعد ثوانٍ'; return; }
+  const RU=remoteUrl(); document.getElementById('qrlink').textContent=RU;
+  const box=document.getElementById('qrbox');
+  if(!box.dataset.done && window.QRCode){ new QRCode(box,{text:RU,width:220,height:220,correctLevel:QRCode.CorrectLevel.M}); box.dataset.done='1'; }
+  else if(!window.QRCode){ box.textContent='افتح الرابط أدناه على جوالك'; }
+};
+document.getElementById('qrClose').onclick=e=>{e.stopPropagation(); document.getElementById('qr').classList.remove('show');};
+function fit(){
+  const w=innerWidth, h=innerHeight - 0;
+  const sc=Math.min(w/1600, h/900);
+  document.getElementById('deck').style.transform='scale('+sc+')';
+}
+addEventListener('resize',fit); fit();
+const help=document.getElementById('help');
+function closeHelp(){ help.style.display='none'; }
+document.getElementById('bGo').onclick=e=>{e.stopPropagation(); closeHelp();};
+addEventListener('keydown',e=>{
+  if(isRemote) return;
+  if(document.getElementById('qr').classList.contains('show')) return;
+  if(help.style.display!=='none'){ closeHelp(); }
+  const k=e.key;
+  if(['ArrowRight','ArrowLeft','ArrowDown','PageDown',' ','Enter'].includes(k)){ e.preventDefault(); next(); }
+  else if(['ArrowUp','PageUp','Backspace'].includes(k)){ e.preventDefault(); prev(); }
+  else if(k==='n'||k==='N'||k==='ى'){ document.getElementById('notes').classList.toggle('show'); }
+  else if(k==='f'||k==='F'||k==='ب'){ full(); }
+  else if(k==='1'){ addScore(0,1); } else if(k==='2'){ addScore(1,1); }
+  else if(k==='Home'){ show(0,0,-1); }
+  else if(k==='End'){ show(slides.length-1, frags(slides.length-1).length, 1); }
+});
+function full(){ try{ if(!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }catch(e){} }
+document.getElementById('bNext').onclick=e=>{e.stopPropagation();next();};
+document.getElementById('bPrev').onclick=e=>{e.stopPropagation();prev();};
+document.getElementById('bNotes').onclick=e=>{e.stopPropagation();document.getElementById('notes').classList.toggle('show');};
+document.getElementById('bFull').onclick=e=>{e.stopPropagation();full();};
+document.getElementById('wrap').addEventListener('click',()=>{ if(help.style.display==='none') next(); });
+let tx=null;
+addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+addEventListener('touchend',e=>{ if(tx===null)return; const dx=e.changedTouches[0].clientX-tx; tx=null; if(Math.abs(dx)>50){ dx>0?next():prev(); } },{passive:true});
+let start=parseInt((location.hash.match(/^#s(\d+)$/)||[])[1]||'1',10)-1;
+if(!(start>=0&&start<slides.length)) start=0;
+if(!isRemote) show(start,0,1);
+</script>
+</body>
+</html>
