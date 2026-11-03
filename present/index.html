@@ -7,5 +7,5 @@
 h1{color:#e3b95c}a{display:block;background:#ffffff12;border:1px solid #ffffff24;border-radius:18px;padding:20px 24px;margin:14px 0;color:inherit;text-decoration:none;font-size:22px}a small{display:block;color:#a9c1c0;font-size:16px;margin-top:4px}a:hover{border-color:#e3b95c}</style>
 </head><body><h1>العروض التقديمية</h1><div id="l"></div>
 <script src="decks/index.js"></script>
-<script>l.innerHTML=DECKS.map(d=>`<a href="player.html?deck=${d.id}">${d.title}<small>${d.desc||''}</small></a>`).join('')</script>
+<script>l.innerHTML=DECKS.map(d=>`<a href="${d.url||'player.html?deck='+d.id}">${d.title}<small>${d.desc||''}</small></a>`).join('')</script>
 </body></html>
