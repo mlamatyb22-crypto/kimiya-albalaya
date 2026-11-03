@@ -300,9 +300,10 @@ body.rm{overflow:auto}
 <div id="conn"></div>
 <div id="qr"><div>
   <b style="font-size:20px;color:var(--navy)">حوّل جوالك إلى ريموت</b><br>
-  امسح الرمز بكاميرا جوالك (يلزم أن يكون العرض مرفوعًا على رابط عام)
+  امسح الرمز بكاميرا جوالك. الجوال والشاشة يحتاجان إنترنت، ويمكن أن يكون الجوال على بيانات الجوال
   <div id="qrbox"></div>
   <div style="font-size:14px;color:var(--muted);direction:ltr;word-break:break-all" id="qrlink"></div>
+  <div id="qrnote" style="font-size:15px;color:#C0543A"></div>
   <button id="qrClose">تم</button>
 </div></div>
 <div id="remote">
@@ -324,7 +325,7 @@ body.rm{overflow:auto}
   <b>التالي:</b> ريموت العرض · المسافة · ← → · Page Down · لمس الشاشة<br>
   <b>الرجوع:</b> زر الرجوع في الريموت · Page Up<br>
   <b>1</b> و <b>2</b> نقطة للفريق (في التحدي) · <b>N</b> ملاحظاتك الخاصة · <b>F</b> ملء الشاشة<br>
-  <b>📱 ريموت الجوال:</b> اضغط الزر أسفل الشاشة وامسح الرمز بجوالك
+  <b>📱 ريموت الجوال:</b> اضغط زر الريموت أعلى الشاشة وامسح الرمز بجوالك
   <br><button id="bGo">ابدأ العرض</button>
 </div></div>
 
@@ -356,9 +357,13 @@ function prev(){
 }
 /* ---------- phone remote via room ---------- */
 let peerId='';
-function remoteUrl(){ return location.href.split('#')[0]+'#remote='+peerId; }
+function remoteUrl(){ return location.href.split('#')[0]+'#remote='+peerId+'~'+TOPIC; }
 const isRemote=/^#remote=/.test(location.hash);
-const REMOTE_ID=isRemote?location.hash.slice(8):'';
+const RAW_REMOTE=isRemote?location.hash.slice(8):'';
+const REMOTE_ID=RAW_REMOTE.split('~')[0];
+function newTopic(){ try{ const a=new Uint8Array(12); crypto.getRandomValues(a); return 'masar'+[...a].map(x=>(x%36).toString(36)).join(''); }catch(e){ return 'masar'+Math.random().toString(36).slice(2,14)+Date.now().toString(36); } }
+const TOPIC=isRemote?(RAW_REMOTE.split('~')[1]||''):newTopic();
+const RELAY=window.RELAY_BASE||'https://ntfy.sh';
 let room=null, seen=new Set(), lastState=null;
 var sc=[0,0];
 function updScore(quiet){
@@ -376,7 +381,7 @@ function stateNow(){
     title:clip(h?h.textContent:'',90), note:clip(el.dataset.note||'',1200),
     up: step<fs.length ? clip(fs[step].textContent,110) : (s<slides.length-1 ? 'الشريحة التالية' : 'نهاية العرض')};
 }
-function broadcast(){ if(room && !isRemote){ room.emit('state', stateNow()).catch(()=>{}); } }
+function broadcast(force){ if(room && !isRemote){ room.emit('state', stateNow(), force===true).catch(()=>{}); } }
 function setConn(ok){ const c=document.getElementById('conn'); if(isRemote) return; c.style.display=ok?'block':'none'; c.textContent='📱 الريموت جاهز'; }
 function makeRoom(){
   const handlers={}, conns=new Set(), peerHandlers=[];
@@ -397,15 +402,15 @@ function makeRoom(){
     c.on('error',()=>{});
   };
   let peer;
-  function connect(){ if(!isRemote||!peer||peer.destroyed) return; try{ wire(peer.connect(REMOTE_ID,{reliable:true})); }catch(e){} }
+  function connect(){ if(!isRemote||!REMOTE_ID||!peer||peer.destroyed) return; try{ wire(peer.connect(REMOTE_ID,{reliable:true})); }catch(e){} }
   try{
     if(isRemote){
       peer=new Peer();
       peer.on('open',connect);
-      peer.on('error',()=>{ document.getElementById('rMsg').textContent='تعذّر الاتصال بالعرض. تأكد من الإنترنت وأن العرض مفتوح على الشاشة.'; setTimeout(()=>{ if(peer.disconnected) try{peer.reconnect();}catch(e){} },3000); });
+      peer.on('error',()=>{ setTimeout(()=>{ if(peer.disconnected) try{peer.reconnect();}catch(e){} },3000); });
     } else {
       peer=new Peer('masar-'+Math.random().toString(36).slice(2,10));
-      peer.on('open',id=>{ peerId=id; });
+      peer.on('open',id=>{ peerId=id; if(typeof renderQR==='function' && document.getElementById('qr').classList.contains('show')) renderQR(); });
       peer.on('connection',wire);
       peer.on('disconnected',()=>{ try{ peer.reconnect(); }catch(e){} });
       peer.on('error',()=>{});
@@ -413,17 +418,40 @@ function makeRoom(){
   }catch(e){ return Promise.resolve(null); }
   return Promise.resolve(api);
 }
+/* قناة احتياطية عبر HTTPS (ntfy.sh): تعمل حتى لو حُجب WebRTC أو خادم PeerJS في الشبكة */
+function makeRelayRoom(onOpen){
+  const handlers={}, lastSent={};
+  const inT=TOPIC+(isRemote?'s':'c'), outT=TOPIC+(isRemote?'c':'s');
+  const dispatch=msg=>{ if(!msg||typeof msg.topic!=='string') return; (handlers[msg.topic]||[]).forEach(fn=>{ try{ fn({topic:msg.topic,data:msg.data,sameTab:false,isMe:false}); }catch(e){} }); };
+  try{
+    const es=new EventSource(RELAY+'/'+inT+'/sse');
+    es.onopen=()=>{ if(onOpen) onOpen(); };
+    es.addEventListener('message',ev=>{ try{ const m=JSON.parse(ev.data); if(m.event&&m.event!=='message') return; dispatch(JSON.parse(m.message)); }catch(e){} });
+  }catch(e){}
+  return {
+    emit(topic,data,force){
+      const body=JSON.stringify({topic:topic,data:data});
+      if(!force && lastSent[topic]===body) return Promise.resolve();
+      lastSent[topic]=body;
+      return fetch(RELAY+'/'+outT,{method:'POST',body:body}).then(()=>{},()=>{});
+    },
+    on(topic,fn){ (handlers[topic]=handlers[topic]||[]).push(fn); }
+  };
+}
 async function initRoom(){
-  try{ room = await makeRoom(); }catch(e){ room=null; }
-  if(!room){
-    if(isRemote){ document.getElementById('rConn').textContent='غير متصل'; document.getElementById('rMsg').textContent='تعذّر الاتصال بالعرض. تأكد من الإنترنت وأن العرض مفتوح على الشاشة، ثم أعد فتح الصفحة.'; }
-    return;
-  }
+  let p2p=null; try{ p2p = await makeRoom(); }catch(e){ p2p=null; }
+  let relay=null; try{ relay = makeRelayRoom(()=>{ if(isRemote) room&&room.emit('hello',{},true); }); }catch(e){ relay=null; }
+  room={
+    emit(t,d,f){ if(relay) relay.emit(t,d,f); return p2p? p2p.emit(t,d) : Promise.resolve(); },
+    on(t,fn){ if(relay) relay.on(t,fn); if(p2p) p2p.on(t,fn); },
+    presence(){ return Promise.resolve(); },
+    onPeers(fn){ if(p2p) p2p.onPeers(fn); }
+  };
   if(isRemote){
     room.on('state', m=>{ if(m.sameTab) return; renderRemote(m.data); }, e=>{ document.getElementById('rMsg').textContent='انقطع الاتصال، أعد فتح الصفحة.'; });
     room.presence({role:'remote'}).catch(()=>{});
-    room.emit('hello',{}).catch(()=>{});
-    setTimeout(()=>{ if(!lastState){ document.getElementById('rMsg').textContent='بانتظار العرض… تأكد أن العرض مفتوح على الشاشة.'; room.emit('hello',{}).catch(()=>{}); } },3000);
+    room.emit('hello',{},true).catch(()=>{});
+    const hi=setInterval(()=>{ if(lastState){ clearInterval(hi); return; } document.getElementById('rMsg').textContent='بانتظار العرض… تأكد أن العرض مفتوح على الشاشة وأن الجوال متصل بالإنترنت.'; room.emit('hello',{},true).catch(()=>{}); },4000);
   } else {
     room.presence({role:'screen'}).catch(()=>{});
     room.on('nav', m=>{
@@ -431,7 +459,7 @@ async function initRoom(){
       if(d.cmd==='next') next(); else if(d.cmd==='prev') prev(); else if(d.cmd==='first'){ show(0,0,-1); broadcast(); }
       else if(d.cmd==='a+') addScore(0,1); else if(d.cmd==='a-') addScore(0,-1); else if(d.cmd==='b+') addScore(1,1); else if(d.cmd==='b-') addScore(1,-1);
     });
-    room.on('hello', ()=>broadcast());
+    room.on('hello', ()=>{ broadcast(true); setConn(true); });
     room.onPeers && room.onPeers(ps=>{ const list=Array.isArray(ps)?ps:(ps&&ps.peers)||[]; setConn(list.some(p=>p.presence&&p.presence.role==='remote')); broadcast(); });
     broadcast(); setInterval(broadcast, 8000);
   }
@@ -462,14 +490,18 @@ if(isRemote){
   [['rA1','a+'],['rA0','a-'],['rB1','b+'],['rB0','b-']].forEach(([id,c])=>{ document.getElementById(id).onclick=()=>send(c); });
 }
 initRoom();
+function renderQR(){
+  const RU=remoteUrl(); document.getElementById('qrlink').textContent=RU;
+  const box=document.getElementById('qrbox'); box.innerHTML='';
+  if(window.QRCode){ try{ new QRCode(box,{text:RU,width:220,height:220,correctLevel:QRCode.CorrectLevel.M}); }catch(e){ box.textContent='افتح الرابط أدناه على جوالك'; } }
+  else box.textContent='افتح الرابط أدناه على جوالك';
+  const loc=/^(localhost|127\.|0\.0\.0\.0)/.test(location.hostname)||location.protocol==='file:';
+  document.getElementById('qrnote').textContent = loc ? 'تنبيه: الرابط محلي ولن يفتح على الجوال. افتح العرض من رابط الموقع على الإنترنت.' : '';
+}
 document.getElementById('bPhone').onclick=e=>{
   e.stopPropagation();
   document.getElementById('qr').classList.add('show');
-  if(!peerId){ document.getElementById('qrbox').textContent='جارٍ تجهيز الاتصال… أغلق وأعد الضغط بعد ثوانٍ'; return; }
-  const RU=remoteUrl(); document.getElementById('qrlink').textContent=RU;
-  const box=document.getElementById('qrbox');
-  if(!box.dataset.done && window.QRCode){ new QRCode(box,{text:RU,width:220,height:220,correctLevel:QRCode.CorrectLevel.M}); box.dataset.done='1'; }
-  else if(!window.QRCode){ box.textContent='افتح الرابط أدناه على جوالك'; }
+  renderQR();
 };
 document.getElementById('qrClose').onclick=e=>{e.stopPropagation(); document.getElementById('qr').classList.remove('show');};
 function fit(){
