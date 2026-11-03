@@ -117,7 +117,11 @@ body.q #score{display:flex}
 #ui button{font-family:inherit;border:0;background:var(--chrome);color:var(--chromeText);height:44px;min-width:44px;padding:0 14px;border-radius:22px;font-size:17px;font-weight:700;cursor:pointer}
 #notes{position:fixed;right:0;left:0;bottom:0;height:30vh;z-index:6;background:#142B42;color:#F3F6F4;border-top:3px solid var(--green);padding:14px 28px;font-size:clamp(17px,2.4vh,26px);line-height:1.8;display:none;overflow:auto;white-space:pre-line}
 #notes.show{display:block}
-#notes::before{content:'ماذا أقول:';display:block;color:var(--mint);font-weight:800;margin-bottom:4px}
+#notes{cursor:pointer}
+#ntab{position:fixed;bottom:5px;left:50%;transform:translateX(-50%);z-index:6;font-size:13px;color:#5A6B78;opacity:.3;padding:2px 14px;border-radius:12px;cursor:pointer}
+#ntab:hover{opacity:.9}
+body.nt #ntab,body.rm #ntab{display:none}
+#notes::before{content:'ماذا أقول: (اضغط هنا لإخفاء النص)';display:block;color:var(--mint);font-weight:800;margin-bottom:4px}
 #help{position:fixed;inset:0;z-index:8;display:grid;place-items:center;background:rgba(10,20,30,.55)}
 #help div{background:var(--paper);color:var(--ink);border-radius:20px;padding:26px 30px;max-width:520px;width:calc(100% - 32px);font-size:18px;line-height:1.8}
 #help b{color:var(--navy)}
@@ -285,6 +289,7 @@ body.rm{overflow:auto}
 
 <div id="bar"><i></i></div>
 <div id="notes"></div>
+<div id="ntab">▲ ماذا أقول</div>
 <div id="ui">
   <button id="bPrev" aria-label="السابق">→</button>
   <button id="bNext" aria-label="التالي">←</button>
@@ -490,6 +495,8 @@ addEventListener('keydown',e=>{
   else if(k==='End'){ show(slides.length-1, frags(slides.length-1).length, 1); }
 });
 function toggleNotes(){ const on=document.getElementById('notes').classList.toggle('show'); document.body.classList.toggle('nt',on); try{localStorage.setItem('notesOn',on?'1':'0');}catch(e){} fit(); }
+document.getElementById('notes').onclick=e=>{e.stopPropagation();toggleNotes();};
+document.getElementById('ntab').onclick=e=>{e.stopPropagation();toggleNotes();};
 function full(){ try{ if(!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }catch(e){} }
 document.getElementById('bNext').onclick=e=>{e.stopPropagation();next();};
 document.getElementById('bPrev').onclick=e=>{e.stopPropagation();prev();};
