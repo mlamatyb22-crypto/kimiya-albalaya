@@ -1,5 +1,5 @@
 /* يخزّن الموقع كله في المتصفح ليعمل بدون إنترنت. غيّر رقم VERSION عند أي تعديل كبير. */
-const VERSION='v2';
+const VERSION='v3';
 const CACHE='present-'+VERSION;
 const FILES=['./','index.html','lesson-3.html','lesson-4.html','player.html','engine.js','engine.css','decks/index.js','decks/research-tools.js','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','lib/peerjs.min.js','lib/qrcode.min.js','fonts/fonts.css']
  .concat(['arabic','latin'].flatMap(s=>[400,500,700,800].map(w=>`fonts/tajawal-${s}-${w}-normal.woff2`)));
