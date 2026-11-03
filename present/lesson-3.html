@@ -3,12 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>أدوات جمع المعلومات ومراحل البحث العلمي</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<title>الدرس 3: أدوات جمع المعلومات</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1E3A56">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="fonts/fonts.css">
+<script src="lib/qrcode.min.js"></script>
+<script src="lib/peerjs.min.js"></script>
 <style>
 :root{
   color-scheme:light;
@@ -23,7 +24,7 @@
 html,body{height:100%;overflow:hidden}
 body{background:var(--page);font-family:'Tajawal','Segoe UI',Tahoma,sans-serif;color:var(--ink)}
 #wrap{position:fixed;inset:0;display:grid;place-items:center}
-#deck{position:relative;width:1600px;height:900px;transform-origin:center center;flex:none}
+#deck{position:absolute;left:50%;top:50%;margin:-450px 0 0 -800px;width:1600px;height:900px;transform-origin:center center}
 .slide{position:absolute;inset:0;background:var(--paper);border-radius:6px;overflow:hidden;padding:80px 96px 90px;display:flex;flex-direction:column;gap:34px;opacity:0;visibility:hidden;transform:translateX(-60px);transition:opacity .55s ease, transform .55s ease, visibility .55s}
 .slide.on{opacity:1;visibility:visible;transform:none}
 .slide.back{transform:translateX(60px)}
@@ -150,20 +151,15 @@ body.rm{overflow:auto}
 <div id="wrap"><div id="deck">
 <div id="score"><div>الفريق الأول <b id="sA">0</b></div><div class="b2">الفريق الثاني <b id="sB">0</b></div></div>
 
-<!-- 1 -->
-<section class="slide dark" data-note="سلام عليكم، عرضنا اليوم عن درسين: أدوات جمع المعلومات، ومراحل البحث العلمي.">
+<section class="slide dark" data-note="سلام عليكم، عرضنا اليوم عن أدوات جمع المعلومات.">
   <div class="tag">البحث ومصادر المعلومات</div>
   <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:30px">
-    <h1>أدوات جمع المعلومات<br>ومراحل البحث العلمي</h1>
-    <div class="row" style="max-width:900px">
-      <div class="f s" style="font-size:32px;color:var(--mint);font-weight:700">الدرس 3 · كيف يجمع الباحث معلوماته؟</div>
-    </div>
-    <div class="f s" style="font-size:32px;color:var(--mint);font-weight:700">الدرس 4 · كيف يرتب الباحث بحثه؟</div>
+    <h1>أدوات جمع المعلومات</h1>
+    <div class="f s" style="font-size:32px;color:var(--mint);font-weight:700">الدرس 3 · كيف يجمع الباحث معلوماته؟</div>
     <div class="f" style="font-size:28px;color:#C9D6DF">إعداد الطالب: علي حبيب الجرفي · شعبة 301 · إشراف الأستاذ: شجاع اللهيبي</div>
   </div>
 </section>
 
-<!-- 2 -->
 <section class="slide" data-note="أدوات البحث هي الوسائل اللي يجمع فيها الباحث المعلومات، ويقدر يستخدم أكثر من أداة في نفس البحث. أهمها ثلاث.">
   <div class="tag">الدرس 3</div>
   <h2>ما هي أدوات البحث؟</h2>
@@ -176,7 +172,6 @@ body.rm{overflow:auto}
   <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
 </section>
 
-<!-- 3 -->
 <section class="slide" data-note="الملاحظة: أراقب الظاهرة وأسجلها وقت حدوثها. مثال الكتاب: ملاحظة سلوك الطلاب في تجربة التسخين والتبريد. وتمتاز بأربع ميزات.">
   <div class="tag">أولًا · الملاحظة 👁️</div>
   <h2>أشاهد وأسجّل وقت الحدوث</h2>
@@ -191,7 +186,6 @@ body.rm{overflow:auto}
   <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
 </section>
 
-<!-- 4 -->
 <section class="slide" data-note="أنواع الملاحظة أربعة. المقيدة فيها خطة وأهداف قبل، وغير المقيدة بدون تحديد مسبق. المباشرة أشوفها بنفسي، وغير المباشرة عن طريق شخص ثاني.">
   <div class="tag">الملاحظة</div>
   <h2>أنواع الملاحظة</h2>
@@ -206,7 +200,6 @@ body.rm{overflow:auto}
   <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
 </section>
 
-<!-- 5 -->
 <section class="slide" data-note="المقابلة: محادثة وجهًا لوجه مع عينة الدراسة، مفيدة لما المعلومة ما تنجاب إلا بالكلام المباشر. حسب نوع الأسئلة: مغلقة إجابتها محددة، مفتوحة يتكلم بحرية، أو الاثنين مع بعض.">
   <div class="tag">ثانيًا · المقابلة 🗣️</div>
   <h2>أسأل وجهًا لوجه</h2>
@@ -219,7 +212,6 @@ body.rm{overflow:auto}
   <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
 </section>
 
-<!-- 6 -->
 <section class="slide" data-note="وحسب الغرض: استطلاعية تجمع آراء، تشخيصية تفهم سبب المشكلة، وعلاجية تساعد صاحب المشكلة يحلها. ومن ميزات المقابلة أنها ممتازة لتشخيص المشكلات وتدعم الأدوات الثانية.">
   <div class="tag">المقابلة</div>
   <h2>أنواعها حسب الغرض</h2>
@@ -231,7 +223,6 @@ body.rm{overflow:auto}
   <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
 </section>
 
-<!-- 7 -->
 <section class="slide" data-note="الاستبانة: أسئلة مكتوبة نرسلها للعينة ويجاوبون. أكبر ميزة أنها توصل لعدد كبير بسرعة، وما يحتاج المستجيب يكتب اسمه. وأنواعها ثلاثة، والمزيج هو الأشهر.">
   <div class="tag">ثالثًا · الاستبانة 📝</div>
   <h2>أسئلة مكتوبة لعدد كبير</h2>
@@ -246,7 +237,6 @@ body.rm{overflow:auto}
   <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
 </section>
 
-<!-- 8 -->
 <section class="slide" data-note="عشان أصمم استبانة صح أمشي على خمس خطوات بالترتيب. والتجربة الأولية يعني أجربها على عدد قليل قبل ما أوزعها، عشان أكتشف الأسئلة الغامضة.">
   <div class="tag">الاستبانة</div>
   <h2>خطوات تصميم الاستبانة</h2>
@@ -260,7 +250,6 @@ body.rm{overflow:auto}
   <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
 </section>
 
-<!-- 9 -->
 <section class="slide dark" data-note="سؤال للفصل: اسأل زملاءك قبل ما تظهر الإجابة. اضغط مرة لكل إجابة.">
   <div class="tag">سؤال للفصل 🤔</div>
   <h2>أي أداة تناسب؟</h2>
@@ -275,133 +264,64 @@ body.rm{overflow:auto}
   <div class="foot"><span>أدوات جمع المعلومات</span><span class="pg"></span></div>
 </section>
 
-<!-- 10 -->
-<section class="slide" data-note="الدرس الرابع: البحث العلمي له ثمان مراحل مرتبة، والترتيب ينظم أفكار الباحث ويسهل على المعلم متابعته.">
-  <div class="tag">الدرس 4</div>
-  <h2>ثماني مراحل للبحث العلمي</h2>
-  <div class="grid4" style="flex:1;align-content:center">
-    <div class="st f z"><em>1</em><b>تحديد المشكلة</b><span>اختيارها وصياغتها</span></div>
-    <div class="st f z"><em>2</em><b>الفصل الأول</b><span>المقدمة والأهداف والحدود</span></div>
-    <div class="st f z"><em>3</em><b>الفصل الثاني</b><span>الإطار النظري والدراسات السابقة</span></div>
-    <div class="st f z"><em>4</em><b>الفصل الثالث</b><span>المنهج والعينة والأدوات</span></div>
-    <div class="st f z"><em>5</em><b>الفصل الرابع</b><span>النتائج والتوصيات</span></div>
-    <div class="st f z"><em>6</em><b>المراجع والملاحق</b><span>توثيق المصادر</span></div>
-    <div class="st f z"><em>7</em><b>التصميم والإخراج</b><span>العنوان والمحتويات</span></div>
-    <div class="st f z"><em>8</em><b>مناقشة البحث</b><span>العرض أمام الطلاب</span></div>
-  </div>
-  <div class="foot"><span>مراحل البحث العلمي</span><span class="pg"></span></div>
-</section>
-
-<!-- 11 -->
-<section class="slide" data-note="أول وأهم مرحلة هي المشكلة. المشكلة إما سؤال يحتاج إجابة أو موقف غامض يحتاج تفسير. ونلقاها من خبرتنا أو قراءاتنا أو من توصيات الأبحاث السابقة.">
-  <div class="tag">مشكلة البحث</div>
-  <h2>ما هي المشكلة؟ ومن أين نجدها؟</h2>
-  <div class="row">
-    <div class="card f"><h3>سؤال يحتاج إجابة</h3><div class="ex">ما تأثير برامج تلفزيونية معينة على تربية الأطفال؟</div></div>
-    <div class="card f n2"><h3>موقف غامض يحتاج تفسيرًا</h3><div class="ex">تأخر معاملات المراجعين رغم كثرة الموظفين</div></div>
-  </div>
-  <div class="row">
-    <div class="card big f z"><i>🧠</i><b style="font-size:32px">الخبرة الشخصية</b></div>
-    <div class="card big f z n2"><i>📚</i><b style="font-size:32px">القراءات والدراسات</b></div>
-    <div class="card big f z"><i>🔎</i><b style="font-size:32px">الأبحاث السابقة</b></div>
-  </div>
-  <div class="foot"><span>مراحل البحث العلمي</span><span class="pg"></span></div>
-</section>
-
-<!-- 12 -->
-<section class="slide" data-note="نفس المشكلة نقدر نكتبها بطريقتين. صيغة السؤال أوضح وأدق. ولازم الصياغة تحتوي المتغيرات، هنا المتغيرات: الذكاء والتحصيل.">
-  <div class="tag">صياغة المشكلة</div>
-  <h2>نفس المشكلة بطريقتين</h2>
-  <div class="vs">
-    <div class="card f"><h3>صياغة تقريرية</h3><p style="font-size:32px">علاقة الذكاء بالتحصيل الدراسي عند طلاب المرحلة الابتدائية</p></div>
-    <div class="arrow f z">←</div>
-    <div class="card f n2"><h3>صياغة سؤال ✓ أوضح</h3><p style="font-size:32px">ما أثر الذكاء على التحصيل الدراسي عند طلاب المرحلة الابتدائية؟</p></div>
-  </div>
-  <div class="def f">شرط مهم: أن تتضمن الصياغة متغيرات الدراسة، وهي هنا <b style="color:var(--green)">الذكاء</b> و<b style="color:var(--green)">التحصيل الدراسي</b></div>
-  <div class="foot"><span>مراحل البحث العلمي</span><span class="pg"></span></div>
-</section>
-
-<!-- 13 -->
-<section class="slide" data-note="قبل ما أختار المشكلة أتأكد من خمس أشياء، وبعد ما أصيغها أقيمها بأربعة أسئلة.">
-  <div class="tag">مشكلة البحث</div>
-  <h2>كيف أختارها وأقيّمها؟</h2>
-  <div class="row" style="flex:1">
-    <div class="card f"><h3>عند الاختيار أراعي</h3>
-      <p>✓ اهتمامي وميولي<br>✓ قدرتي العلمية<br>✓ فائدة البحث<br>✓ توفر المراجع<br>✓ توفر الإمكانات المادية</p></div>
-    <div class="card f n2"><h3>ولتقويمها أسأل</h3>
-      <p>❓ هل الموضوع حديث أم مكرر؟<br>❓ هل الصياغة واضحة ومحددة؟<br>❓ هل توجّه الاهتمام لبحوث أخرى؟<br>❓ هل يمكن تعميم النتائج؟</p></div>
-  </div>
-  <div class="foot"><span>مراحل البحث العلمي</span><span class="pg"></span></div>
-</section>
-
-<!-- 14 -->
-<section class="slide dark" data-note="الخلاصة، وشكرًا لكم. هل عندكم أسئلة؟">
+<section class="slide dark" data-note="الخلاصة: ثلاث أدوات. بعدها تحدي نهاية الدرس الثالث.">
   <div class="tag">الخلاصة</div>
   <h2>تذكّر</h2>
-  <div class="row" style="flex:1;align-items:center">
-    <div class="card f"><h3>الدرس 3</h3><p>👁️ الملاحظة للسلوك وقت حدوثه<br>🗣️ المقابلة للتعمق مع الأفراد<br>📝 الاستبانة لعدد كبير بسرعة</p></div>
-    <div class="card f n2"><h3>الدرس 4</h3><p>8 مراحل تبدأ بالمشكلة<br>المشكلة تُختار بعناية<br>وتُصاغ بوضوح ويفضل كسؤال</p></div>
+  <div class="row" style="flex:1;align-items:center;justify-content:center">
+    <div class="card f" style="max-width:760px"><h3>الدرس 3</h3><p>👁️ الملاحظة للسلوك وقت حدوثه<br>🗣️ المقابلة للتعمق مع الأفراد<br>📝 الاستبانة لعدد كبير بسرعة</p></div>
   </div>
   <div class="f z" style="text-align:center;font-size:56px;font-weight:800;color:var(--mint)">الآن وقت التحدي 🎯</div>
 </section>
 
 <section class="slide dark quiz" data-note="تحدي الفصل: قسّم الفصل فريقين. أضغط التالي لتظهر الخيارات ويبدأ العداد، ثم مرة ثانية لتظهر الإجابة. الفريق اللي يجاوب صح تعطيه نقطة من أزرار الجوال.">
   <div class="tag">تحدّي الفصل 🎯</div>
-  <h2>جاهزين؟ فريقين وست أسئلة</h2>
+  <h2>جاهزين؟ فريقين وأربعة أسئلة</h2>
   <div class="list" style="gap:18px">
     <div class="li f s" style="background:rgba(255,255,255,.1);color:#fff"><span class="n">1</span>قسّموا الفصل إلى فريقين</div>
     <div class="li f s" style="background:rgba(255,255,255,.1);color:#fff"><span class="n">2</span>تظهر الخيارات ويبدأ العدّاد (12 ثانية)</div>
     <div class="li f s" style="background:rgba(255,255,255,.1);color:#fff"><span class="n">3</span>الفريق الذي يجيب صح يأخذ نقطة</div>
   </div>
 </section>
+
 <section class="slide quiz" data-note="الإجابة الصحيحة: الملاحظة. سلوك نشاهده ونسجله وقت حدوثه. أعطِ الفريق الفائز نقطة من زر +1.">
-  <div class="tag">سؤال 1 من 6</div>
+  <div class="tag">سؤال 1 من 4</div>
   <h2>أي أداة تناسب دراسة سلوك الطلاب في آخر أيام الدراسة؟</h2>
   <div class="opts f"><div style="display:flex;flex-direction:column;gap:16px"><div class="opt ok"><em>أ</em>الملاحظة</div><div class="opt"><em>ب</em>المقابلة</div><div class="opt"><em>ج</em>الاستبانة</div></div><div class="tmr"><i></i></div></div>
   <div class="ansx f z">✓ الإجابة: <b>الملاحظة</b><br>سلوك نشاهده ونسجله وقت حدوثه.</div>
   <div class="foot"><span>تحدي الفصل</span><span class="pg"></span></div>
 </section>
+
 <section class="slide quiz" data-note="الإجابة الصحيحة: الاستبانة. الاستبانة تصل لأفراد متباعدين في وقت قصير. أعطِ الفريق الفائز نقطة من زر +1.">
-  <div class="tag">سؤال 2 من 6</div>
+  <div class="tag">سؤال 2 من 4</div>
   <h2>نبي نعرف آراء طلاب في مدارس بمدن مختلفة. أي أداة أنسب؟</h2>
   <div class="opts f"><div style="display:flex;flex-direction:column;gap:16px"><div class="opt"><em>أ</em>الملاحظة</div><div class="opt"><em>ب</em>المقابلة</div><div class="opt ok"><em>ج</em>الاستبانة</div></div><div class="tmr"><i></i></div></div>
   <div class="ansx f z">✓ الإجابة: <b>الاستبانة</b><br>الاستبانة تصل لأفراد متباعدين في وقت قصير.</div>
   <div class="foot"><span>تحدي الفصل</span><span class="pg"></span></div>
 </section>
+
 <section class="slide quiz" data-note="الإجابة الصحيحة: الملاحظة غير المباشرة. غير المباشرة: عبر وسيط. والمباشرة: دون وسيط. أعطِ الفريق الفائز نقطة من زر +1.">
-  <div class="tag">سؤال 3 من 6</div>
+  <div class="tag">سؤال 3 من 4</div>
   <h2>ملاحظة الظاهرة عن طريق وسيط مثل الزملاء تسمى؟</h2>
   <div class="opts f"><div style="display:flex;flex-direction:column;gap:16px"><div class="opt"><em>أ</em>الملاحظة المقيدة</div><div class="opt"><em>ب</em>الملاحظة المباشرة</div><div class="opt ok"><em>ج</em>الملاحظة غير المباشرة</div></div><div class="tmr"><i></i></div></div>
   <div class="ansx f z">✓ الإجابة: <b>الملاحظة غير المباشرة</b><br>غير المباشرة: عبر وسيط. والمباشرة: دون وسيط.</div>
   <div class="foot"><span>تحدي الفصل</span><span class="pg"></span></div>
 </section>
+
 <section class="slide quiz" data-note="الإجابة الصحيحة: سؤال مفتوح. المفتوح: يجيب المبحوث بحرية وبالتفصيل. أعطِ الفريق الفائز نقطة من زر +1.">
-  <div class="tag">سؤال 4 من 6</div>
+  <div class="tag">سؤال 4 من 4</div>
   <h2>سؤال «ما رأيك بخدمات المقصف المدرسي؟» من أي نوع؟</h2>
   <div class="opts f"><div style="display:flex;flex-direction:column;gap:16px"><div class="opt"><em>أ</em>سؤال مغلق</div><div class="opt ok"><em>ب</em>سؤال مفتوح</div><div class="opt"><em>ج</em>سؤال مغلق/مفتوح</div></div><div class="tmr"><i></i></div></div>
   <div class="ansx f z">✓ الإجابة: <b>سؤال مفتوح</b><br>المفتوح: يجيب المبحوث بحرية وبالتفصيل.</div>
   <div class="foot"><span>تحدي الفصل</span><span class="pg"></span></div>
 </section>
-<section class="slide quiz" data-note="الإجابة الصحيحة: تحديد مشكلة البحث. نبدأ بتحديد المشكلة ثم ننتقل للفصول. أعطِ الفريق الفائز نقطة من زر +1.">
-  <div class="tag">سؤال 5 من 6</div>
-  <h2>ما أول مرحلة من مراحل البحث العلمي؟</h2>
-  <div class="opts f"><div style="display:flex;flex-direction:column;gap:16px"><div class="opt"><em>أ</em>إعداد الفصل الأول</div><div class="opt ok"><em>ب</em>تحديد مشكلة البحث</div><div class="opt"><em>ج</em>مناقشة البحث</div></div><div class="tmr"><i></i></div></div>
-  <div class="ansx f z">✓ الإجابة: <b>تحديد مشكلة البحث</b><br>نبدأ بتحديد المشكلة ثم ننتقل للفصول.</div>
-  <div class="foot"><span>تحدي الفصل</span><span class="pg"></span></div>
-</section>
-<section class="slide quiz" data-note="الإجابة الصحيحة: ما أثر الذكاء على التحصيل الدراسي؟ (سؤال). صيغة السؤال أكثر تحديدًا ووضوحًا. أعطِ الفريق الفائز نقطة من زر +1.">
-  <div class="tag">سؤال 6 من 6</div>
-  <h2>أي صياغة للمشكلة أوضح وأدق؟</h2>
-  <div class="opts f"><div style="display:flex;flex-direction:column;gap:16px"><div class="opt"><em>أ</em>علاقة الذكاء بالتحصيل الدراسي (تقريرية)</div><div class="opt ok"><em>ب</em>ما أثر الذكاء على التحصيل الدراسي؟ (سؤال)</div></div><div class="tmr"><i></i></div></div>
-  <div class="ansx f z">✓ الإجابة: <b>ما أثر الذكاء على التحصيل الدراسي؟ (سؤال)</b><br>صيغة السؤال أكثر تحديدًا ووضوحًا.</div>
-  <div class="foot"><span>تحدي الفصل</span><span class="pg"></span></div>
-</section>
-<section class="slide quiz" data-note="جولة صح أو خطأ: اقرأ العبارة، دع الفريقين يجيبون، ثم اضغط لإظهار الحكم. الإجابات: خطأ، صح، خطأ، صح.">
+
+<section class="slide quiz" data-note="جولة صح أو خطأ: اقرأ العبارة، دع الفريقين يجيبون، ثم اضغط لإظهار الحكم. الإجابات: خطأ، صح">
   <div class="tag">جولة سريعة ⚡</div>
   <h2>صح أم خطأ؟</h2>
-  <div class="list" style="gap:18px;justify-content:center;flex:1"><div class="tf"><span>الاستبانة تتطلب ذكر اسم المستجيب.</span><span class="v n f z">خطأ<small>لا يُشترط الاسم</small></span></div><div class="tf"><span>المقابلة أنسب أداة لتقويم الصفات الشخصية.</span><span class="v y f z">صح</span></div><div class="tf"><span>الإطار النظري يُعدّ في الفصل الرابع.</span><span class="v n f z">خطأ<small>هو في الفصل الثاني</small></span></div><div class="tf"><span>المشكلة قد تكون موقفًا غامضًا يحتاج تفسيرًا.</span><span class="v y f z">صح</span></div></div>
+  <div class="list" style="gap:18px;justify-content:center;flex:1"><div class="tf"><span>الاستبانة تتطلب ذكر اسم المستجيب.</span><span class="v n f z">خطأ<small>لا يُشترط الاسم</small></span></div><div class="tf"><span>المقابلة أنسب أداة لتقويم الصفات الشخصية.</span><span class="v y f z">صح</span></div></div>
   <div class="foot"><span>تحدي الفصل</span><span class="pg"></span></div>
 </section>
+
 <section class="slide dark quiz" data-note="النتيجة النهائية. اضغط لإظهار الفائز ثم كلمة الشكر. لا تنسَ تدعو زملاءك لأسئلتهم.">
   <div class="tag">نتيجة التحدي 🏆</div>
   <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:34px">
@@ -410,7 +330,6 @@ body.rm{overflow:auto}
     <div class="f" style="text-align:center;font-size:44px;font-weight:800;color:var(--mint)">شكرًا لكم 🌿 هل عندكم أسئلة؟</div>
   </div>
 </section>
-
 </div></div>
 
 <div id="bar"><i></i></div>
@@ -631,6 +550,7 @@ addEventListener('touchend',e=>{ if(tx===null)return; const dx=e.changedTouches[
 let start=parseInt((location.hash.match(/^#s(\d+)$/)||[])[1]||'1',10)-1;
 if(!(start>=0&&start<slides.length)) start=0;
 if(!isRemote) show(start,0,1);
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
 </html>
