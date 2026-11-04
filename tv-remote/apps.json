@@ -1,0 +1,5 @@
+[
+  {"name": "يوتيوب", "package": "com.google.android.youtube.tv"},
+  {"name": "نتفلكس", "package": "com.netflix.ninja"},
+  {"name": "المتصفح", "package": "com.android.browser"}
+]

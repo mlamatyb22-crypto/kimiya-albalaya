@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#111418">
+<title>ريموت الشاشة</title>
+<style>
+:root{--bg:#111418;--panel:#1b2026;--btn:#262d35;--btn2:#303942;--txt:#eef2f6;--mut:#8b97a3;--acc:#3b82f6;--ok:#22c55e;--bad:#ef4444}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;padding:12px 16px calc(24px + env(safe-area-inset-bottom));max-width:420px;margin-inline:auto;user-select:none}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+h1{font-size:18px;margin:0}
+#st{font-size:13px;color:var(--mut);display:flex;align-items:center;gap:6px}
+#st i{width:10px;height:10px;border-radius:50%;background:var(--mut);display:inline-block}
+#st.on i{background:var(--ok)}#st.off i{background:var(--bad)}
+.row{display:grid;gap:10px;margin-bottom:12px}
+.r3{grid-template-columns:repeat(3,1fr)}.r2{grid-template-columns:repeat(2,1fr)}.r4{grid-template-columns:repeat(4,1fr)}
+button{background:var(--btn);color:var(--txt);border:0;border-radius:14px;min-height:52px;font-size:16px;font-family:inherit}
+button:active{background:var(--btn2);transform:scale(.97)}
+.pwr{background:#5b1f24}.acc{background:var(--acc)}
+.dpad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:var(--panel);padding:14px;border-radius:24px;margin-bottom:12px}
+.dpad button{min-height:64px;font-size:24px}
+.dpad .ok{background:var(--acc);font-size:18px}
+.card{background:var(--panel);border-radius:18px;padding:12px;margin-bottom:12px}
+.card h2{font-size:13px;color:var(--mut);margin:0 0 10px;font-weight:600}
+input{width:100%;background:var(--btn);border:0;color:var(--txt);border-radius:12px;padding:14px;font-size:16px;font-family:inherit;margin-bottom:8px;user-select:text;direction:ltr;text-align:left}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#000c;padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;transition:.2s;pointer-events:none;max-width:90vw;text-align:center}
+#toast.show{opacity:1}
+dialog{background:var(--panel);color:var(--txt);border:0;border-radius:18px;padding:18px;width:min(320px,90vw)}
+dialog::backdrop{background:#000a}
+</style>
+</head>
+<body>
+<header>
+  <h1>ريموت الشاشة</h1>
+  <div id="st"><i></i><span>جارٍ الفحص…</span></div>
+</header>
+
+<div class="row r3">
+  <button class="pwr" data-key="power">⏻ تشغيل</button>
+  <button data-key="input">⎘ المصدر</button>
+  <button data-key="mute">🔇 كتم</button>
+</div>
+
+<div class="dpad">
+  <span></span><button data-key="up" data-rep>▲</button><span></span>
+  <button data-key="right" data-rep>◀</button><button class="ok" data-key="ok">OK</button><button data-key="left" data-rep>▶</button>
+  <span></span><button data-key="down" data-rep>▼</button><span></span>
+</div>
+
+<div class="row r3">
+  <button data-key="back">↩ رجوع</button>
+  <button data-key="home">⌂ الرئيسية</button>
+  <button data-key="menu">☰ قائمة</button>
+</div>
+
+<div class="row r2">
+  <div class="card" style="margin:0"><h2>الصوت</h2>
+    <div class="row r2" style="margin:0"><button data-key="vol_up" data-rep>＋</button><button data-key="vol_down" data-rep>－</button></div></div>
+  <div class="card" style="margin:0"><h2>القنوات</h2>
+    <div class="row r2" style="margin:0"><button data-key="ch_up">＋</button><button data-key="ch_down">－</button></div></div>
+</div>
+
+<div class="row r3">
+  <button data-key="rewind">⏪</button>
+  <button data-key="play_pause">⏯</button>
+  <button data-key="forward">⏩</button>
+</div>
+
+<div class="card"><h2>إرسال رابط للشاشة</h2>
+  <input id="url" type="url" placeholder="https://..." autocapitalize="off" autocomplete="off">
+  <button class="acc" id="sendUrl" style="width:100%">عرض على الشاشة</button>
+</div>
+
+<div class="card"><h2>كتابة نص (إنجليزي وأرقام)</h2>
+  <input id="txt" type="text" placeholder="اكتب هنا" autocapitalize="off" autocomplete="off">
+  <div class="row r2" style="margin:0"><button class="acc" id="sendTxt">إرسال</button><button data-key="back">مسح (رجوع)</button></div>
+</div>
+
+<div class="card"><h2>تطبيقات</h2><div class="row r2" id="apps" style="margin:0"></div></div>
+
+<div class="card"><h2>إعدادات الشاشة</h2>
+  <div class="row r2" style="margin:0">
+    <button data-action="open_settings">الإعدادات</button>
+    <button data-action="open_wifi">الواي فاي</button>
+    <button data-action="open_dev_options" style="grid-column:1/-1">خيارات المطوّر</button>
+  </div>
+</div>
+
+<div class="card"><h2>الاتصال</h2>
+  <button id="reconnect" style="width:100%">إعادة الاتصال بالشاشة</button>
+</div>
+
+<div id="toast"></div>
+<dialog id="pinDlg"><form method="dialog">
+  <p style="margin-top:0">أدخل الرقم السري</p>
+  <input id="pinIn" type="password" inputmode="numeric" autocomplete="off">
+  <button class="acc" style="width:100%">دخول</button>
+</form></dialog>
+
+<script>
+const $=s=>document.querySelector(s);
+let pin=sessionStorage.getItem('pin')||'';
+let tt;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2200)}
+async function api(path,body){
+  try{
+    const r=await fetch(path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json','X-Pin':pin},body:body?JSON.stringify(body):undefined});
+    if(r.status===401){askPin();return {ok:false,msg:'الرقم السري مطلوب'}}
+    return await r.json();
+  }catch(e){return {ok:false,msg:'ما فيه اتصال بالجسر، تأكد أن الجوال على نفس الواي فاي'}}
+}
+async function send(path,body,quiet){
+  navigator.vibrate&&navigator.vibrate(15);
+  const j=await api(path,body);
+  if(!j.ok)toast(j.msg||'فشل الأمر'); else if(!quiet&&j.msg&&path!=='/api/key')toast('تم');
+  return j;
+}
+function askPin(){const d=$('#pinDlg');if(!d.open)d.showModal()}
+$('#pinDlg').addEventListener('close',()=>{pin=$('#pinIn').value;sessionStorage.setItem('pin',pin);refresh()});
+
+async function refresh(){
+  const j=await api('/api/status'),el=$('#st');
+  if(j.ok&&j.connected){el.className='on';el.lastChild.textContent='متصل'}
+  else{el.className='off';el.lastChild.textContent='غير متصل'}
+}
+// أزرار المفاتيح مع تكرار عند الضغط المطوّل
+document.querySelectorAll('[data-key]').forEach(b=>{
+  let iv,to;
+  const fire=()=>send('/api/key',{key:b.dataset.key},true);
+  if(b.hasAttribute('data-rep')){
+    b.addEventListener('pointerdown',e=>{e.preventDefault();fire();to=setTimeout(()=>{iv=setInterval(fire,150)},450)});
+    ['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>{clearTimeout(to);clearInterval(iv)}));
+  }else b.addEventListener('click',fire);
+});
+document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>send('/api/action',{name:b.dataset.action})));
+$('#sendUrl').onclick=()=>{const u=$('#url').value.trim();if(u)send('/api/url',{url:u})};
+$('#sendTxt').onclick=async()=>{const t=$('#txt').value;if(t){await send('/api/text',{text:t});$('#txt').value=''}};
+$('#reconnect').onclick=async()=>{toast('جارٍ الاتصال…');const j=await api('/api/connect',{});toast(j.ok?'تم الاتصال':(j.msg||'فشل الاتصال'));refresh()};
+
+(async()=>{
+  const j=await api('/api/apps');
+  if(j.pin_required&&!pin)askPin();
+  (j.apps||[]).forEach(a=>{const b=document.createElement('button');b.textContent=a.name;b.onclick=()=>send('/api/app',{package:a.package});$('#apps').append(b)});
+  refresh();setInterval(refresh,10000);
+})();
+</script>
+</body>
+</html>
