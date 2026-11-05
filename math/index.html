@@ -88,9 +88,10 @@ main{min-width:0;padding-block:24px 80px;padding-left:max(16px,env(safe-area-ins
 @media (max-width:900px){
   .wrap{grid-template-columns:minmax(0,1fr)}
   .menu-btn{display:block}
-  nav.toc{position:fixed;top:calc(env(safe-area-inset-top,0px) + 56px);right:0;bottom:auto;left:auto;width:min(320px,88vw);height:calc(100vh - 56px - env(safe-area-inset-top,0px));height:calc(100dvh - 56px - env(safe-area-inset-top,0px));overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;padding-bottom:calc(60px + env(safe-area-inset-bottom,0px));z-index:25;transform:translateX(105%);transition:transform .25s;box-shadow:-6px 0 30px rgba(0,0,0,.18);background:var(--sheet)}
-  nav.toc.open{transform:none}
-  body.no-scroll{overflow:hidden}
+  nav.toc{display:none;position:static;width:auto;height:auto;overflow:visible;transform:none;box-shadow:none;border:0;padding:12px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px));background:var(--sheet)}
+  nav.toc.open{display:block}
+  body.menu-open main{display:none}
+  .toc a{padding:12px 10px;font-size:1rem}
 }
 
 /* ---------- blocks ---------- */
@@ -2565,9 +2566,8 @@ function route() {
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', route);
-function closeMenu() { toc.classList.remove('open'); $('#ov').classList.remove('show'); document.body.classList.remove('no-scroll'); }
-$('#menu').addEventListener('click', () => { const o = !toc.classList.contains('open'); if (!o) { closeMenu(); return; } toc.classList.add('open'); $('#ov').classList.add('show'); document.body.classList.add('no-scroll'); toc.scrollTop = 0; });
-$('#ov').addEventListener('click', closeMenu);
+function closeMenu() { toc.classList.remove('open'); document.body.classList.remove('menu-open'); $('#menu').textContent = 'الدروس'; }
+$('#menu').addEventListener('click', () => { if (toc.classList.contains('open')) { closeMenu(); return; } toc.classList.add('open'); document.body.classList.add('menu-open'); $('#menu').textContent = '✕ إغلاق'; window.scrollTo(0, 0); });
 toc.addEventListener('click', e => { if (e.target.closest('a')) closeMenu(); });
 updateXP();
 route();
