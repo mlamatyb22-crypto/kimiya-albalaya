@@ -2207,7 +2207,9 @@ const VIDEOS = {
   '4-2': 'https://www.youtube.com/watch?v=G6R0PoKDc1c',
   '4-4': 'https://www.youtube.com/watch?v=S-hc5urW-As'
 };
-const videoURL = L => VIDEOS[L.id] || `${CHANNEL}/search?query=${encodeURIComponent(L.title)}`;
+const PLAYLIST = 'PLvpHm6TjpqQLNnNgIPuhTdv9BC6LjpIpE';
+const PLAYLIST_URL = `https://www.youtube.com/playlist?list=${PLAYLIST}`;
+const videoURL = L => VIDEOS[L.id] ? `https://www.youtube.com/watch?v=${new URL(VIDEOS[L.id]).searchParams.get('v')}&list=${PLAYLIST}` : PLAYLIST_URL;
 
 const SHEETS = [
  {id:'trig', title:'طلائع المتطابقات المثلثية', sub:'وأشهر المتطابقات', lessons:['3-1','3-2','3-3','3-4','3-5'],
@@ -2299,8 +2301,8 @@ function renderSheet(S) {
 /* فهرس الكتاب: الدرس + المقطع + الملخص */
 function renderIndex() {
   main.innerHTML = `<div class="page"><section class="sheet"><div class="sec-h"><span class="tag">الفهرس</span><h2>فهرس الكتاب</h2></div>
-  <p>لكل درس: شرح الأستاذ علي العنبري بالفيديو، وملخص الدرس، وصفحة الكتاب التفاعلية.</p>
-  ${UNITS.map(u => `<h3 class="ix-u">${u.name}</h3><div class="ix">${LESSONS.filter(l => l.unit === u.id).map(l => { const sh = sheetFor(l.id); return `<div class="ix-row"><span class="no">${l.id}</span><span class="t">${l.title}</span><span class="ix-a"><a class="chip vid" href="${videoURL(l)}" target="_blank" rel="noopener">${VIDEOS[l.id] ? '▶ المقطع' : '⌕ ابحث في القناة'}</a><a class="chip" href="#s-${l.id}">الملخص</a>${sh ? `<a class="chip" href="#sheet-${sh.id}">ملخص الفصل</a>` : ''}<a class="chip fill" href="#l-${l.id}">الكتاب</a></span></div>`; }).join('')}</div>`).join('')}
+  <p>لكل درس: شرح الأستاذ علي العنبري بالفيديو، وملخص الدرس، وصفحة الكتاب التفاعلية.</p><p><a class="chip vid" href="${PLAYLIST_URL}" target="_blank" rel="noopener">▶ قائمة تشغيل كل دروس الفصل الدراسي الأول</a></p>
+  ${UNITS.map(u => `<h3 class="ix-u">${u.name}</h3><div class="ix">${LESSONS.filter(l => l.unit === u.id).map(l => { const sh = sheetFor(l.id); return `<div class="ix-row"><span class="no">${l.id}</span><span class="t">${l.title}</span><span class="ix-a"><a class="chip vid" href="${videoURL(l)}" target="_blank" rel="noopener">${VIDEOS[l.id] ? '▶ المقطع' : '▶ قائمة الدروس'}</a><a class="chip" href="#s-${l.id}">الملخص</a>${sh ? `<a class="chip" href="#sheet-${sh.id}">ملخص الفصل</a>` : ''}<a class="chip fill" href="#l-${l.id}">الكتاب</a></span></div>`; }).join('')}</div>`).join('')}
   </section></div>`;
 }
 
@@ -2386,7 +2388,7 @@ function renderLesson(L) {
     <div class="unit">${unitName(L.unit)}</div>
     <h1><span class="num">${L.id}</span>${L.title}</h1>
     <p class="goal"><b>هدف الدرس:</b> ${T(L.goal)}</p>
-    <div class="start-row"><a class="start vid" href="${videoURL(L)}" target="_blank" rel="noopener"><b>${VIDEOS[L.id] ? '▶ شاهد شرح الدرس' : '⌕ شرح الدرس في قناة الأستاذ'}</b><span>${VIDEOS[L.id] ? 'مقطع الأستاذ علي العنبري على يوتيوب' : 'بحث عن الدرس داخل قناة علي العنبري'}</span></a><a class="start" href="#s-${L.id}"><b>ملخص الدرس</b><span>الفكرة والقوانين في صفحة واحدة</span></a>${sheetFor(L.id) ? `<a class="start" href="#sheet-${sheetFor(L.id).id}"><b>${sheetFor(L.id).title}</b><span>الملخص الشامل للفصل</span></a>` : ''}</div>
+    <div class="start-row"><a class="start vid" href="${videoURL(L)}" target="_blank" rel="noopener"><b>${VIDEOS[L.id] ? '▶ شاهد شرح الدرس' : '▶ شرح الدرس في قائمة التشغيل'}</b><span>${VIDEOS[L.id] ? 'مقطع الأستاذ علي العنبري على يوتيوب' : 'قائمة دروس الأستاذ علي العنبري، اختر: ' + L.title}</span></a><a class="start" href="#s-${L.id}"><b>ملخص الدرس</b><span>الفكرة والقوانين في صفحة واحدة</span></a>${sheetFor(L.id) ? `<a class="start" href="#sheet-${sheetFor(L.id).id}"><b>${sheetFor(L.id).title}</b><span>الملخص الشامل للفصل</span></a>` : ''}</div>
     <div class="steps-nav">${[['s-idea', 'الفكرة'], ['s-lab', 'جرّب بنفسك'], ['s-ex', 'مثال محلول'], ['s-rules', 'القوانين'], ['s-rq', 'أسئلة القوانين'], ['s-qs', 'تدرّب'], ['s-hots', 'التفكير العليا']].map(([i, t]) => `<a href="#l-${L.id}" data-go="${i}">${t}</a>`).join('')}</div>
   </header>
   <section class="sheet idea" id="s-idea"><div class="sec-h"><span class="tag">١ · افهم</span><h2>الفكرة الأساسية</h2></div>${L.idea.map(p => `<p>${T(p)}</p>`).join('')}<div class="tip"><b>تذكّر:</b> ${T(L.tip)}</div></section>
