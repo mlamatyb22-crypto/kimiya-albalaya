@@ -1,0 +1,2567 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="رياضياتنا حياة: كتاب رياضيات تفاعلي لثالث ثانوي مسارات">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>رياضياتنا حياة</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;700&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+/* Layout: دفتر رسم بياني — شريط فهرس جانبي على الشاشات الواسعة، وصفحة درس متسلسلة (فكرة ← تجربة ← مثال ← قوانين ← أسئلة ← تفكير عليا). الوضع الداكن = سبورة. */
+:root{
+  --paper:#f7f8f4; --sheet:#ffffff; --grid:#e3e8ef; --ink:#1d2a44; --muted:#5b6780;
+  --blue:#1f5fbf; --blue-soft:#e4edfb; --marker:#ffd84d; --marker-soft:#fff5c7;
+  --ok:#1d8a5b; --ok-soft:#e1f4ea; --bad:#c8413a; --bad-soft:#fbe6e4;
+  --plum:#7b3fa8; --plum-soft:#f1e8f8; --line:#d5dbe5;
+  --c1:#1f5fbf; --c2:#d9542b; --c3:#1d8a5b; --c4:#7b3fa8; --axis:#33405a; --gridln:#e6eaf1;
+  --f-display:"Reem Kufi","IBM Plex Sans Arabic",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
+  --f-math:"STIX Two Text","Cambria Math","Times New Roman",serif;
+  --r:12px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#18221f; --sheet:#1f2b27; --grid:#26332f; --ink:#eef2ea; --muted:#a9b8b0;
+  --blue:#8fc1ff; --blue-soft:#243a4a; --marker:#ffe27a; --marker-soft:#3b3a22;
+  --ok:#7fdcaa; --ok-soft:#1f3a2f; --bad:#ff9a8f; --bad-soft:#43272a;
+  --plum:#d6a8ff; --plum-soft:#34283f; --line:#33433d;
+  --c1:#8fc1ff; --c2:#ffab7a; --c3:#7fdcaa; --c4:#d6a8ff; --axis:#d7e0da; --gridln:#2b3a35;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#18221f; --sheet:#1f2b27; --grid:#26332f; --ink:#eef2ea; --muted:#a9b8b0;
+  --blue:#8fc1ff; --blue-soft:#243a4a; --marker:#ffe27a; --marker-soft:#3b3a22;
+  --ok:#7fdcaa; --ok-soft:#1f3a2f; --bad:#ff9a8f; --bad-soft:#43272a;
+  --plum:#d6a8ff; --plum-soft:#34283f; --line:#33433d;
+  --c1:#8fc1ff; --c2:#ffab7a; --c3:#7fdcaa; --c4:#d6a8ff; --axis:#d7e0da; --gridln:#2b3a35;
+  color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.75;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--sheet)}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.35;margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+a{color:var(--blue)}
+
+/* ---------- math ---------- */
+.m{font-family:var(--f-math);font-size:1.08em;white-space:nowrap;unicode-bidi:isolate;direction:ltr;display:inline-block}
+.m i{font-style:italic}
+.m .fn{font-style:normal}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .12em;font-size:.92em}
+.fr>.nu{border-bottom:1.3px solid currentColor;padding:0 .2em;line-height:1.25}
+.fr>.de{padding:0 .2em;line-height:1.25}
+.rt{display:inline-flex;align-items:flex-start;white-space:nowrap}
+.rt .rs{font-size:1.05em;line-height:1}
+.rt .rc{border-top:1.3px solid currentColor;padding:0 .1em;margin-top:.12em;line-height:1.2}
+.rt .ri{font-size:.62em;margin-left:.1em;margin-right:-.45em;line-height:1}
+.m sup,.m sub{font-size:.72em}
+
+/* ---------- shell ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--sheet);border-bottom:1px solid var(--line);
+  padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;align-items:center;gap:12px}
+.top .brand{font-family:var(--f-display);font-size:1.15rem;font-weight:700;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:8px;min-width:0}
+.top .brand b{background:var(--marker);color:#1d2a44;padding:0 8px;border-radius:6px}
+.top .sp{flex:1}
+.xp{display:flex;align-items:center;gap:6px;font-weight:700;font-variant-numeric:tabular-nums;background:var(--marker-soft);padding:2px 12px;border-radius:999px;white-space:nowrap}
+.menu-btn{border:1px solid var(--line);background:var(--sheet);border-radius:10px;padding:4px 12px;display:none;white-space:nowrap}
+.top .brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:420px){.top .brand span{font-size:1rem}.xp>span:first-child{display:none}}
+.wrap{display:grid;grid-template-columns:290px minmax(0,1fr);gap:0;max-width:1280px;margin:0 auto}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);align-self:start;height:calc(100vh - 70px);overflow:auto;padding:18px 12px 40px;border-left:1px solid var(--line);background:color-mix(in srgb,var(--sheet) 82%,transparent)}
+.toc h4{font-family:var(--f-display);font-size:.95rem;margin:16px 8px 6px;color:var(--muted);font-weight:500}
+.toc a{display:flex;gap:8px;align-items:center;padding:6px 10px;border-radius:8px;text-decoration:none;color:var(--ink);font-size:.93rem;line-height:1.4}
+.toc a:hover{background:var(--blue-soft)}
+.toc a.on{background:var(--blue);color:var(--sheet)}
+.toc a .no{font-family:var(--f-math);font-variant-numeric:tabular-nums;min-width:2.2em;direction:ltr;text-align:center;opacity:.8}
+.toc a .st{margin-inline-start:auto;font-size:.8rem;letter-spacing:1px;color:var(--marker);text-shadow:0 0 1px #8a6d00}
+.toc a.on .st{color:var(--marker)}
+.toc .tools a{font-weight:600}
+main{min-width:0;padding-block:24px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.page{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+@media (max-width:900px){
+  .wrap{grid-template-columns:minmax(0,1fr)}
+  .menu-btn{display:block}
+  nav.toc{position:fixed;inset:calc(env(safe-area-inset-top,0px) + 56px) 0 0 auto;width:min(320px,88vw);height:auto;z-index:25;transform:translateX(105%);transition:transform .25s;box-shadow:-6px 0 30px rgba(0,0,0,.18);background:var(--sheet)}
+  nav.toc.open{transform:none}
+}
+
+/* ---------- blocks ---------- */
+.sheet{background:var(--sheet);border:1px solid var(--line);border-radius:var(--r);padding:20px clamp(16px,3vw,28px)}
+.sec-h{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sec-h .tag{font-family:var(--f-display);font-size:.8rem;letter-spacing:.5px;padding:2px 10px;border-radius:999px;background:var(--blue-soft);color:var(--blue)}
+.sec-h h2{font-size:1.3rem}
+.hero-l{padding:26px clamp(16px,3vw,30px);border-radius:var(--r);background:var(--blue);color:#fff;position:relative;overflow:hidden}
+:root[data-theme="dark"] .hero-l{color:#10201a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .hero-l{color:#10201a}}
+.hero-l .unit{font-size:.9rem;opacity:.85}
+.hero-l h1{font-size:clamp(1.6rem,4vw,2.3rem);margin-top:4px}
+.hero-l h1 .num{font-family:var(--f-math);direction:ltr;display:inline-block;background:var(--marker);color:#1d2a44;border-radius:8px;padding:0 10px;margin-inline-end:10px}
+.hero-l .goal{margin-top:10px;max-width:60ch;opacity:.95}
+.steps-nav{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.steps-nav a{font-size:.85rem;text-decoration:none;color:inherit;border:1px solid color-mix(in srgb,currentColor 40%,transparent);padding:2px 12px;border-radius:999px}
+.steps-nav a:hover{background:color-mix(in srgb,currentColor 15%,transparent)}
+.idea p{margin:0 0 10px;max-width:68ch}
+.tip{border-inline-start:5px solid var(--marker);background:var(--marker-soft);padding:10px 14px;border-radius:8px;margin-top:8px}
+.tip b{font-family:var(--f-display)}
+
+/* lab */
+.lab{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:720px){.lab{grid-template-columns:minmax(0,1fr)}}
+.cv-box{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--sheet)}
+.cv-box canvas{display:block;width:100%;aspect-ratio:1/1;max-width:100%;touch-action:none}
+.ctrls{display:flex;flex-direction:column;gap:12px;min-width:0}
+.ctrl label{display:flex;justify-content:space-between;gap:8px;font-size:.92rem;font-weight:600}
+.ctrl label output{font-family:var(--f-math);direction:ltr;font-variant-numeric:tabular-nums;background:var(--blue-soft);color:var(--blue);padding:0 8px;border-radius:6px}
+.ctrl input[type=range]{width:100%;accent-color:var(--blue)}
+.ctrl select{width:100%;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--sheet);color:var(--ink);font:inherit;font-family:var(--f-math)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1px solid var(--line);background:var(--sheet);border-radius:8px;padding:3px 10px;font-size:.9rem}
+.seg button.on{background:var(--blue);color:var(--sheet);border-color:var(--blue)}
+.readout{background:var(--paper);border:1px dashed var(--line);border-radius:10px;padding:10px 12px;font-size:.95rem;line-height:1.9}
+.readout .big{font-family:var(--f-display);font-size:1.05rem}
+.badge{display:inline-block;padding:0 10px;border-radius:999px;font-weight:700;font-size:.9rem}
+.badge.ok{background:var(--ok-soft);color:var(--ok)}
+.badge.bad{background:var(--bad-soft);color:var(--bad)}
+.badge.inf{background:var(--plum-soft);color:var(--plum)}
+.play{display:inline-flex;align-items:center;gap:6px;border:0;background:var(--ink);color:var(--sheet);border-radius:999px;padding:5px 16px;font-weight:600;align-self:flex-start}
+.lab-note{font-size:.85rem;color:var(--muted);margin-top:8px}
+
+/* example */
+.ex-q{font-weight:600;margin-bottom:10px}
+.ex-steps{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;counter-reset:st}
+.ex-steps li{counter-increment:st;display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-radius:8px;background:var(--paper);animation:pop .3s ease}
+.ex-steps li::before{content:counter(st);font-family:var(--f-math);flex:none;width:1.7em;height:1.7em;display:grid;place-items:center;border-radius:50%;background:var(--blue);color:var(--sheet);font-size:.85rem}
+.ex-steps li.final{background:var(--ok-soft)}
+@keyframes pop{from{transform:translateY(6px);opacity:.3}to{transform:none;opacity:1}}
+.btn{border:1px solid var(--blue);background:var(--sheet);color:var(--blue);border-radius:999px;padding:5px 16px;font-weight:600}
+.btn.fill{background:var(--blue);color:var(--sheet)}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+
+/* rules */
+.rules{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.rule{perspective:900px;min-height:150px;border:0;background:none;padding:0;text-align:inherit}
+.rule .in{position:relative;width:100%;height:100%;min-height:150px;transition:transform .5s;transform-style:preserve-3d}
+.rule.flip .in{transform:rotateY(180deg)}
+.rule .fa,.rule .fb{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px;overflow:auto}
+.rule .fa{background:var(--marker-soft);border:1px solid color-mix(in srgb,var(--marker) 60%,var(--line))}
+.rule .fb{background:var(--sheet);border:2px solid var(--blue);transform:rotateY(180deg);justify-content:center}
+.rule .nm{font-family:var(--f-display);font-size:1.02rem}
+.rule .hint{font-size:.82rem;color:var(--muted);margin-top:auto}
+.rule .fb .fx{font-size:1.02rem;line-height:2}
+.rule .kn{position:absolute;top:8px;left:10px;font-size:.78rem;padding:0 8px;border-radius:999px;background:var(--ok-soft);color:var(--ok);font-weight:700}
+.memo-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:.92rem}
+.meter{flex:1;min-width:140px;height:10px;border-radius:999px;background:var(--paper);border:1px solid var(--line);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--ok);width:0;transition:width .4s}
+
+/* quiz */
+.qs{display:flex;flex-direction:column;gap:14px;counter-reset:q}
+.q{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--sheet)}
+.q .qt{font-weight:600;display:flex;gap:8px}
+.q .qt::before{counter-increment:q;content:counter(q);font-family:var(--f-math);flex:none;color:var(--blue);font-weight:700}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin-top:10px}
+.opt{border:1.5px solid var(--line);background:var(--paper);border-radius:10px;padding:8px 12px;text-align:start;display:flex;gap:8px;align-items:center;min-width:0}
+.opt .k{font-family:var(--f-math);flex:none;width:1.6em;height:1.6em;border-radius:50%;display:grid;place-items:center;background:var(--sheet);border:1px solid var(--line);font-size:.85rem}
+.opt:hover:not([disabled]){border-color:var(--blue)}
+.opt.ok{border-color:var(--ok);background:var(--ok-soft)}
+.opt.bad{border-color:var(--bad);background:var(--bad-soft);animation:shake .3s}
+.opt[disabled]{cursor:default}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.fb-msg{margin-top:10px;padding:8px 12px;border-radius:8px;font-size:.95rem}
+.fb-msg.ok{background:var(--ok-soft)}
+.fb-msg.bad{background:var(--bad-soft)}
+.score-line{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;font-weight:600}
+
+/* HOTS */
+.hots{display:flex;flex-direction:column;gap:12px}
+.hot{border:1.5px solid var(--plum);border-radius:12px;padding:14px 16px;background:var(--plum-soft)}
+.hot .lvl{font-size:.78rem;font-weight:700;color:var(--plum);letter-spacing:.3px}
+.hot .qt{font-weight:600;margin:4px 0 8px}
+.hot .rev{margin-top:10px;padding:10px 12px;border-radius:8px;background:var(--sheet)}
+.hot .btn{border-color:var(--plum);color:var(--plum)}
+.hot textarea{width:100%;min-height:64px;border-radius:8px;border:1px solid var(--line);background:var(--sheet);color:var(--ink);font:inherit;padding:8px}
+
+/* home */
+.cover{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:18px;padding:clamp(18px,4vw,36px);overflow:hidden}
+@media (max-width:720px){.cover{grid-template-columns:minmax(0,1fr)}}
+.cover h1{font-size:clamp(2rem,6vw,3.2rem)}
+.cover h1 mark{background:linear-gradient(transparent 55%,var(--marker) 55%);color:inherit;padding:0 4px}
+.cover p{max-width:52ch;color:var(--muted)}
+.cover canvas{width:100%;aspect-ratio:1/1;max-width:100%}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:600px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.stat b{display:block;font-family:var(--f-math);font-size:1.6rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:.85rem;color:var(--muted)}
+.units{display:flex;flex-direction:column;gap:18px}
+.unit-card h2{font-size:1.2rem;margin-bottom:10px}
+.lesson-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.lcard{display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--paper)}
+.lcard:hover{border-color:var(--blue)}
+.lcard .no{font-family:var(--f-math);color:var(--blue);direction:ltr;text-align:end;font-weight:600}
+.lcard .t{font-weight:600;line-height:1.5}
+.lcard .stars{color:#e0b000;letter-spacing:2px;font-size:.95rem}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:6px}
+.how div{background:var(--paper);border-radius:10px;padding:10px 12px;font-size:.9rem}
+.how b{display:block;font-family:var(--f-display)}
+
+/* flash */
+.flash-stage{display:flex;flex-direction:column;align-items:center;gap:14px}
+.flash{width:min(520px,100%);min-height:230px;perspective:1000px;border:0;background:none;padding:0}
+.flash .in{position:relative;min-height:230px;transition:transform .5s;transform-style:preserve-3d}
+.flash.flip .in{transform:rotateY(180deg)}
+.flash .fa,.flash .fb{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;padding:22px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:8px}
+.flash .fa{background:var(--marker-soft);border:2px solid var(--marker)}
+.flash .fb{background:var(--sheet);border:2px solid var(--blue);transform:rotateY(180deg);font-size:1.12rem;line-height:2.1}
+.flash .les{font-size:.85rem;color:var(--muted)}
+.flash .nm{font-family:var(--f-display);font-size:1.4rem}
+.pager{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.toast{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(120px);background:var(--ink);color:var(--sheet);padding:10px 18px;border-radius:999px;font-weight:600;z-index:40;transition:transform .3s;max-width:calc(100vw - 32px);text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:22;display:none}
+.overlay.show{display:block}
+@media (min-width:901px){.overlay{display:none!important}}
+</style>
+</head>
+<body>
+<style>
+.m .lim{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.05}
+.m .lim .ls{font-size:.62em}
+.cover-lab canvas{aspect-ratio:1/1}
+
+.start-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.start{flex:1 1 180px;min-width:0;display:flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--ink);background:var(--sheet);border-radius:12px;padding:10px 14px;border:2px solid transparent}
+.start span{font-size:.82rem;color:var(--muted)}
+.start.vid{background:var(--marker);color:#1d2a44}
+.start.vid span{color:#3b4660}
+.start:hover{border-color:var(--marker)}
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.sum-box{border-radius:14px;padding:14px 16px;border:1.5px solid var(--line);min-width:0}
+.sum-box.c0{background:var(--blue-soft)}.sum-box.c1{background:var(--marker-soft)}.sum-box.c2{background:var(--ok-soft)}.sum-box.c3{background:var(--plum-soft)}.sum-box.c4{background:var(--bad-soft)}
+.sum-box h3{font-size:1rem;display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.sum-box h3 .n{font-family:var(--f-math);width:1.7em;height:1.7em;flex:none;display:grid;place-items:center;border-radius:50%;background:var(--ink);color:var(--sheet);font-size:.85rem}
+.sum-box ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.sum-box .fx{background:var(--sheet);border-radius:8px;padding:6px 10px;overflow-x:auto;line-height:2.1;cursor:pointer;transition:filter .2s}
+.sum-box .note{font-size:.85rem;color:var(--muted);margin:8px 0 0}
+.quiz-mode .fx{filter:blur(7px)}
+.quiz-mode .fx.peek{filter:none}
+ul.tips{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:6px}
+.ix-u{font-size:1.05rem;margin:18px 0 8px}
+.ix{display:flex;flex-direction:column;gap:6px}
+.ix-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--paper)}
+.ix-row .no{font-family:var(--f-math);color:var(--blue);font-weight:600;min-width:2.4em}
+.ix-row .t{flex:1 1 200px;min-width:0;font-weight:600}
+.ix-a{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:.85rem;text-decoration:none;padding:2px 12px;border-radius:999px;border:1px solid var(--blue);color:var(--blue);background:var(--sheet);white-space:nowrap}
+.chip.fill{background:var(--blue);color:var(--sheet)}
+.chip.vid{background:var(--marker);border-color:var(--marker);color:#1d2a44}
+</style>
+<div dir="rtl" lang="ar">
+<header class="top">
+  <button type="button" class="menu-btn" id="menu" aria-label="فتح الفهرس">☰ الفهرس</button>
+  <a class="brand" href="#home"><b>ر</b><span>رياضياتنا حياة</span></a>
+  <span class="sp"></span>
+  <span class="xp" title="نقاطك"><span>نقاطي</span><span id="xpv">0</span></span>
+</header>
+<div class="overlay" id="ov"></div>
+<div class="wrap">
+  <nav class="toc" id="toc" aria-label="فهرس الدروس"></nav>
+  <main id="main"></main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+</div>
+<script>
+/* المحتوى: مبني على "الخطة الإثرائية والعلاجية — رياضيات" (ثالث ثانوي مسارات).
+   صيغة الرياضيات داخل $...$ : @frac{a}{b} ، @sqrt{x} ، @sqrt[3]{x} ، x^{2} ، a_{1}
+   سؤال اختيار: [نص, [خيارات], رقم الصحيح, شرح]
+   تفكير عليا: [المستوى, السؤال, تلميح, إجابة نموذجية]
+   قانون: [الاسم, الصيغة] */
+const UNITS = [
+ {id:'u1', name:'الفصل الأول: تحليل الدوال'},
+ {id:'u2', name:'الفصل الثاني: العلاقات والدوال الأسية واللوغاريتمية'},
+ {id:'u3', name:'الفصل الثالث: المتطابقات والمعادلات المثلثية'},
+ {id:'u4', name:'الفصل الرابع: القطوع المخروطية'}
+];
+
+const LESSONS = [
+/* ======================= 1-1 ======================= */
+{id:'1-1', unit:'u1', title:'الدوال', lab:'vlt',
+ goal:'أميّز الدالة من العلاقة، وأكتب المجموعات برمز الفترة، وأحدد مجال الدالة.',
+ idea:[
+  'العلاقة تربط عناصر المجال (المدخلات $x$) بعناصر المدى (المخرجات $y$). تكون العلاقة <b>دالة</b> إذا ارتبط كل عنصر من المجال بعنصر <b>واحد فقط</b> من المدى.',
+  'بيانيًا نستعمل <b>اختبار الخط الرأسي</b>: إذا قطع أي خط رأسي المنحنى في أكثر من نقطة فالعلاقة ليست دالة.',
+  'ولتحديد المجال جبريًا نبحث عن القيم الممنوعة: المقام لا يساوي صفرًا، وما تحت الجذر التربيعي لا يكون سالبًا.'
+ ],
+ tip:'القوس المربع [ ] يعني أن الطرف داخل الفترة، والقوس الهلالي ( ) يعني أنه خارجها، و $∞$ يأخذ دائمًا قوسًا هلاليًا.',
+ rules:[
+  ['تعريف الدالة','كل $x$ في المجال يرتبط بقيمة <b>واحدة فقط</b> من $y$'],
+  ['اختبار الخط الرأسي','إذا قطع خطٌّ رأسي المنحنى في أكثر من نقطة ⇐ ليست دالة'],
+  ['فترة مغلقة / مفتوحة','$a ≤ x ≤ b ⇔ [a,b]$<br>$a < x < b ⇔ (a,b)$'],
+  ['فترات غير محدودة','$x ≥ a ⇔ [a,∞)$<br>$x < a ⇔ (−∞,a)$'],
+  ['مجال الكسر','المقام $≠ 0$'],
+  ['مجال الجذر','ما تحت الجذر الزوجي $≥ 0$ ، وإن كان الجذر في المقام فهو $> 0$']
+ ],
+ rq:[
+  ['أي رمز يُستعمل دائمًا مع $∞$ ؟',['قوس هلالي ( )','قوس مربع [ ]','أي قوس','لا يُكتب'],0,'اللانهاية ليست عددًا يمكن الوصول إليه؛ لذا لا تنتمي للفترة.'],
+  ['المتباينة $x ≤ −2$ برمز الفترة هي:',['$(−∞,−2]$','$(−∞,−2)$','$[−2,∞)$','$(−2,∞)$'],0,'$−2$ داخلة (≤) فنستعمل [ ، والطرف الآخر $−∞$.'],
+  ['لماذا لا تمثل الدائرة دالة؟',['لأن خطًا رأسيًا يقطعها في نقطتين','لأنها منحنى مغلق','لأن مداها محدود','لأنها لا تمر بنقطة الأصل'],0,'فشلت في اختبار الخط الرأسي: لنفس $x$ قيمتان لـ $y$.'],
+  ['شرط مجال $f(x) = @sqrt{x−3}$ هو:',['$x ≥ 3$','$x > 3$','$x ≠ 3$','$x ≤ 3$'],0,'ما تحت الجذر $≥ 0$ ⇐ $x − 3 ≥ 0$.']
+ ],
+ ex:{q:'إذا كانت $g(x) = x + 45$ عندما $x ≤ −1$ ، و $g(x) = 81 − x$ عندما $x > −1$ ، فأوجد $g(−5)$ و $g(36)$.',
+  s:['نحدد أي قاعدة نستعمل: $−5 ≤ −1$ ⇐ نستعمل $x + 45$.','$g(−5) = −5 + 45 = 40$','$36 > −1$ ⇐ نستعمل $81 − x$.','$g(36) = 81 − 36 = 45$']},
+ qs:[
+  ['إذا كانت $f(x) = x^{2} − 2x$ فما قيمة $f(4)$ ؟',['$−8$','$0$','$8$','$24$'],2,'$16 − 8 = 8$'],
+  ['إذا كانت $f(x) = 4x^{3} + 6x^{2} + 3x$ فإن $f(−2)$ =',['$−14$','$−50$','$14$','$−2$'],0,'$4(−8) + 6(4) + 3(−2) = −32 + 24 − 6 = −14$'],
+  ['إذا كانت $f(x) = |4x|$ عندما $x < −2$ ، و $f(x) = x^{3} − 1$ عندما $x ≥ −2$ ، فإن $f(−2)$ =',['$8$','$−7$','$−8$','$−9$'],3,'$−2 ≥ −2$ ⇐ القاعدة الثانية: $(−2)^{3} − 1 = −9$'],
+  ['أي العبارات صحيحة دائمًا؟',['الدالة لا تمثل علاقة','العلاقة لا تكون دالة','كل دالة تمثل علاقة','كل علاقة تمثل دالة'],2,'الدالة نوع خاص من العلاقات.'],
+  ['مجال الدالة $h(x) = @frac{@sqrt{2x−3}}{x−5}$ هو:',['$x ≠ 5$','$x ≥ @frac{3}{2}$','$x ≥ @frac{3}{2} , x ≠ 5$','$x ≠ @frac{3}{2}$'],2,'الجذر: $2x − 3 ≥ 0$ ، والمقام: $x ≠ 5$.'],
+  ['إذا كانت $f(x) = −2@sqrt{x^{2}}$ فإن $f(8 + x)$ =',['$−2@sqrt{x^{2} + 8}$','$@sqrt{−2x^{2} − 128}$','$−2@sqrt{x^{2} + 64}$','$−2@sqrt{x^{2} + 16x + 64}$'],3,'$(8 + x)^{2} = x^{2} + 16x + 64$'],
+  ['مجال $f(x) = @frac{5x}{@sqrt{4x − 1}}$ هو:',['$(@frac{1}{4}, ∞)$','$[@frac{1}{4}, ∞)$','$x ≠ @frac{1}{4}$','$ℝ$'],0,'الجذر في المقام: $4x − 1 > 0$.']
+ ],
+ hots:[
+  ['تحليل','هل يمكن أن يكون مدى دالة عنصرًا واحدًا بينما مجالها جميع الأعداد الحقيقية؟ أعطِ مثالًا.','فكّر في دالة لا تتغير قيمتها.','نعم، الدالة الثابتة مثل $f(x) = 7$ : مجالها $ℝ$ ومداها $\{7\}$.'],
+  ['إبداع','اكتب دالة مجالها جميع الأعداد الحقيقية ما عدا $2$ و $−3$.','ما الذي يجعل قيمة ممنوعة؟ المقام!','$f(x) = @frac{1}{(x − 2)(x + 3)}$'],
+  ['تبرير','طالب قال: «$x = y^{2}$ تمثل $y$ دالة في $x$». هل هو محق؟ برّر.','عوّض $x = 4$ وأوجد $y$.','غير محق؛ عند $x = 4$ يكون $y = 2$ أو $y = −2$ ، فلقيمة $x$ واحدة قيمتان.']
+ ]},
+
+/* ======================= 1-2 ======================= */
+{id:'1-2', unit:'u1', title:'تحليل التمثيلات البيانية للدوال والعلاقات', lab:'sym',
+ goal:'أقدّر المقطعين والأصفار من التمثيل البياني، وأختبر التماثل، وأميز الدالة الزوجية والفردية.',
+ idea:[
+  '<b>مقطع $y$</b> هو $f(0)$، و<b>مقاطع $x$</b> هي <b>أصفار الدالة</b>: القيم التي تجعل $f(x) = 0$.',
+  'يكون المنحنى متماثلًا حول المحور $y$ إذا كانت النقطة $(−x, y)$ عليه كلما كانت $(x, y)$ عليه، ومتماثلًا حول نقطة الأصل إذا كانت $(−x, −y)$ عليه.',
+  'الدالة المتماثلة حول المحور $y$ تسمى <b>زوجية</b>، والمتماثلة حول الأصل تسمى <b>فردية</b>.'
+ ],
+ tip:'التماثل حول المحور $x$ يكون للعلاقات فقط (ليس للدوال)، لأنه يجعل لقيمة $x$ واحدة قيمتين لـ $y$.',
+ rules:[
+  ['أصفار الدالة','حل المعادلة $f(x) = 0$'],
+  ['مقطع y','$f(0)$'],
+  ['تماثل حول المحور x','ضع $−y$ مكان $y$ فتحصل على المعادلة نفسها'],
+  ['تماثل حول المحور y','ضع $−x$ مكان $x$ فتحصل على المعادلة نفسها'],
+  ['تماثل حول الأصل','ضع $−x$ مكان $x$ و $−y$ مكان $y$'],
+  ['زوجية / فردية','زوجية: $f(−x) = f(x)$<br>فردية: $f(−x) = −f(x)$']
+ ],
+ rq:[
+  ['الدالة الفردية متماثلة حول:',['المحور $x$','المحور $y$','المستقيم $y = x$','نقطة الأصل'],3,'$f(−x) = −f(x)$ تعني أن $(−x, −y)$ على المنحنى.'],
+  ['أي الدوال الآتية فردية؟',['$f(x) = −x^{3} + 4$','$f(x) = 2x^{3}$','$f(x) = x^{4} − 9$','$f(x) = x^{4} + 4x$'],1,'$f(−x) = 2(−x)^{3} = −2x^{3} = −f(x)$'],
+  ['أي العلاقات الآتية متماثلة حول المحور $x$ ؟',['$xy = 2$','$x = y^{2}$','$y = x^{2}$','$y = 3$'],1,'بوضع $−y$: $x = (−y)^{2} = y^{2}$ المعادلة نفسها.'],
+  ['لإيجاد مقطع $y$ نعوّض:',['$x = 0$','$y = 0$','$x = 1$','$f(x) = x$'],0,'مقطع $y$ هو قيمة الدالة عند $x = 0$.']
+ ],
+ ex:{q:'حدد ما إذا كانت $h(x) = x^{5} − 17x^{3} + 16x$ زوجية أم فردية أم غير ذلك.',
+  s:['نحسب $h(−x) = (−x)^{5} − 17(−x)^{3} + 16(−x)$','$= −x^{5} + 17x^{3} − 16x$','$= −(x^{5} − 17x^{3} + 16x) = −h(x)$','إذن الدالة <b>فردية</b> ومتماثلة حول نقطة الأصل.']},
+ qs:[
+  ['ما صفر الدالة $g(x) = 3x − 2$ ؟',['$−2$','$−@frac{3}{2}$','$−@frac{2}{3}$','$@frac{2}{3}$'],3,'$3x − 2 = 0 ⇐ x = @frac{2}{3}$'],
+  ['مقطع $y$ للدالة $f(x) = @frac{x^{3} + 6}{2}$ هو:',['$@sqrt[3]{−6}$','$−3$','$2$','$3$'],3,'$f(0) = @frac{6}{2} = 3$'],
+  ['ما صفر الدالة $g(x) = −@frac{2}{3}x − 12$ ؟',['$−12$','$−18$','$12$','$18$'],1,'$−@frac{2}{3}x = 12 ⇐ x = −18$'],
+  ['الدالة $h(x) = x^{6} + 4$ :',['زوجية','فردية','غير ذلك','زوجية وفردية'],0,'$(−x)^{6} = x^{6}$'],
+  ['صفر الدالة $f(x) = 2@sqrt{x + 12} − 8$ هو:',['$4$','$−8$','$16$','$−12$'],0,'$@sqrt{x + 12} = 4 ⇐ x + 12 = 16 ⇐ x = 4$'],
+  ['صفر الدالة $f(x) = @frac{4x − 1}{x}$ هو:',['$@frac{1}{4}$','$0$','$4$','$−@frac{1}{4}$'],0,'البسط $= 0$ ⇐ $x = @frac{1}{4}$ (والمقام لا يساوي صفرًا).']
+ ],
+ hots:[
+  ['تبرير','هل يمكن لدالة غير صفرية أن تكون متماثلة حول المحور $x$ ؟ لماذا؟','ارسم نقطة وصورتها حول المحور $x$ ثم طبّق اختبار الخط الرأسي.','لا؛ لأن $(x, y)$ و $(x, −y)$ تقعان على خط رأسي واحد فتفشل في اختبار الخط الرأسي.'],
+  ['تحليل','هل توجد دالة زوجية وفردية في الوقت نفسه؟','يجب أن يكون $f(x) = f(−x) = −f(x)$.','نعم، الدالة $f(x) = 0$ فقط؛ لأن $f(x) = −f(x)$ تعطي $f(x) = 0$.'],
+  ['استنتاج','إذا كانت $f$ دالة فردية ومعرّفة عند $0$ ، فما قيمة $f(0)$ ؟','عوّض $x = 0$ في $f(−x) = −f(x)$.','$f(0) = −f(0) ⇐ f(0) = 0$ ، أي أن منحناها يمر بنقطة الأصل.']
+ ]},
+
+/* ======================= 1-3 ======================= */
+{id:'1-3', unit:'u1', title:'الاتصال والنهايات', lab:'cont',
+ goal:'أحدد اتصال الدالة ونوع عدم الاتصال، وأقرّب الأصفار، وأصف سلوك طرفي التمثيل البياني.',
+ idea:[
+  'تكون الدالة <b>متصلة</b> عند $x = c$ إذا تحققت ثلاثة شروط: $f(c)$ معرّفة، والنهاية $@lim_{x→c} f(x)$ موجودة، والنهاية تساوي $f(c)$.',
+  'أنواع عدم الاتصال ثلاثة: <b>لا نهائي</b> (خط تقارب رأسي)، و<b>قفزي</b> (تختلف النهايتان من اليمين واليسار)، و<b>قابل للإزالة</b> (فجوة في المنحنى).',
+  '<b>سلوك الطرفين</b> يصف ماذا يحدث لـ $f(x)$ عندما $x → ∞$ أو $x → −∞$.'
+ ],
+ tip:'إذا كانت الدالة متصلة على $[a,b]$ وتغيرت إشارة $f(a)$ و $f(b)$ فيوجد صفر واحد على الأقل بينهما.',
+ rules:[
+  ['شروط الاتصال عند c','① $f(c)$ معرفة ② $@lim_{x→c} f(x)$ موجودة ③ $@lim_{x→c} f(x) = f(c)$'],
+  ['عدم اتصال لا نهائي','$f(x) → ±∞$ عند الاقتراب من $c$ (مثل $@frac{1}{x}$ عند $0$)'],
+  ['عدم اتصال قفزي','$@lim_{x→c^{−}} f(x) ≠ @lim_{x→c^{+}} f(x)$'],
+  ['قابل للإزالة','النهاية موجودة لكن $f(c)$ غير معرفة أو لا تساويها (فجوة)'],
+  ['موقع الصفر','$f$ متصلة و $f(a)·f(b) < 0$ ⇐ يوجد صفر في $(a,b)$'],
+  ['سلوك الطرفين','نهتم بـ $@lim_{x→∞} f(x)$ و $@lim_{x→−∞} f(x)$']
+ ],
+ rq:[
+  ['أي الدوال الآتية لها عدم اتصال قابل للإزالة؟',['$@frac{x}{x+3}$','$@frac{x^{2} − 4}{x + 2}$','$@frac{1}{x + 3}$','$x^{3} − 3$'],1,'$@frac{(x−2)(x+2)}{x+2} = x − 2$ مع فجوة عند $x = −2$.'],
+  ['أي الدوال الآتية لها عدم اتصال لا نهائي؟',['دالة قفزية $2$ ثم $3$','$@frac{x^{2} − 49}{x − 7}$','$@frac{1}{2x − 9}$','$x^{5} − x^{3}$'],2,'المقام يساوي صفرًا عند $x = 4.5$ ولا يُختصر.'],
+  ['كم شرطًا يلزم لاتصال الدالة عند نقطة؟',['$1$','$2$','$3$','$4$'],2,'معرّفة، والنهاية موجودة، وتساويان.'],
+  ['النهايتان من اليمين واليسار مختلفتان. نوع عدم الاتصال:',['قفزي','لا نهائي','قابل للإزالة','لا يوجد'],0,'المنحنى «يقفز» من قيمة إلى أخرى.']
+ ],
+ ex:{q:'أعد تعريف $f(x) = @frac{x^{2} − 9}{x + 3}$ عند $x = −3$ لتصبح متصلة.',
+  s:['نحلل البسط: $x^{2} − 9 = (x − 3)(x + 3)$','نختصر: $f(x) = x − 3$ حيث $x ≠ −3$','النهاية عند $−3$ : $−3 − 3 = −6$','نعرّف $f(−3) = −6$ فتصبح الدالة متصلة.']},
+ qs:[
+  ['$f(x) = @frac{x}{x − 1}$ عند $x = 1$ :',['متصلة','عدم اتصال لا نهائي','قفزي','قابل للإزالة'],1,'المقام صفر والبسط $1 ≠ 0$.'],
+  ['$f(x) = @frac{x − 4}{x^{2} − 5x + 4}$ عند $x = 4$ :',['متصلة','لا نهائي','قفزي','قابل للإزالة'],3,'$x^{2} − 5x + 4 = (x − 4)(x − 1)$ فيُختصر العامل $(x − 4)$.'],
+  ['ما الأعداد الصحيحة المتتالية التي تنحصر بينها أصفار $f(x) = x^{3} − 6x − 2$ في $[−3, 0]$ ؟',['$[−3,−2] ، [−1,0]$','$[−3,−2]$ فقط','$[−2,−1] ، [−1,0]$','$[−1,0]$ فقط'],0,'$f(−3) = −11 ، f(−2) = 2 ، f(−1) = 3 ، f(0) = −2$ : تتغير الإشارة مرتين.'],
+  ['في أي فترة يقع صفر $f(x) = @sqrt{x^{2} − 6} − 6$ (الموجب)؟',['$[6,7]$','$[7,8]$','$[8,9]$','$[9,10]$'],0,'$x^{2} = 42 ⇐ x ≈ 6.48$'],
+  ['لإعادة تعريف $f(x) = @frac{x^{2} − 25}{x − 5}$ عند $x = 5$ نضع $f(5)$ =',['$0$','$5$','$10$','$25$'],2,'$x + 5 = 10$'],
+  ['سلوك طرف $f(x) = −5x^{3} + 7x − 1$ عندما $x → ∞$ :',['$f(x) → ∞$','$f(x) → −∞$','$f(x) → 0$','$f(x) → −1$'],1,'الحد الرئيس $−5x^{3}$ يتحكم: موجب مكعب × سالب.']
+ ],
+ hots:[
+  ['تبرير','هل تغيّر إشارة الدالة شرط ضروري لوجود صفر؟','تأمل الدالة $f(x) = x^{2}$ عند $0$.','لا؛ $x^{2}$ لها صفر عند $0$ ولا تتغير إشارتها (تمس المحور).'],
+  ['تحليل','الدالة $f(x) = @frac{1}{x}$ تتغير إشارتها بين $−1$ و $1$. هل يوجد صفر بينهما؟ لماذا؟','هل الدالة متصلة على الفترة؟','لا يوجد صفر؛ لأن الدالة غير متصلة عند $0$ فلا ينطبق شرط موقع الصفر.'],
+  ['إبداع','اكتب دالة متصلة عند كل الأعداد ما عدا $x = 2$ حيث يكون عدم الاتصال قابلًا للإزالة.','عامل مشترك في البسط والمقام.','$f(x) = @frac{x^{2} − 4}{x − 2}$']
+ ]},
+
+/* ======================= 1-4 ======================= */
+{id:'1-4', unit:'u1', title:'القيم القصوى ومتوسط معدل التغير', lab:'sec',
+ goal:'أحدد فترات التزايد والتناقص، والقيم العظمى والصغرى، وأحسب متوسط معدل التغير.',
+ idea:[
+  'تكون الدالة <b>متزايدة</b> على فترة إذا زادت قيم $f(x)$ كلما زادت $x$، و<b>متناقصة</b> إذا تناقصت، و<b>ثابتة</b> إذا لم تتغير.',
+  'النقاط التي يتغير عندها السلوك تسمى <b>نقاطًا حرجة</b>، وقد تكون قيمًا عظمى أو صغرى (محلية أو مطلقة).',
+  '<b>متوسط معدل التغير</b> بين نقطتين هو ميل القاطع الواصل بينهما.'
+ ],
+ tip:'متوسط معدل التغير للمسافة بالنسبة للزمن هو <b>السرعة المتوسطة</b>.',
+ rules:[
+  ['متزايدة','$x_{1} < x_{2} ⇐ f(x_{1}) < f(x_{2})$'],
+  ['متناقصة','$x_{1} < x_{2} ⇐ f(x_{1}) > f(x_{2})$'],
+  ['ثابتة','$f(x_{1}) = f(x_{2})$ لكل $x_{1}, x_{2}$ في الفترة'],
+  ['عظمى محلية','$f(a) ≥ f(x)$ لكل $x$ قريبة من $a$'],
+  ['عظمى مطلقة','$f(b) ≥ f(x)$ لكل $x$ في مجال الدالة'],
+  ['متوسط معدل التغير','$m_{sec} = @frac{f(x_{2}) − f(x_{1})}{x_{2} − x_{1}}$']
+ ],
+ rq:[
+  ['متوسط معدل التغير هو ميل:',['المماس','القاطع','المحور','الخط الأفقي'],1,'القاطع يصل بين نقطتين على المنحنى.'],
+  ['إذا كانت $f(x_{1}) > f(x_{2})$ عندما $x_{1} < x_{2}$ فالدالة:',['متزايدة','متناقصة','ثابتة','زوجية'],1,'تقل قيم الدالة مع زيادة $x$.'],
+  ['أكبر قيمة للدالة في مجالها كاملًا تسمى:',['عظمى محلية','عظمى مطلقة','صغرى مطلقة','نقطة انعطاف'],1,'«مطلقة» = على المجال كله.']
+ ],
+ ex:{q:'قُذف صاروخ إلى أعلى وارتفاعه $d(t) = −16t^{2} + 72t$. أوجد السرعة المتوسطة من $t = 3$ إلى $t = 4$ ثوانٍ.',
+  s:['$d(4) = −16(16) + 72(4) = −256 + 288 = 32$','$d(3) = −16(9) + 72(3) = −144 + 216 = 72$','$m_{sec} = @frac{32 − 72}{4 − 3} = −40$','السرعة المتوسطة $−40$ قدم/ث (الإشارة السالبة: الصاروخ يهبط).']},
+ qs:[
+  ['متوسط معدل تغير $f(x) = 3x^{2} − 8x + 2$ في $[4, 8]$ :',['$28$','$112$','$22$','$−28$'],0,'$f(8) = 130 ، f(4) = 18 ⇐ @frac{112}{4} = 28$'],
+  ['متوسط معدل تغير $f(x) = x^{4} − 6x^{2} + 4x$ في $[−5, −3]$ :',['$220$','$−220$','$−440$','$110$'],1,'$f(−3) = 15 ، f(−5) = 455 ⇐ @frac{15 − 455}{2} = −220$'],
+  ['متوسط معدل تغير $f(x) = @frac{x − 3}{x}$ في $[5, 12]$ :',['$0.35$','$0.05$','$−0.05$','$7$'],1,'$f(12) = 0.75 ، f(5) = 0.4 ⇐ @frac{0.35}{7} = 0.05$'],
+  ['الدالة $f(x) = x^{2} − 4$ متناقصة في الفترة:',['$(−∞, 0)$','$(0, ∞)$','$(−4, ∞)$','$(−∞, ∞)$'],0,'رأس القطع عند $x = 0$ ؛ يسار الرأس تتناقص القيم.'],
+  ['القيمة الصغرى المطلقة لـ $f(x) = x^{2} − 4$ هي:',['$0$','$−4$','$4$','لا توجد'],1,'عند الرأس $(0, −4)$.']
+ ],
+ hots:[
+  ['تبرير','إذا كان متوسط معدل التغير لدالة على $[a,b]$ يساوي صفرًا، فهل الدالة ثابتة على الفترة؟','جرّب $f(x) = x^{2}$ على $[−2, 2]$.','ليس بالضرورة؛ $f(−2) = f(2) = 4$ فالمتوسط صفر، لكن الدالة تتناقص ثم تتزايد.'],
+  ['تحليل','هل يمكن أن يكون لدالة قيمة صغرى مطلقة وليس لها قيمة عظمى مطلقة؟ أعط مثالًا.','قطع مكافئ مفتوح للأعلى.','نعم، $f(x) = x^{2}$ : صغرى مطلقة $0$ ، ولا توجد عظمى لأنها تتزايد بلا حدود.'],
+  ['ربط','سيارة قطعت $180$ كم في ساعتين. هل يعني ذلك أن عدّاد السرعة أشار إلى $90$ طوال الرحلة؟','ما الفرق بين السرعة المتوسطة واللحظية؟','لا؛ $90$ كم/س متوسط معدل التغير فقط، والسرعة اللحظية قد تكون أكبر أو أقل.']
+ ]},
+
+/* ======================= 1-5 ======================= */
+{id:'1-5', unit:'u1', title:'الدوال الرئيسية (الأم) والتحويلات الهندسية', lab:'trans',
+ goal:'أتعرّف الدوال الأم وخصائصها، وأمثّل التحويلات: الانسحاب والانعكاس والتمدد.',
+ idea:[
+  '<b>الدالة الأم</b> هي أبسط دالة في عائلتها، مثل: $x$ و $x^{2}$ و $x^{3}$ و $@frac{1}{x}$ و $|x|$ و $@sqrt{x}$ و $[x]$.',
+  'من الدالة الأم نحصل على منحنيات العائلة بالتحويلات: <b>الانسحاب</b> يحرك المنحنى، و<b>الانعكاس</b> يعطي صورة مرآة، و<b>التمدد</b> يضيّق المنحنى أو يوسّعه.',
+  'في الصورة $g(x) = a·f(x − h) + k$ : $h$ انسحاب أفقي، $k$ انسحاب رأسي، $a$ تمدد رأسي (وإن كانت سالبة: انعكاس).'
+ ],
+ tip:'داخل القوس يعمل «بالعكس»: $f(x − 3)$ تنسحب <b>يمينًا</b> 3 وحدات، و $f(x + 3)$ تنسحب <b>يسارًا</b>.',
+ rules:[
+  ['انسحاب رأسي','$f(x) + k$ : لأعلى إذا $k > 0$ ، لأسفل إذا $k < 0$'],
+  ['انسحاب أفقي','$f(x − h)$ : يمينًا إذا $h > 0$ ، يسارًا إذا $h < 0$'],
+  ['انعكاس حول x','$−f(x)$'],
+  ['انعكاس حول y','$f(−x)$'],
+  ['تمدد رأسي','$a·f(x)$ : توسع إذا $a > 1$ ، تضييق إذا $0 < a < 1$'],
+  ['تمدد أفقي','$f(ax)$ : تضييق إذا $a > 1$ ، توسع إذا $0 < a < 1$'],
+  ['القيمة المطلقة','$|f(x)|$ : الجزء تحت المحور x ينعكس لأعلاه<br>$f(|x|)$ : الجزء الأيمن ينعكس مكان الأيسر']
+ ],
+ rq:[
+  ['ما الانسحاب الذي يُجرى على $x^{3}$ للحصول على $(x − 7)^{3}$ ؟',['7 وحدات لأسفل','7 وحدات لأعلى','7 وحدات لليسار','7 وحدات لليمين'],3,'$h = 7 > 0$ ⇐ يمينًا.'],
+  ['التحويل الذي يكوّن صورة مرآة للمنحنى بالنسبة لمستقيم:',['الدوران','الانسحاب','الانعكاس','التمدد'],2,'الانعكاس = مرآة.'],
+  ['تحويل غير قياسي يؤدي إلى تضييق أو توسيع المنحنى:',['الدوران','الانسحاب','الانعكاس','التمدد'],3,'التمدد يغيّر الشكل لا الموقع فقط.'],
+  ['الدالة الأم لـ $f(x) = −(x + 3)^{3}$ :',['$(x + 3)^{3}$','$x^{2}$','$x^{3}$','$−x^{3}$'],2,'أبسط دالة في العائلة.']
+ ],
+ ex:{q:'عيّن الدالة الأم لـ $g(x) = 3|x| − 4$ ثم صف العلاقة بين المنحنيين.',
+  s:['الدالة الأم: $f(x) = |x|$','المعامل $3 > 1$ ⇐ توسع رأسي (يضيق شكل V).','$−4$ ⇐ انسحاب 4 وحدات لأسفل.','الرأس ينتقل من $(0,0)$ إلى $(0,−4)$.']},
+ qs:[
+  ['أي منحنيات الدوال ناتج عن توسع رأسي ثم انعكاس حول المحور $x$ لمنحنى $x^{2}$ ؟',['$@frac{1}{3}x^{2}$','$−3x^{2}$','$−@frac{1}{x^{2} + 3}$','$−@frac{1}{3}x^{2}$'],1,'توسع: $a > 1$ ، وانعكاس: إشارة سالبة.'],
+  ['ما الانسحابات التي أُجريت على $[x]$ لنحصل على $[x + 9] − 5$ ؟',['9 يسارًا و 5 لأسفل','9 يمينًا و 5 لأسفل','5 يسارًا و 9 لأسفل','5 يمينًا و 9 لأعلى'],0,'$x + 9$ يسارًا، $−5$ لأسفل.'],
+  ['ما التحويلات على $[x]$ لتمثيل $2[x − 3] + 4$ ؟',['توسع رأسي، 3 يمينًا، 4 لأعلى','تضييق رأسي، 3 يمينًا، 4 لأسفل','توسع رأسي، 3 يسارًا، 4 لأعلى','تضييق، 3 يسارًا، 4 لأعلى'],0,'$a = 2$ توسع، $x − 3$ يمينًا، $+4$ لأعلى.'],
+  ['صف العلاقة بين $g(x) = −|x| − 2$ و $f(x) = |x|$ :',['انعكاس حول $x$ ثم 2 لأسفل','انعكاس حول $y$ ثم 2 لأسفل','2 لليسار','انعكاس حول $x$ ثم 2 لأعلى'],0,'الإشارة السالبة خارج المطلق ⇐ انعكاس حول $x$.'],
+  ['الدالة $g(x) = @frac{4}{x + 1}$ هي منحنى $@frac{1}{x}$ بعد:',['توسع رأسي 4 وانسحاب 1 يسارًا','توسع 4 وانسحاب 1 يمينًا','انسحاب 4 لأعلى','تضييق وانسحاب 1 يسارًا'],0,'$4·f(x + 1)$']
+ ],
+ hots:[
+  ['تحليل','هل ترتيب التحويلات مهم؟ قارن بين: «تمدد بمعامل 2 ثم انسحاب 3 لأعلى» و«انسحاب 3 لأعلى ثم تمدد بمعامل 2» على $x^{2}$.','اكتب الدالة الناتجة في كل حالة.','نعم مهم: الأولى $2x^{2} + 3$ ، والثانية $2(x^{2} + 3) = 2x^{2} + 6$.'],
+  ['تبرير','لماذا لا يتغير منحنى $f(x) = x^{2}$ عند انعكاسه حول المحور $y$ ؟','ما نوع الدالة $x^{2}$ ؟','لأنها زوجية: $f(−x) = f(x)$ ، أي متماثلة حول المحور $y$.'],
+  ['إبداع','اكتب دالة جذر تربيعي رأسها $(−2, 5)$ ومنحناها ينعكس حول المحور $x$.','ابدأ بـ $@sqrt{x}$ ثم طبق التحويلات.','$g(x) = −@sqrt{x + 2} + 5$']
+ ]},
+
+/* ======================= 1-6 ======================= */
+{id:'1-6', unit:'u1', title:'العمليات على الدوال وتركيب دالتين', lab:'comp',
+ goal:'أجري العمليات الأربع على الدوال، وأركّب دالتين وأحدد مجال التركيب.',
+ idea:[
+  'يمكن جمع دالتين أو طرحهما أو ضربهما أو قسمتهما لتكوين دالة جديدة، مجالها <b>تقاطع</b> مجالي الدالتين مع استبعاد ما يجعل المقام صفرًا.',
+  '<b>تركيب الدوال</b>: $[f∘g](x) = f(g(x))$ ، أي نحسب $g$ أولًا ثم ندخل الناتج في $f$.',
+  'مجال $f∘g$ هو قيم $x$ في مجال $g$ التي تكون عندها $g(x)$ في مجال $f$.'
+ ],
+ tip:'الترتيب مهم: $f(g(x))$ لا تساوي $g(f(x))$ في الغالب. ابدأ دائمًا من الدالة الداخلية.',
+ rules:[
+  ['الجمع والطرح','$(f ± g)(x) = f(x) ± g(x)$'],
+  ['الضرب','$(f·g)(x) = f(x)·g(x)$'],
+  ['القسمة','$(@frac{f}{g})(x) = @frac{f(x)}{g(x)} ، g(x) ≠ 0$'],
+  ['التركيب','$[f∘g](x) = f(g(x))$'],
+  ['مجال التركيب','$x$ في مجال $g$ و $g(x)$ في مجال $f$'],
+  ['دالتان عكسيتان','$f(g(x)) = g(f(x)) = x$']
+ ],
+ rq:[
+  ['في $[f∘g](x)$ نبدأ بحساب:',['$f(x)$','$g(x)$','$f(x)·g(x)$','$f(x) + g(x)$'],1,'الدالة الداخلية أولًا.'],
+  ['مجال $(@frac{f}{g})(x)$ يستبعد القيم التي تجعل:',['$f(x) = 0$','$g(x) = 0$','$x = 0$','$f(x) = g(x)$'],1,'لا قسمة على صفر.'],
+  ['إذا كانت $f(2) = 3 ، g(3) = 2$ فإن $[f∘g](3)$ =',['$2$','$3$','$4$','$5$'],1,'$g(3) = 2$ ثم $f(2) = 3$.']
+ ],
+ ex:{q:'إذا كانت $f(x) = 6x^{2} − 4$ و $g(x) = x + 2$ فأوجد $[f∘g](x)$ و $[g∘f](x)$ و $[f∘g](3)$.',
+  s:['$[f∘g](x) = f(x + 2) = 6(x + 2)^{2} − 4$','$= 6(x^{2} + 4x + 4) − 4 = 6x^{2} + 24x + 20$','$[g∘f](x) = g(6x^{2} − 4) = 6x^{2} − 4 + 2 = 6x^{2} − 2$','$[f∘g](3) = 6(9) + 24(3) + 20 = 146$']},
+ qs:[
+  ['إذا كانت $f(x) = 2x − 3 ، g(x) = 4x^{2}$ فإن $[f∘g](x)$ =',['$4x^{2} + 2x − 3$','$8x^{2} − 3$','$16x^{2} − 48x + 36$','$8x^{3} − 12x^{2}$'],1,'$f(4x^{2}) = 2(4x^{2}) − 3$'],
+  ['إذا كانت $f(x) = x − 3 ، g(x) = 2x − 4$ فإن $(f + g)(x)$ =',['$3x − 7$','$−x − 7$','$−x + 1$','$3x + 1$'],0,'$x − 3 + 2x − 4$'],
+  ['إذا كانت $f(x) = x^{2} + 1 ، g(x) = 2x$ فإن $[f∘g](x)$ =',['$2x^{2} + 2$','$2x^{2} + 1$','$x^{2} + 4x + 4$','$4x^{2} + 1$'],3,'$(2x)^{2} + 1$'],
+  ['إذا كانت $f(x) = 2x − 3 ، g(x) = 4x − 8$ فإن $[f∘g](6)$ =',['$19$','$16$','$29$','$35$'],2,'$g(6) = 16 ، f(16) = 29$'],
+  ['إذا كانت $f(x) = x^{2} + 4 ، g(x) = @sqrt{x}$ فمجال $(f + g)(x)$ :',['$ℝ$','$x < 0$','$x > 0$','$x ≥ 0$'],3,'تقاطع $ℝ$ مع $[0, ∞)$.'],
+  ['إذا كانت $f(x) = x − 6 ، g(x) = x^{2} − 36$ فإن $(@frac{f}{g})(x)$ =',['$@frac{1}{x + 5}$','$@frac{1}{x^{2} + 36}$','$@frac{1}{x + 6} ، x ≠ ±6$','$@frac{1}{x − 6}$'],2,'$@frac{x − 6}{(x − 6)(x + 6)}$'],
+  ['إذا كانت $f(x) = x^{3} − 1 ، g(x) = x + 7$ فإن $(f − g)(x)$ =',['$x^{3} − x − 8$','$x^{3} + x + 8$','$x^{3} + x + 6$','$x^{3} − x + 8$'],0,'$x^{3} − 1 − x − 7$']
+ ],
+ hots:[
+  ['ربط','محل يخصم $15\%$ على الحاسوب، ومعك قسيمة بخصم $100$ ريال. لتكن $c(x) = 0.85x$ و $d(x) = x − 100$. أي التركيبين يعطي سعرًا أقل: $c∘d$ أم $d∘c$ ؟','احسب كلًّا منهما جبريًا وقارن.','$[c∘d](x) = 0.85x − 85$ ، $[d∘c](x) = 0.85x − 100$ ⇐ $d∘c$ (الخصم أولًا ثم القسيمة) أقل بـ 15 ريالًا.'],
+  ['تحليل','أوجد دالتين $f$ و $g$ بحيث $h(x) = @frac{1}{x + 7} = [f∘g](x)$ ولا تكون أي منهما $x$.','ما العملية «الداخلية» وما «الخارجية»؟','$g(x) = x + 7$ و $f(x) = @frac{1}{x}$ .'],
+  ['تبرير','هل عملية التركيب إبدالية؟ برّر بمثال.','جرّب $f(x) = x^{2}$ و $g(x) = x + 1$.','لا؛ $f(g(x)) = (x + 1)^{2}$ بينما $g(f(x)) = x^{2} + 1$.']
+ ]},
+
+/* ======================= 1-7 ======================= */
+{id:'1-7', unit:'u1', title:'العلاقات والدوال العكسية', lab:'inv',
+ goal:'أستعمل اختبار الخط الأفقي، وأجد الدالة العكسية جبريًا وبيانيًا، وأتحقق منها بالتركيب.',
+ idea:[
+  'العلاقة العكسية تبدّل كل زوج $(a, b)$ إلى $(b, a)$، فيصبح المجال مدى والمدى مجالًا.',
+  'للدالة $f$ دالة عكسية إذا كانت <b>متباينة</b>، أي إذا لم يقطع أي خط أفقي منحناها في أكثر من نقطة (<b>اختبار الخط الأفقي</b>).',
+  'منحنى $f^{−1}$ هو انعكاس منحنى $f$ حول المستقيم $y = x$.'
+ ],
+ tip:'خطوات إيجاد $f^{−1}$ : ① اختبار الخط الأفقي ② ضع $y$ مكان $f(x)$ ثم بدّل $x$ و $y$ ③ حل بالنسبة لـ $y$ ④ ضع القيود على المجال.',
+ rules:[
+  ['العلاقة العكسية','$(a, b) ⇔ (b, a)$'],
+  ['اختبار الخط الأفقي','لا يقطع أي خط أفقي المنحنى في أكثر من نقطة ⇐ للدالة عكسية'],
+  ['التحقق من العكسية','$f(f^{−1}(x)) = x$ و $f^{−1}(f(x)) = x$'],
+  ['التمثيل البياني','منحنى $f^{−1}$ انعكاس منحنى $f$ حول $y = x$'],
+  ['المجال والمدى','مجال $f^{−1}$ = مدى $f$ ، ومدى $f^{−1}$ = مجال $f$']
+ ],
+ rq:[
+  ['منحنى الدالة ............ يحقق اختبار الخط الأفقي دائمًا.',['المتباينة','العكسية فقط','الثابتة','التربيعية'],0,'المتباينة: كل $y$ تأتي من $x$ واحدة.'],
+  ['منحنى $f^{−1}$ انعكاس لمنحنى $f$ حول:',['المحور $x$','المحور $y$','$y = x$','نقطة الأصل'],2,'لأننا نبدّل $x$ و $y$.'],
+  ['أي الدوال الآتية لها دالة عكسية؟',['$x^{2} − 1$','$x^{3} − 2x$','$@sqrt{x + 4}$','$f(x) = −1$'],2,'دالة الجذر متزايدة دائمًا فهي متباينة.']
+ ],
+ ex:{q:'أوجد الدالة العكسية لـ $f(x) = 2x + 9$.',
+  s:['نكتب $y = 2x + 9$','نبدّل: $x = 2y + 9$','نحل: $2y = x − 9 ⇐ y = @frac{x − 9}{2}$','$f^{−1}(x) = @frac{x − 9}{2}$ ، والتحقق: $f(f^{−1}(x)) = x − 9 + 9 = x$ ✓']},
+ qs:[
+  ['الدالة العكسية لـ $f(x) = @frac{3x − 5}{2}$ هي:',['$@frac{2x + 5}{3}$','$@frac{3x + 5}{2}$','$2x + 5$','$@frac{2x − 5}{3}$'],0,'$x = @frac{3y − 5}{2} ⇐ 3y = 2x + 5$'],
+  ['الدالة العكسية لـ $f(x) = 2@sqrt{x} + 3$ هي:',['$(@frac{x − 3}{2})^{2} ، x ≥ 3$','$@frac{1}{2}@sqrt{x} − 3$','$(@frac{x + 3}{2})^{2}$','$@frac{1}{2}@sqrt{x} + 3$'],0,'$@sqrt{y} = @frac{x − 3}{2}$ ، ومدى $f$ هو $y ≥ 3$.'],
+  ['الدالة العكسية لـ $f(x) = @sqrt[3]{x − 1}$ هي:',['$x^{3} + 1$','$x^{3} − 1$','$(x + 1)^{3}$','$@sqrt[3]{x + 1}$'],0,'$x = @sqrt[3]{y − 1} ⇐ y = x^{3} + 1$'],
+  ['يتقاضى كهربائي $f(x) = 60 + 55x$ ريالًا ($x$ عدد الساعات). إذا تقاضى 255 ريالًا فكم ساعة عمل تقريبًا؟',['$3.5$','$4.6$','$5$','$3$'],0,'$f^{−1}(x) = @frac{x − 60}{55} ⇐ @frac{195}{55} ≈ 3.5$'],
+  ['في $f^{−1}(x) = @frac{x − 60}{55}$ للمسألة السابقة، ماذا يمثل $x$ ؟',['عدد الساعات','المبلغ بالريال','أجر الساعة','الرسوم الثابتة'],1,'مدخلات الدالة العكسية هي مخرجات الأصلية.']
+ ],
+ hots:[
+  ['تحليل','هل يمكن أن تكون الدالة عكسية لنفسها؟ أعطِ مثالين.','جرّب $f(f(x)) = x$.','نعم: $f(x) = @frac{1}{x}$ و $f(x) = −x$ و $f(x) = 5 − x$ ؛ منحنياتها متماثلة حول $y = x$.'],
+  ['تبرير','لماذا نقيّد $f(x) = x^{2} + 10$ بالشرط $x ≥ 0$ قبل إيجاد عكسيتها؟','طبّق اختبار الخط الأفقي على القطع المكافئ كاملًا.','لأن القطع كاملًا يفشل في اختبار الخط الأفقي؛ وبالتقييد يصبح متباينًا، فتكون $f^{−1}(x) = @sqrt{x − 10}$.'],
+  ['إبداع','ارسم في ذهنك دالة تمر بالنقاط $(1, 4)$ و $(3, 7)$. ما النقاط التي يجب أن تمر بها $f^{−1}$ ؟','بدّل الإحداثيين.','$(4, 1)$ و $(7, 3)$.']
+ ]},
+
+/* ======================= 2-1 ======================= */
+{id:'2-1', unit:'u2', title:'الدوال الأسية', lab:'expo',
+ goal:'أمثّل دوال النمو والاضمحلال الأسي، وأحدد مجالها ومداها وخط التقارب.',
+ idea:[
+  'الدالة الأسية على الصورة $y = ab^{x}$ حيث $a ≠ 0$ ، $b > 0$ ، $b ≠ 1$ ، والأس هو المتغير المستقل.',
+  'إذا كان $b > 1$ فهي دالة <b>نمو أسي</b>، وإذا كان $0 < b < 1$ فهي <b>اضمحلال أسي</b>.',
+  'الدالة الأم $b^{x}$ : مجالها $ℝ$ ، ومداها الأعداد الموجبة، والمحور $x$ خط تقارب لها، وتمر بالنقطة $(0, 1)$.'
+ ],
+ tip:'في $f(x) = ab^{x − h} + k$ يكون خط التقارب الأفقي $y = k$ ، والمدى $y > k$ إذا كانت $a > 0$ و $y < k$ إذا كانت $a < 0$.',
+ rules:[
+  ['الصورة العامة','$y = ab^{x} ، a ≠ 0 ، b > 0 ، b ≠ 1$'],
+  ['نمو / اضمحلال','$b > 1$ نمو ، $0 < b < 1$ اضمحلال'],
+  ['خصائص الأم $b^{x}$','المجال $ℝ$ ، المدى $(0, ∞)$ ، تمر بـ $(0, 1)$'],
+  ['خط التقارب','المحور $x$ ($y = 0$) للأم ، و $y = k$ بعد الانسحاب'],
+  ['التحويلات','$f(x) = ab^{x − h} + k$'],
+  ['إذا كانت a سالبة','ينعكس المنحنى حول المحور $x$']
+ ],
+ rq:[
+  ['الدالة $f(x) = b^{x}$ حيث $b > 1$ تسمى دالة:',['الاضمحلال الأسي','النمو الأسي','عامل الاضمحلال','دالة الأساس'],1,'الأساس أكبر من 1.'],
+  ['أي الدوال الأسية تمثل اضمحلالًا؟',['$@frac{1}{100}(6)^{x}$','$(4x)^{@frac{1}{2}}$','$2(@frac{4}{3})^{x}$','$12(@frac{1}{8})^{x}$'],3,'$0 < @frac{1}{8} < 1$'],
+  ['أي الدوال الآتية تمثل نموًا أسيًا؟',['$9(@frac{1}{3})^{x}$','$4x^{4}$','$12(@frac{1}{5})^{x}$','$10(3)^{x}$'],3,'الأساس $3 > 1$ ، و $4x^{4}$ ليست أسية.'],
+  ['كل منحنيات $y = b^{x}$ تمر بالنقطة:',['$(1, 0)$','$(0, 1)$','$(0, 0)$','$(1, 1)$'],1,'$b^{0} = 1$']
+ ],
+ ex:{q:'اكتب دالة أسية على الصورة $y = ab^{x}$ يمر منحناها بالنقطتين $(0, 6.4)$ و $(3, 100)$.',
+  s:['نعوض $(0, 6.4)$ : $6.4 = a·b^{0} ⇐ a = 6.4$','نعوض $(3, 100)$ : $100 = 6.4b^{3}$','$b^{3} = @frac{100}{6.4} = 15.625 ⇐ b = @sqrt[3]{15.625} = 2.5$','$y = 6.4(2.5)^{x}$']},
+ qs:[
+  ['مقطع $y$ للدالة $f(x) = 3(@frac{1}{2})^{x}$ :',['$1$','$0$','$3$','$−1$'],2,'$f(0) = 3·1$'],
+  ['مجال ومدى $y = 3(@frac{1}{5})^{x}$ :',['المجال $ℝ$ ، المدى $y < 0$','المجال $ℝ$ ، المدى $y > 0$','المجال $x > 0$ ، المدى $y > 0$','المجال $x > 0$ ، المدى $ℝ$'],1,'$a = 3 > 0$ فالقيم موجبة دائمًا.'],
+  ['أي الدوال يمر منحناها بالنقطتين $(0, 4)$ و $(1, 24)$ ؟',['$4(6)^{x}$','$3(8)^{x}$','$2(2)^{x}$','$10(3)^{x}$'],0,'$a = 4$ ، $4b = 24 ⇐ b = 6$'],
+  ['أي الدوال يمر منحناها بالنقطتين $(0, 125)$ و $(3, 1000)$ ؟',['$125(3)^{x}$','$1000(3)^{x}$','$125(1000)^{x}$','$125(2)^{x}$'],3,'$b^{3} = 8 ⇐ b = 2$'],
+  ['مجال ومدى $y = 3(4)^{x} − 6$ :',['$ℝ$ ، $y < −6$','$ℝ$ ، $y > −6$','$x > 0$ ، $y > −6$','$x > −6$ ، $ℝ$'],1,'الانسحاب 6 لأسفل يجعل خط التقارب $y = −6$.'],
+  ['مدى $f(x) = −@frac{1}{2}(@frac{3}{4})^{x + 1} + 5$ :',['$y > 5$','$y < 5$','$ℝ$','$y > 0$'],1,'$a < 0$ ⇐ المنحنى تحت خط التقارب $y = 5$.']
+ ],
+ hots:[
+  ['تبرير','لماذا يُشترط في $y = b^{x}$ أن يكون $b > 0$ و $b ≠ 1$ ؟','جرّب $b = 1$ و $b = −2$ مع $x = @frac{1}{2}$.','إذا $b = 1$ تصبح دالة ثابتة $y = 1$ ، وإذا $b < 0$ فقد لا تكون معرّفة، مثل $(−2)^{@frac{1}{2}}$.'],
+  ['تحليل','هل يمكن لمنحنى $y = 2^{x} + 3$ أن يقطع المستقيم $y = 3$ ؟','ما خط التقارب؟','لا؛ لأن $2^{x} > 0$ دائمًا، فـ $y > 3$ ، والمستقيم $y = 3$ خط تقارب.'],
+  ['ربط','عدد البكتيريا يتضاعف كل ساعة، وبدأ بـ 50. اكتب الدالة، وكم يصبح العدد بعد 6 ساعات؟','نمو أسي أساسه 2.','$N(t) = 50(2)^{t}$ ، $N(6) = 50 × 64 = 3200$.']
+ ]},
+
+/* ======================= 2-2 ======================= */
+{id:'2-2', unit:'u2', title:'حل المعادلات والمتباينات الأسية', lab:'interest',
+ goal:'أحل المعادلات والمتباينات الأسية بتوحيد الأساس، وأستعمل صيغة الربح المركب.',
+ idea:[
+  'لحل معادلة أسية نكتب طرفيها <b>بالأساس نفسه</b> ثم نساوي الأسس.',
+  'في المتباينات: إذا كان $b > 1$ تبقى إشارة المتباينة كما هي، وإذا كان $0 < b < 1$ <b>تنعكس</b>.',
+  '<b>الربح المركب</b> يُحسب على رأس المال مضافًا إليه الأرباح السابقة، وليس على رأس المال فقط.'
+ ],
+ tip:'حوّل النسبة المئوية إلى كسر عشري قبل التعويض: $4.2\% = 0.042$.',
+ rules:[
+  ['خصائص الأسس','$a^{m}·a^{n} = a^{m + n} ، (a^{m})^{n} = a^{mn} ، @frac{a^{m}}{a^{n}} = a^{m − n}$'],
+  ['خاصية المساواة','$b^{x} = b^{y} ⇔ x = y$'],
+  ['التباين: b > 1','$b^{x} > b^{y} ⇔ x > y$'],
+  ['التباين: 0 < b < 1','$b^{x} > b^{y} ⇔ x < y$ (تنعكس)'],
+  ['الربح المركب','$A = P(1 + @frac{r}{n})^{nt}$'],
+  ['معاني الرموز','$P$ رأس المال ، $r$ المعدل السنوي ، $n$ مرات الإضافة سنويًا ، $t$ السنوات']
+ ],
+ rq:[
+  ['في صيغة الربح المركب، $n$ تعني:',['عدد السنوات','عدد مرات إضافة الربح في السنة','المعدل السنوي','المبلغ الكلي'],1,'شهريًا $n = 12$ ، مرتين سنويًا $n = 2$.'],
+  ['إذا كان $(@frac{1}{2})^{x} > (@frac{1}{2})^{3}$ فإن:',['$x > 3$','$x < 3$','$x = 3$','$x ≥ 3$'],1,'الأساس بين 0 و 1 ⇐ تنعكس الإشارة.'],
+  ['$4^{x} = 2^{6}$ تكافئ:',['$2^{2x} = 2^{6}$','$2^{x} = 2^{6}$','$4x = 6$','$x^{4} = 6$'],0,'$4 = 2^{2}$']
+ ],
+ ex:{q:'حل المعادلة $4^{2x} = 8^{x + 4}$.',
+  s:['نوحّد الأساس: $4 = 2^{2}$ و $8 = 2^{3}$','$2^{4x} = 2^{3(x + 4)} = 2^{3x + 12}$','نساوي الأسس: $4x = 3x + 12$','$x = 12$']},
+ qs:[
+  ['ما قيمة $x$ التي تحقق $7^{x − 1} + 7 = 8$ ؟',['$−1$','$0$','$1$','$2$'],2,'$7^{x − 1} = 1 = 7^{0} ⇐ x = 1$'],
+  ['حل $3^{2x − 1} = 3^{x + 2}$ :',['$1$','$2$','$3$','$−3$'],2,'$2x − 1 = x + 2$'],
+  ['حل $6^{2x − 1} = 36^{−x}$ :',['$0$','$@frac{1}{4}$','$@frac{1}{2}$','$@frac{3}{4}$'],1,'$6^{2x − 1} = 6^{−2x} ⇐ 4x = 1$'],
+  ['حل المتباينة $3^{2x + 6} ≥ 27^{2x − 4}$ :',['$x ≥ 2.5$','$x ≤ 3.5$','$x ≤ 4.5$','$x ≥ 4.5$'],2,'$2x + 6 ≥ 6x − 12 ⇐ x ≤ 4.5$'],
+  ['حل $5^{2x + 3} = @frac{1}{125}$ :',['$1$','$−9$','$3$','$−3$'],3,'$2x + 3 = −3$'],
+  ['حل $8^{x + 2} = 32^{2x + 4}$ :',['$−2$','$−1$','$0$','$1$'],0,'$3x + 6 = 10x + 20 ⇐ x = −2$'],
+  ['حل $81^{y} < 27^{y + 3}$ :',['$y < −9$','$y > 9$','$y > −9$','$y < 9$'],3,'$4y < 3y + 9$'],
+  ['استثمر سعد 1000 ريال بربح سنوي $3\%$ يضاف شهريًا. المبلغ بعد 10 سنوات تقريبًا:',['$13785.85$','$1343.91$','$1349.35$','$1300$'],2,'$1000(1 + @frac{0.03}{12})^{120} ≈ 1349.35$']
+ ],
+ hots:[
+  ['تبرير','لماذا تنعكس إشارة المتباينة الأسية عندما يكون $0 < b < 1$ ؟','الدالة $(@frac{1}{2})^{x}$ متزايدة أم متناقصة؟','لأن الدالة متناقصة: كلما زاد الأس صغرت القيمة، فالأكبر قيمةً أسّه أصغر.'],
+  ['تقييم','استثمر ماجد 50000 ريال بربح $2.25\%$ يضاف مرتين سنويًا. ما المبلغ بعد 6 سنوات؟ وهل الإضافة الشهرية أفضل؟','$n = 2$ ، $t = 6$ ثم جرّب $n = 12$.','$50000(1.01125)^{12} ≈ 57183.72$ ريالًا؛ والإضافة الشهرية تعطي مبلغًا أكبر قليلًا لأن الأرباح تُضاف أسرع.'],
+  ['ربط','ورث خالد 100000 ريال عام 1430هـ، فأصبحت 169588 عام 1442هـ. اكتب دالة أسية للمبلغ وقدّر قيمته عام 1450هـ.','$x$ عدد السنوات منذ 1430 ، $b^{12} = 1.69588$.','$b ≈ 1.045$ ⇐ $y = 100000(1.045)^{x}$ ، وعام 1450هـ ($x = 20$): $y ≈ 241171$ ريالًا.']
+ ]},
+
+/* ======================= 2-3 ======================= */
+{id:'2-3', unit:'u2', title:'اللوغاريتمات والدوال اللوغاريتمية', lab:'logexp',
+ goal:'أحوّل بين الصورتين الأسية واللوغاريتمية، وأحسب قيم اللوغاريتمات، وأمثّل الدوال اللوغاريتمية.',
+ idea:[
+  '<b>اللوغاريتم</b> يجيب عن سؤال: «كم مرة نضرب الأساس في نفسه لنحصل على العدد؟» فمثلًا $2 × 2 × 2 = 8$ ، إذن $@log_{2} 8 = 3$.',
+  'الدالة $y = @log_{b} x$ هي <b>الدالة العكسية</b> للدالة الأسية $y = b^{x}$ ، لذلك منحناها انعكاس للمنحنى الأسي حول $y = x$.',
+  'الدالة الأم $@log_{b} x$ : مجالها $(0, ∞)$ ، ومداها $ℝ$ ، والمحور $y$ خط تقارب، وتمر بالنقطة $(1, 0)$.'
+ ],
+ tip:'لا يوجد لوغاريتم للصفر أو للأعداد السالبة؛ لأن $b^{y}$ موجب دائمًا.',
+ rules:[
+  ['التعريف','$@log_{b} x = y ⇔ b^{y} = x$'],
+  ['لوغاريتم الواحد','$@log_{b} 1 = 0$'],
+  ['لوغاريتم الأساس','$@log_{b} b = 1$'],
+  ['الخاصية العكسية ①','$@log_{b} b^{x} = x$'],
+  ['الخاصية العكسية ②','$b^{@log_{b} x} = x ، x > 0$'],
+  ['خصائص الأم','المجال $(0,∞)$ ، المدى $ℝ$ ، تمر بـ $(1, 0)$ ، خط التقارب $x = 0$'],
+  ['التحويلات','$f(x) = a@log_{b}(x − h) + k$ ، خط التقارب $x = h$']
+ ],
+ rq:[
+  ['الصورة الأسية لـ $@log_{3} 9 = 2$ :',['$9^{2} = 3$','$3^{2} = 9$','$9^{3} = 2$','$3^{9} = 2$'],1,'الأساس يبقى أساسًا، والناتج أسًّا.'],
+  ['الصورة اللوغاريتمية لـ $5^{4} = 625$ :',['$@log_{4} 625 = 5$','$@log_{5} 625 = 4$','$@log_{4} 5 = 625$','$@log_{5} 4 = 625$'],1,'الأساس 5 والأس 4 والناتج 625 ⇐ $@log_{5} 625 = 4$'],
+  ['ما قيمة $3^{@log_{3} 1}$ ؟',['$1$','$0$','$3$','$9$'],0,'$b^{@log_{b} x} = x$'],
+  ['$@log_{4} 4^{3}$ =',['$1$','$0$','$3$','$4$'],2,'$@log_{b} b^{x} = x$']
+ ],
+ ex:{q:'أوجد قيمة $@log_{8} 16$ دون آلة حاسبة.',
+  s:['نفرض $@log_{8} 16 = x$ ⇐ $8^{x} = 16$','نوحّد الأساس: $2^{3x} = 2^{4}$','$3x = 4$','$x = @frac{4}{3}$']},
+ qs:[
+  ['ما قيمة $@log_{2} @frac{1}{32}$ ؟',['$5$','$@frac{1}{5}$','$−@frac{1}{5}$','$−5$'],3,'$2^{−5} = @frac{1}{32}$'],
+  ['ما قيمة $x$ في $@log_{3} @frac{1}{27} = x$ ؟',['$−@frac{1}{3}$','$−3$','$@frac{1}{3}$','$3$'],1,'$3^{−3} = @frac{1}{27}$'],
+  ['ما قيمة $n$ في $@log_{3} n = 2$ ؟',['$6$','$5$','$8$','$9$'],3,'$n = 3^{2}$'],
+  ['حل $@log_{36} n = @frac{3}{2}$ :',['$216$','$612$','$36$','$3$'],0,'$n = 36^{@frac{3}{2}} = 6^{3}$'],
+  ['$@log_{27} 3$ =',['$3$','$@frac{1}{3}$','$9$','$−3$'],1,'$27^{@frac{1}{3}} = 3$'],
+  ['$@log_{10} 0.01$ =',['$2$','$−2$','$0.2$','$−1$'],1,'$10^{−2} = 0.01$'],
+  ['مقطع $y$ للدالة الأسية $y = 4^{x} − 1$ :',['$0$','$1$','$2$','$3$'],0,'$4^{0} − 1 = 0$']
+ ],
+ hots:[
+  ['تبرير','لماذا $@log_{b} 0$ غير معرّف؟','هل يوجد أس $y$ يجعل $b^{y} = 0$ ؟','لأنه لا يوجد عدد $y$ يجعل $b^{y} = 0$ ؛ فالدالة الأسية موجبة دائمًا.'],
+  ['تحليل','أيهما أكبر: $@log_{2} 10$ أم $@log_{3} 10$ ؟ دون آلة حاسبة.','$2^{3} = 8 ، 2^{4} = 16 ، 3^{2} = 9 ، 3^{3} = 27$','$@log_{2} 10$ بين 3 و 4 ، و $@log_{3} 10$ بين 2 و 3 ، إذن $@log_{2} 10$ أكبر.'],
+  ['تقدير','بين أي عددين صحيحين متتاليين يقع $@log_{2} 50$ ؟','أوجد قوتين للعدد 2 تحصران 50.','$2^{5} = 32 < 50 < 64 = 2^{6}$ ⇐ بين 5 و 6.']
+ ]},
+
+/* ======================= 2-4 ======================= */
+{id:'2-4', unit:'u2', title:'خصائص اللوغاريتمات', lab:'logprop',
+ goal:'أستعمل خصائص الضرب والقسمة والقوة لتبسيط العبارات اللوغاريتمية وكتابتها بالصورتين المختصرة والمطوّلة.',
+ idea:[
+  'لأن اللوغاريتمات أسس، فإن خصائصها مأخوذة من خصائص الأسس: الضرب يصبح جمعًا، والقسمة تصبح طرحًا، والقوة تصبح ضربًا.',
+  'نستعمل هذه الخصائص لكتابة العبارة <b>بالصورة المطوّلة</b> (فك) أو <b>بالصورة المختصرة</b> (تجميع في لوغاريتم واحد).'
+ ],
+ tip:'$@log(a + b)$ لا تساوي $@log a + @log b$ ! الخاصية للضرب داخل اللوغاريتم فقط.',
+ rules:[
+  ['الضرب','$@log_{b} mn = @log_{b} m + @log_{b} n$'],
+  ['القسمة','$@log_{b} @frac{m}{n} = @log_{b} m − @log_{b} n$'],
+  ['القوة','$@log_{b} m^{p} = p@log_{b} m$'],
+  ['المساواة','$@log_{b} x = @log_{b} y ⇔ x = y$'],
+  ['الجذر كقوة','$@log_{b} @sqrt[n]{m} = @frac{1}{n}@log_{b} m$'],
+  ['خاصية المقلوب','$@log_{b} @frac{1}{m} = −@log_{b} m$']
+ ],
+ rq:[
+  ['حدد العبارة المختلفة:',['$@log_{b} 24 = @log_{b} 20 + @log_{b} 4$','$@log_{b} 24 = @log_{b} 4 + @log_{b} 6$','$@log_{b} 24 = @log_{b} 2 + @log_{b} 12$','$@log_{b} 24 = @log_{b} 8 + @log_{b} 3$'],0,'$20 × 4 = 80 ≠ 24$ (الجمع يقابل الضرب لا الجمع).'],
+  ['$@log_{b} m^{p}$ =',['$@log_{b} m + p$','$p@log_{b} m$','$(@log_{b} m)^{p}$','$m@log_{b} p$'],1,'خاصية القوة.'],
+  ['$@log_{5} 12 − @log_{5} 3$ =',['$@log_{5} 4$','$@log_{5} 9$','$@log_{5} 36$','$4$'],0,'خاصية القسمة: $@frac{12}{3} = 4$']
+ ],
+ ex:{q:'اكتب $@log_{5} a^{6}b^{−3}c^{4}$ بالصورة المطوّلة.',
+  s:['خاصية الضرب: $@log_{5} a^{6} + @log_{5} b^{−3} + @log_{5} c^{4}$','خاصية القوة لكل حد:','$= 6@log_{5} a − 3@log_{5} b + 4@log_{5} c$']},
+ qs:[
+  ['$@log_{4} @frac{1}{64}$ =',['$−3$','$−@frac{1}{3}$','$@frac{1}{3}$','$3$'],0,'$4^{−3} = @frac{1}{64}$'],
+  ['$2@log_{5} 12 − @log_{5} 8 − 2@log_{5} 3$ =',['$@log_{5} 2$','$@log_{5} 3$','$@log_{5} 0.5$','$1$'],0,'$@log_{5} @frac{144}{8 × 9} = @log_{5} 2$'],
+  ['قيمة $x$ في $@log_{6} 10 + @log_{6} x = @log_{6} 40$ :',['$180$','$4$','$5$','$30$'],1,'$10x = 40$'],
+  ['إذا كان $@log_{5} 2 ≈ 0.4307$ فإن $@log_{5} 4$ ≈',['$0.8614$','$0.8980$','$1.3652$','$0.1855$'],0,'$2 × 0.4307$'],
+  ['إذا كان $@log_{5} 3 ≈ 0.6826 ، @log_{5} 2 ≈ 0.4307$ فإن $@log_{5} 54$ ≈',['$0.1370$','$2.4785$','$0.8820$','$0.7488$'],1,'$54 = 2 × 3^{3} ⇐ 0.4307 + 3(0.6826)$'],
+  ['$@log_{6} @sqrt[3]{36}$ =',['$−@frac{2}{3}$','$−@frac{3}{2}$','$@frac{2}{3}$','$@frac{3}{2}$'],2,'$@frac{1}{3}@log_{6} 36 = @frac{2}{3}$'],
+  ['$50@log_{5} @sqrt{125}$ =',['$50$','$75$','$25$','$125$'],1,'$50 × @frac{3}{2}$'],
+  ['$@log_{100} 10000$ =',['$5$','$2$','$4$','$3$'],1,'$100^{2} = 10000$']
+ ],
+ hots:[
+  ['تبرير','هل $@log(a + b) = @log a + @log b$ ؟ أعطِ مثالًا مضادًا.','جرّب $a = b = 1$.','لا؛ $@log(1 + 1) = @log 2 ≈ 0.301$ بينما $@log 1 + @log 1 = 0$.'],
+  ['تحليل','إذا كان $@log_{b} 2 = m$ و $@log_{b} 3 = n$ ، فعبّر عن $@log_{b} 72$ بدلالة $m$ و $n$.','حلل 72 إلى عوامل أولية.','$72 = 2^{3} × 3^{2} ⇐ 3m + 2n$'],
+  ['إبداع','اكتب $3@log_{2}(5x + 6) − @frac{1}{2}@log_{2}(x − 4)$ بالصورة المختصرة.','القوة أولًا ثم القسمة.','$@log_{2} @frac{(5x + 6)^{3}}{@sqrt{x − 4}}$']
+ ]},
+
+/* ======================= 2-5 ======================= */
+{id:'2-5', unit:'u2', title:'حل المعادلات والمتباينات اللوغاريتمية', lab:'logeq',
+ goal:'أحل المعادلات والمتباينات اللوغاريتمية، وأستبعد الحلول التي تجعل اللوغاريتم غير معرف.',
+ idea:[
+  'نستعمل <b>خاصية المساواة</b>: إذا تساوى لوغاريتمان بالأساس نفسه تساوى ما بداخلهما.',
+  'أو نحوّل إلى الصورة الأسية: $@log_{b} x = y ⇔ x = b^{y}$.',
+  'بعد الحل <b>نتحقق</b>: نستبعد أي قيمة تجعل ما داخل اللوغاريتم صفرًا أو سالبًا.'
+ ],
+ tip:'في المتباينة $@log_{b} x < y$ لا تنسَ الشرط $x > 0$ ، فيكون الحل $0 < x < b^{y}$.',
+ rules:[
+  ['خاصية المساواة','$@log_{b} x = @log_{b} y ⇔ x = y$'],
+  ['التحويل للأسية','$@log_{b} x = y ⇔ x = b^{y}$'],
+  ['متباينة ① (b > 1)','$@log_{b} x > y ⇔ x > b^{y}$'],
+  ['متباينة ② (b > 1)','$@log_{b} x < y ⇔ 0 < x < b^{y}$'],
+  ['متباينة بين لوغاريتمين','$@log_{b} x > @log_{b} y ⇔ x > y > 0$'],
+  ['الحلول الدخيلة','استبعد كل قيمة تجعل ما داخل اللوغاريتم $≤ 0$']
+ ],
+ rq:[
+  ['حل $@log_{4} x ≥ 3$ :',['$x ≥ 3$','$x ≥ 64$','$x ≥ 4$','$x ≤ 3$'],1,'$x ≥ 4^{3}$'],
+  ['حل $@log_{3} x < −4$ :',['$x < −81$','$x > @frac{1}{81}$','$0 < x < @frac{1}{81}$','$x > −81$'],2,'$x < 3^{−4}$ مع $x > 0$.'],
+  ['حل $@log_{2} x ≤ −2$ :',['$x ≤ @frac{1}{4}$','$0 < x ≤ @frac{1}{4}$','$x > 0$','$x ≤ 0$'],1,'$x ≤ 2^{−2}$ مع $x > 0$.']
+ ],
+ ex:{q:'حل المعادلة $@log_{2}(x^{2} − 4) = @log_{2} 3x$.',
+  s:['خاصية المساواة: $x^{2} − 4 = 3x$','$x^{2} − 3x − 4 = 0 ⇐ (x − 4)(x + 1) = 0$','$x = 4$ أو $x = −1$','نتحقق: $x = −1$ تجعل $3x < 0$ فنستبعدها. الحل: $x = 4$']},
+ qs:[
+  ['حل $@log_{4} x = @frac{5}{2}$ :',['$4$','$@frac{5}{2}$','$32$','$5$'],2,'$x = 4^{@frac{5}{2}} = 2^{5}$'],
+  ['حل $@log_{3}(x^{2} − 15) = @log_{3} 2x$ :',['$−3$','$−1$','$5$','$15$'],2,'$x^{2} − 2x − 15 = 0 ⇐ 5 , −3$ ونستبعد $−3$.'],
+  ['حل $2@log_{7} x = @log_{7} 27 + @log_{7} 3$ :',['$9$','$3$','$−9$','$−3$'],0,'$x^{2} = 81$ و $x > 0$.'],
+  ['حل $@log_{2} 2x > @log_{2}(x + 5)$ :',['$x > @frac{5}{3}$','$x < 5$','$x > 5$','$x > −5$'],2,'$2x > x + 5$'],
+  ['حل $@log_{2} 3x = 1$ :',['$1.5$','$0.333$','$0.667$','$1$'],2,'$3x = 2$'],
+  ['حل $@log_{4}(m − 3) + @log_{4}(m + 3) = 2$ :',['$@sqrt{11}$','$5$','$1$','$−5.5$'],1,'$m^{2} − 9 = 16$ و $m > 3$.'],
+  ['حل $@log_{5}(x + 5) ≥ 2$ :',['$x ≥ 20$','$x ≥ 30$','$x ≤ 20$','$x ≤ 30$'],0,'$x + 5 ≥ 25$'],
+  ['حل $@log_{4} x − @log_{4}(x − 1) = @frac{1}{2}$ :',['$−@frac{1}{2}$','$@frac{1}{2}$','$−2$','$2$'],3,'$@frac{x}{x − 1} = 4^{@frac{1}{2}} = 2$'],
+  ['حل $@log_{3}(5x + 1) ≥ @log_{3}(3x + 7)$ :',['$x ≥ 3$','$x ≥ 4$','$x ≤ 6$','$x ≥ 27$'],0,'$5x + 1 ≥ 3x + 7$']
+ ],
+ hots:[
+  ['تحليل','حل $@log_{2} x + @log_{2}(x − 2) = 3$ ، وبيّن لماذا نستبعد أحد الحلين.','خاصية الضرب ثم معادلة تربيعية.','$x(x − 2) = 8 ⇐ x = 4$ أو $x = −2$ ، ونستبعد $−2$ لأن $@log_{2}(−2)$ غير معرّف.'],
+  ['تبرير','عند حل $@log_{4} x^{2} = @log_{4}(−6x − 8)$ ظهر الحلان $−2$ و $−4$. هل نقبلهما معًا؟','عوّض كلًّا منهما داخل اللوغاريتمين.','نعم؛ عند $−2$ : $4 > 0$ و $4 > 0$ ، وعند $−4$ : $16 > 0$ و $16 > 0$.'],
+  ['ربط','لماذا يختلف حل $@log_{0.5} x > 1$ عن حل $@log_{2} x > 1$ ؟','الأساس أقل من 1 ⇐ الدالة متناقصة.','$@log_{2} x > 1 ⇐ x > 2$ ، أما $@log_{0.5} x > 1 ⇐ 0 < x < 0.5$ لأن الإشارة تنعكس.']
+ ]},
+
+/* ======================= 2-6 ======================= */
+{id:'2-6', unit:'u2', title:'اللوغاريتمات العشرية', lab:'cob',
+ goal:'أستعمل اللوغاريتم العشري وصيغة تغيير الأساس لحل المعادلات والمتباينات الأسية.',
+ idea:[
+  '<b>اللوغاريتم العشري</b> أساسه 10، ويُكتب $@log x$ دون كتابة الأساس، ونحسبه بمفتاح LOG في الآلة الحاسبة.',
+  'لحل معادلة مثل $6^{x} = 40$ نأخذ اللوغاريتم العشري للطرفين ثم نستعمل خاصية القوة.',
+  '<b>صيغة تغيير الأساس</b> تحوّل أي لوغاريتم إلى لوغاريتمات عشرية.'
+ ],
+ tip:'عند قسمة طرفي متباينة على عدد سالب (مثل $@log 3 − @log 5$) تنعكس الإشارة.',
+ rules:[
+  ['اللوغاريتم العشري','$@log x = @log_{10} x$'],
+  ['الخاصية العكسية','$10^{@log x} = x$'],
+  ['تغيير الأساس','$@log_{a} n = @frac{@log_{b} n}{@log_{b} a}$'],
+  ['حل معادلة أسية','$a^{x} = n ⇐ x = @frac{@log n}{@log a}$']
+ ],
+ rq:[
+  ['$@log_{4} 11$ بدلالة اللوغاريتمات العشرية:',['$@log @frac{11}{4}$','$@log 44$','$@frac{@log 11}{@log 4}$','$@frac{@log 4}{@log 11}$'],2,'صيغة تغيير الأساس.'],
+  ['$@log_{5} 12$ بدلالة اللوغاريتمات العشرية:',['$@log @frac{12}{5}$','$@log 60$','$@frac{@log 5}{@log 12}$','$@frac{@log 12}{@log 5}$'],3,'العدد في البسط، والأساس في المقام.'],
+  ['$10^{@log 7}$ =',['$10$','$7$','$70$','$@log 7$'],1,'الخاصية العكسية.']
+ ],
+ ex:{q:'حل $6^{x} = 40$ مقربًا لأقرب جزء من عشرة آلاف.',
+  s:['نأخذ اللوغاريتم العشري للطرفين: $@log 6^{x} = @log 40$','خاصية القوة: $x@log 6 = @log 40$','$x = @frac{@log 40}{@log 6} = @frac{1.6021}{0.7782}$','$x ≈ 2.0588$']},
+ qs:[
+  ['حل $5^{x} = 120$ :',['$2.9746$','$−2.9746$','$1.5467$','$6.4314$'],0,'$@frac{@log 120}{@log 5}$'],
+  ['حل $10^{5x + 1} = 27$ :',['$0.0863$','$0.2830$','$0.4863$','$6.4314$'],0,'$5x + 1 = @log 27 ≈ 1.4314$'],
+  ['حل $5^{x + 2} ≤ 3^{x}$ :',['$x ≤ −6.3013$','$x ≤ 6.3013$','$x ≥ −6.3013$','$x ≥ 6.3013$'],0,'$x(@log 5 − @log 3) ≤ −2@log 5$ والمعامل موجب.'],
+  ['الصورة المختصرة لـ $@log 9 − @log 27 + @log 81$ :',['$@log 27$','$1 − @log 27$','$−@log 27$','$1 + @log 27$'],0,'$@log @frac{9 × 81}{27} = @log 27$'],
+  ['حل $27(@frac{3}{5})^{x + 1} = 125$ :',['$−4$','$2$','$−2$','$4$'],0,'$(@frac{3}{5})^{x + 1} = (@frac{5}{3})^{3} = (@frac{3}{5})^{−3}$'],
+  ['$@log_{3} 21$ ≈',['$2.7712$','$1.7712$','$7$','$0.3609$'],0,'$@frac{@log 21}{@log 3}$']
+ ],
+ hots:[
+  ['تقدير','دون آلة حاسبة، بين أي عددين صحيحين يقع $@log 500$ ؟','$10^{2} = 100 ، 10^{3} = 1000$','بين 2 و 3 (وهو أقرب إلى 3، تقريبًا $2.7$).'],
+  ['تبرير','تحقق باستعمال صيغة تغيير الأساس أن $@log_{2} 8 = 3$.','$@log 8 = @log 2^{3}$','$@frac{@log 8}{@log 2} = @frac{3@log 2}{@log 2} = 3$ ✓'],
+  ['ربط','مبلغ يتضاعف كل سنة بنسبة $5\%$. بعد كم سنة يصبح ضعف قيمته؟','حل $(1.05)^{t} = 2$.','$t = @frac{@log 2}{@log 1.05} ≈ 14.2$ سنة.']
+ ]},
+
+/* ======================= 3-1 ======================= */
+{id:'3-1', unit:'u3', title:'المتطابقات المثلثية', lab:'unit',
+ goal:'أستعمل المتطابقات المثلثية الأساسية لإيجاد قيم الدوال المثلثية وتبسيط العبارات.',
+ idea:[
+  '<b>المتطابقة المثلثية</b> معادلة تحتوي على دوال مثلثية وتكون صحيحة لجميع القيم المعرّفة.',
+  'أهمها متطابقات فيثاغورس، ومصدرها دائرة الوحدة: النقطة $(@cos θ, @sin θ)$ تبعد 1 عن المركز فيكون $@cos^{2}θ + @sin^{2}θ = 1$.',
+  'نحدد إشارة الدالة من الربع الذي يقع فيه ضلع الانتهاء.'
+ ],
+ tip:'قاعدة الإشارات (ASTC): الربع الأول الكل موجب، الثاني $@sin$ ، الثالث $@tan$ ، الرابع $@cos$.',
+ rules:[
+  ['المتطابقات النسبية','$@tan θ = @frac{@sin θ}{@cos θ} ، @cot θ = @frac{@cos θ}{@sin θ}$'],
+  ['متطابقات المقلوب','$@csc θ = @frac{1}{@sin θ} ، @sec θ = @frac{1}{@cos θ} ، @cot θ = @frac{1}{@tan θ}$'],
+  ['فيثاغورس ①','$@sin^{2}θ + @cos^{2}θ = 1$'],
+  ['فيثاغورس ② و ③','$@tan^{2}θ + 1 = @sec^{2}θ$<br>$@cot^{2}θ + 1 = @csc^{2}θ$'],
+  ['الزاويتان المتتامتان','$@sin(90° − θ) = @cos θ ، @cos(90° − θ) = @sin θ$<br>$@tan(90° − θ) = @cot θ ، @sec(90° − θ) = @csc θ$'],
+  ['الزوجية والفردية','$@sin(−θ) = −@sin θ ، @cos(−θ) = @cos θ ، @tan(−θ) = −@tan θ$']
+ ],
+ rq:[
+  ['$1 + @tan^{2}θ$ =',['$@csc^{2}θ$','$@sec^{2}θ$','$@cot^{2}θ$','$1$'],1,'فيثاغورس الثانية.'],
+  ['$@cos(−θ)$ =',['$−@cos θ$','$@cos θ$','$@sin θ$','$−@sin θ$'],1,'جيب التمام دالة زوجية.'],
+  ['في الربع الثاني، الدالة الموجبة هي:',['$@sin$','$@cos$','$@tan$','جميعها'],0,'ASTC: الثاني Sine.'],
+  ['$@sin(@frac{π}{2} − θ)$ =',['$@sin θ$','$@cos θ$','$@tan θ$','$−@cos θ$'],1,'الزاويتان المتتامتان.']
+ ],
+ ex:{q:'أوجد القيمة الدقيقة لـ $@cos θ$ إذا كان $@sin θ = @frac{2}{3}$ ، حيث $90° < θ < 180°$.',
+  s:['$@cos^{2}θ = 1 − @sin^{2}θ = 1 − @frac{4}{9} = @frac{5}{9}$','$@cos θ = ±@frac{@sqrt{5}}{3}$','$θ$ في الربع الثاني ⇐ $@cos$ سالب.','$@cos θ = −@frac{@sqrt{5}}{3}$']},
+ qs:[
+  ['إذا كان $@sin θ = −@frac{18}{19}$ ، $270° < θ < 360°$ ، فإن $@csc θ$ =',['$@frac{19}{18}$','$−@frac{19}{18}$','$@frac{4@sqrt{2}}{9}$','$−@frac{4@sqrt{2}}{9}$'],1,'$@csc$ مقلوب $@sin$.'],
+  ['إذا كان $@tan θ = @frac{1}{3}$ فإن $@cot θ$ =',['$4$','$3$','$−3$','$−@frac{1}{3}$'],1,'مقلوب.'],
+  ['بسّط $@cot θ @sec θ$ :',['$@sin θ$','$@csc θ$','$@frac{@cos θ}{@sin^{2}θ}$','$@cos θ$'],1,'$@frac{@cos θ}{@sin θ} · @frac{1}{@cos θ}$'],
+  ['بسّط $@sin θ(@csc θ − @sin θ)$ :',['$@sin^{2}θ$','$@csc θ$','$@cos^{2}θ$','$@sec θ$'],2,'$1 − @sin^{2}θ$'],
+  ['بسّط $3@tan θ@cot θ + 4@sin θ@csc θ + 2@cos θ@sec θ$ :',['$9$','$0$','$5$','$1$'],0,'كل حاصل ضرب مقلوبين $= 1$.'],
+  ['بسّط $@frac{1 − @cos^{2}θ}{@tan θ · @sin θ}$ :',['$@sin θ$','$@cos θ$','$@tan θ$','$@cot θ$'],1,'$@frac{@sin^{2}θ}{@sin^{2}θ / @cos θ}$'],
+  ['إذا كان $@sec θ = −2$ ، $180° < θ < 270°$ ، فإن $@tan θ$ =',['$@sqrt{3}$','$−@sqrt{3}$','$@frac{@sqrt{3}}{3}$','$3$'],0,'$@tan^{2}θ = 4 − 1 = 3$ ، والظل موجب في الربع الثالث.']
+ ],
+ hots:[
+  ['تحليل','إذا كان $@sin θ = @cos θ$ و $θ$ في الربع الأول، فما $θ$ ؟ وما قيمة $@tan θ$ ؟','اقسم الطرفين على $@cos θ$.','$@tan θ = 1 ⇐ θ = 45°$'],
+  ['تبرير','هل يمكن أن يكون $@sin θ = 1.2$ ؟ برّر باستعمال دائرة الوحدة.','ما أكبر إحداثي $y$ على دائرة الوحدة؟','لا؛ لأن $@sin θ$ هو الإحداثي $y$ على دائرة نصف قطرها 1 ، فـ $−1 ≤ @sin θ ≤ 1$.'],
+  ['إبداع','اكتب $@tan^{2}θ$ بدلالة $@cos θ$ فقط.','$@tan = @sin / @cos$ ثم فيثاغورس.','$@tan^{2}θ = @frac{1 − @cos^{2}θ}{@cos^{2}θ}$']
+ ]},
+
+/* ======================= 3-2 ======================= */
+{id:'3-2', unit:'u3', title:'إثبات صحة المتطابقات المثلثية', lab:'ident',
+ goal:'أثبت صحة المتطابقات بتحويل أحد الطرفين إلى الآخر أو بتحويل الطرفين معًا.',
+ idea:[
+  'لإثبات متطابقة نبدأ عادة <b>بالطرف الأكثر تعقيدًا</b> ونبسّطه حتى يصبح مثل الطرف الآخر.',
+  'لا ننقل حدودًا بين الطرفين كما في المعادلات؛ لأننا نريد إثبات التساوي لا افتراضه.',
+  'ارسم الطرفين: إن كانت متطابقة فسينطبق المنحنيان تمامًا.'
+ ],
+ tip:'إذا تعقّدت الطريق: اكتب كل شيء بدلالة $@sin$ و $@cos$ فقط.',
+ rules:[
+  ['اقتراح ①','عوّض متطابقة أساسية أو أكثر'],
+  ['اقتراح ②','حلّل إلى العوامل أو اضرب العوامل'],
+  ['اقتراح ③','اضرب البسط والمقام في العبارة نفسها (المرافق)'],
+  ['اقتراح ④','حوّل كل شيء إلى $@sin$ و $@cos$'],
+  ['المرافق','$(1 − @sin θ)(1 + @sin θ) = @cos^{2}θ$']
+ ],
+ rq:[
+  ['عند إثبات متطابقة نبدأ غالبًا بـ:',['الطرف الأبسط','الطرف الأكثر تعقيدًا','نقل الحدود','تربيع الطرفين'],1,'التبسيط أسهل من التعقيد.'],
+  ['$(1 + @sin θ)(1 − @sin θ)$ =',['$@sin^{2}θ$','$@cos^{2}θ$','$1$','$@tan^{2}θ$'],1,'فرق مربعين ثم فيثاغورس.'],
+  ['$@csc^{2}θ − @cot^{2}θ$ =',['$0$','$1$','$−1$','$@sec^{2}θ$'],1,'من $@cot^{2}θ + 1 = @csc^{2}θ$.']
+ ],
+ ex:{q:'أثبت أن $@frac{@cos θ}{1 − @sin θ} = @frac{1 + @sin θ}{@cos θ}$.',
+  s:['نضرب البسط والمقام في المرافق $(1 + @sin θ)$:','$@frac{@cos θ(1 + @sin θ)}{(1 − @sin θ)(1 + @sin θ)} = @frac{@cos θ(1 + @sin θ)}{1 − @sin^{2}θ}$','$= @frac{@cos θ(1 + @sin θ)}{@cos^{2}θ}$','$= @frac{1 + @sin θ}{@cos θ}$ ✓']},
+ qs:[
+  ['أي مما يأتي يكافئ $@frac{@csc θ}{@cos θ} − @tan θ$ ؟',['$@cot θ$','$0$','$@frac{1 − @sin θ}{@cos^{2}θ}$','$@cos^{2}θ$'],0,'$@frac{1 − @sin^{2}θ}{@sin θ@cos θ} = @frac{@cos θ}{@sin θ}$'],
+  ['أي مما يأتي يكافئ $@tan^{2}θ(@cot^{2}θ − @cos^{2}θ)$ ؟',['$@cot^{2}θ$','$@cos^{2}θ$','$@tan^{2}θ$','$@sin^{2}θ$'],1,'$1 − @sin^{2}θ$'],
+  ['أي مما يأتي يكافئ $@frac{@tan^{2}θ + 1}{@tan^{2}θ}$ ؟',['$@sin^{2}θ$','$@tan^{2}θ$','$@cos^{2}θ$','$@csc^{2}θ$'],3,'$@frac{@sec^{2}θ}{@tan^{2}θ} = @frac{1}{@sin^{2}θ}$'],
+  ['أي مما يأتي يكافئ $@frac{@sec θ − 1}{@tan^{2}θ}$ ؟',['$@frac{@cos θ}{@cos θ + 1}$','$@frac{@sin θ}{@sin θ + 1}$','$@frac{@sin^{2}θ}{@sin θ + 1}$','$1$'],0,'$@frac{@sec θ − 1}{(@sec θ − 1)(@sec θ + 1)} = @frac{1}{@sec θ + 1}$'],
+  ['أي مما يأتي يكافئ $@tan θ@cos θ$ ؟',['$@frac{@csc^{2}θ}{@sin θ}$','$@cot θ$','$@sin θ$','$1 − @sec^{2}θ$'],2,'$@frac{@sin θ}{@cos θ}·@cos θ$'],
+  ['أي مما يأتي يكافئ $1 + @csc^{2}θ@cos^{2}θ$ ؟',['$@cot^{2}θ$','$@sec^{2}θ$','$@csc^{2}θ$','$@sin^{2}θ$'],2,'$1 + @cot^{2}θ$'],
+  ['أي مما يأتي يكافئ $@frac{@cos^{2}θ}{1 − @sin^{2}θ}$ ؟',['$1$','$@sin^{2}θ$','$@cos^{2}θ$','$−1$'],0,'البسط = المقام.']
+ ],
+ hots:[
+  ['تقييم','استعمل المختبر البياني: هل $@sin θ + @cos θ = 1$ متطابقة؟ اختبرها أيضًا بـ $θ = 45°$.','عوّض واحسب.','ليست متطابقة؛ عند $45°$ : $@frac{@sqrt{2}}{2} + @frac{@sqrt{2}}{2} = @sqrt{2} ≠ 1$ ، والمنحنيان لا ينطبقان.'],
+  ['تبرير','لماذا لا يكفي التعويض بقيمة واحدة لإثبات متطابقة، بينما تكفي قيمة واحدة لنفيها؟','ما معنى «صحيحة لجميع القيم»؟','المتطابقة يجب أن تصح لكل القيم، والقيمة الواحدة لا تمثل الكل؛ أما مثال مضاد واحد فيكفي لإثبات أنها لا تصح دائمًا.'],
+  ['إبداع','أثبت $@frac{@sec θ − @csc θ}{@csc θ@sec θ} = @sin θ − @cos θ$.','وزّع المقام على البسط.','$@frac{@sec θ}{@csc θ@sec θ} − @frac{@csc θ}{@csc θ@sec θ} = @frac{1}{@csc θ} − @frac{1}{@sec θ} = @sin θ − @cos θ$ ✓']
+ ]},
+
+/* ======================= 3-3 ======================= */
+{id:'3-3', unit:'u3', title:'المتطابقات المثلثية لمجموع زاويتين والفرق بينهما', lab:'sum',
+ goal:'أستعمل متطابقات المجموع والفرق لإيجاد القيم الدقيقة وإثبات المتطابقات.',
+ idea:[
+  'تفيدنا متطابقات المجموع والفرق في إيجاد القيم الدقيقة لزوايا غير مشهورة، مثل $15° = 45° − 30°$ و $75° = 45° + 30°$.',
+  'انتبه: $@sin(A + B)$ <b>لا</b> تساوي $@sin A + @sin B$.'
+ ],
+ tip:'في $@cos$ تنعكس الإشارة: مجموع ⇐ طرح، وفرق ⇐ جمع.',
+ rules:[
+  ['جيب المجموع/الفرق','$@sin(A ± B) = @sin A@cos B ± @cos A@sin B$'],
+  ['جيب تمام المجموع/الفرق','$@cos(A ± B) = @cos A@cos B ∓ @sin A@sin B$'],
+  ['ظل المجموع','$@tan(A + B) = @frac{@tan A + @tan B}{1 − @tan A@tan B}$'],
+  ['ظل الفرق','$@tan(A − B) = @frac{@tan A − @tan B}{1 + @tan A@tan B}$'],
+  ['قيم مفيدة','$@sin 15° = @frac{@sqrt{6} − @sqrt{2}}{4} ، @cos 15° = @frac{@sqrt{6} + @sqrt{2}}{4}$']
+ ],
+ rq:[
+  ['$@cos(A + B)$ =',['$@cos A@cos B + @sin A@sin B$','$@cos A@cos B − @sin A@sin B$','$@sin A@cos B + @cos A@sin B$','$@cos A + @cos B$'],1,'المجموع في جيب التمام يعطي طرحًا.'],
+  ['يمكن استعمال .......... لإيجاد $@cos 120°$ إذا علمنا جيب وجيب تمام $60°$ و $30°$ .',['متطابقة نصف الزاوية','متطابقة ضعف الزاوية','متطابقة مجموع زاويتين','متطابقة فيثاغورس'],2,'$120° = 60° + 30°$ (ويمكن أيضًا ضعف 60°).'],
+  ['$@sin(A − B)$ =',['$@sin A@cos B − @cos A@sin B$','$@sin A@cos B + @cos A@sin B$','$@cos A@cos B − @sin A@sin B$','$@sin A − @sin B$'],0,'الإشارة في الجيب تتبع العملية.']
+ ],
+ ex:{q:'أوجد القيمة الدقيقة لـ $@sin 105°$.',
+  s:['$105° = 60° + 45°$','$@sin 105° = @sin 60°@cos 45° + @cos 60°@sin 45°$','$= @frac{@sqrt{3}}{2}·@frac{@sqrt{2}}{2} + @frac{1}{2}·@frac{@sqrt{2}}{2}$','$= @frac{@sqrt{6} + @sqrt{2}}{4}$']},
+ qs:[
+  ['القيمة الدقيقة لـ $@sin(60° + θ)@cos θ − @cos(60° + θ)@sin θ$ :',['$@frac{1}{2}$','$@frac{@sqrt{3}}{2}$','$@frac{2}{@sqrt{3}}$','$@sqrt{3}$'],1,'$@sin((60° + θ) − θ) = @sin 60°$'],
+  ['$@cos(270° + θ)$ =',['$@cos θ$','$@sin θ$','$−@cos θ$','$−@sin θ$'],1,'$0·@cos θ − (−1)@sin θ$'],
+  ['$@cos(180° + θ)$ =',['$@cos θ$','$@sin θ$','$−@cos θ$','$−@sin θ$'],2,'$(−1)@cos θ − 0$'],
+  ['القيمة الدقيقة لـ $@cos @frac{5π}{12}$ :',['$@sqrt{2}$','$@frac{@sqrt{6} − @sqrt{2}}{4}$','$@frac{@sqrt{6} + @sqrt{2}}{2}$','$@frac{@sqrt{6} + @sqrt{2}}{4}$'],1,'$@frac{5π}{12} = 75° = 45° + 30°$'],
+  ['القيمة الدقيقة لـ $@sin(−210°)$ :',['$@frac{@sqrt{3}}{2}$','$@frac{1}{2}$','$−@frac{1}{2}$','$−@frac{@sqrt{3}}{2}$'],1,'$−@sin 210° = −(−@frac{1}{2})$'],
+  ['القيمة الدقيقة لـ $@tan 75°$ :',['$@sqrt{3} − 2$','$@sqrt{3} + 2$','$@sqrt{3}$','$−@sqrt{3}$'],1,'$@frac{1 + @frac{@sqrt{3}}{3}}{1 − @frac{@sqrt{3}}{3}} = 2 + @sqrt{3}$'],
+  ['$@sin(@frac{3π}{2} − θ)$ =',['$@cos θ$','$@sin θ$','$−@cos θ$','$−@sin θ$'],2,'$(−1)@cos θ − 0·@sin θ$'],
+  ['$@tan(θ − π)$ =',['$@cos θ$','$@tan θ$','$−@cos θ$','$−@tan θ$'],1,'$@frac{@tan θ − 0}{1 + 0}$'],
+  ['القيمة الدقيقة لـ $@tan 165°$ :',['$2 + @sqrt{3}$','$−2 + @sqrt{3}$','$@sqrt{3}$','$−@sqrt{3}$'],1,'$@tan(180° − 15°) = −@tan 15° = −(2 − @sqrt{3})$']
+ ],
+ hots:[
+  ['تبرير','هل $@sin(A + B) = @sin A + @sin B$ ؟ أعطِ مثالًا مضادًا.','جرّب $A = B = 30°$.','لا؛ $@sin 60° ≈ 0.866$ بينما $@sin 30° + @sin 30° = 1$.'],
+  ['إثبات','أثبت أن $@cos(360° − θ) = @cos θ$.','$@cos 360° = 1 ، @sin 360° = 0$','$@cos 360°@cos θ + @sin 360°@sin θ = @cos θ + 0 = @cos θ$ ✓'],
+  ['إبداع','أثبت $@tan(θ + 45°) = @frac{1 + @tan θ}{1 − @tan θ}$.','$@tan 45° = 1$','$@frac{@tan θ + 1}{1 − @tan θ · 1}$ ✓']
+ ]},
+
+/* ======================= 3-4 ======================= */
+{id:'3-4', unit:'u3', title:'المتطابقات المثلثية لضعف الزاوية ونصفها', lab:'double',
+ goal:'أستعمل متطابقات ضعف الزاوية ونصفها لإيجاد القيم الدقيقة وإثبات المتطابقات.',
+ idea:[
+  'متطابقات <b>ضعف الزاوية</b> حالة خاصة من مجموع زاويتين عندما $A = B = θ$.',
+  'متطابقات <b>نصف الزاوية</b> تحتوي على $±$ ، ونحدد الإشارة حسب الربع الذي تقع فيه $@frac{θ}{2}$ (لا $θ$).'
+ ],
+ tip:'اختر صيغة $@cos 2θ$ المناسبة: إذا عُلم $@sin θ$ فقط استعمل $1 − 2@sin^{2}θ$ ، وإذا عُلم $@cos θ$ فقط استعمل $2@cos^{2}θ − 1$.',
+ rules:[
+  ['جيب ضعف الزاوية','$@sin 2θ = 2@sin θ@cos θ$'],
+  ['جيب تمام ضعف الزاوية','$@cos 2θ = @cos^{2}θ − @sin^{2}θ$<br>$= 2@cos^{2}θ − 1 = 1 − 2@sin^{2}θ$'],
+  ['ظل ضعف الزاوية','$@tan 2θ = @frac{2@tan θ}{1 − @tan^{2}θ}$'],
+  ['جيب نصف الزاوية','$@sin @frac{θ}{2} = ±@sqrt{@frac{1 − @cos θ}{2}}$'],
+  ['جيب تمام نصف الزاوية','$@cos @frac{θ}{2} = ±@sqrt{@frac{1 + @cos θ}{2}}$'],
+  ['ظل نصف الزاوية','$@tan @frac{θ}{2} = ±@sqrt{@frac{1 − @cos θ}{1 + @cos θ}} ، @cos θ ≠ −1$'],
+  ['متطابقات القوى','$@sin^{2}θ = @frac{1 − @cos 2θ}{2} ، @cos^{2}θ = @frac{1 + @cos 2θ}{2}$']
+ ],
+ rq:[
+  ['يمكن استعمال .......... في إيجاد $@sin 60°$ باستعمال الزاوية $30°$ .',['نصف الزاوية','ضعف الزاوية','مجموع زاويتين','فيثاغورس'],1,'$60° = 2 × 30°$ (ويمكن أيضًا 30° + 30°).'],
+  ['يمكن استعمال .......... في إيجاد $@cos 22.5°$ .',['نصف الزاوية','ضعف الزاوية','مجموع زاويتين','فيثاغورس'],0,'$22.5° = @frac{45°}{2}$'],
+  ['$@sin 2θ$ =',['$2@sin θ$','$2@sin θ@cos θ$','$@sin^{2}θ − @cos^{2}θ$','$@frac{@sin θ}{2}$'],1,'حالة خاصة من $@sin(θ + θ)$.']
+ ],
+ ex:{q:'إذا كان $@cos θ = @frac{4}{5}$ ، $0° < θ < 90°$ ، فأوجد $@sin 2θ$ و $@cos 2θ$ و $@sin @frac{θ}{2}$.',
+  s:['$@sin θ = @sqrt{1 − @frac{16}{25}} = @frac{3}{5}$','$@sin 2θ = 2·@frac{3}{5}·@frac{4}{5} = @frac{24}{25}$','$@cos 2θ = 2·@frac{16}{25} − 1 = @frac{7}{25}$','$@frac{θ}{2}$ في الربع الأول ⇐ $@sin @frac{θ}{2} = @sqrt{@frac{1 − @frac{4}{5}}{2}} = @sqrt{@frac{1}{10}} = @frac{@sqrt{10}}{10}$']},
+ qs:[
+  ['إذا كان $@cos θ = @frac{5}{13}$ ، $0° ≤ θ < 90°$ ، فإن $@cos 2θ$ =',['$@frac{25}{169}$','$@frac{120}{169}$','$−@frac{119}{169}$','$@frac{119}{169}$'],2,'$2·@frac{25}{169} − 1$'],
+  ['إذا كان $@sin θ = @frac{4}{5}$ ، $0° ≤ θ < 90°$ ، فإن $@sin 2θ$ =',['$@frac{24}{25}$','$@frac{12}{25}$','$@frac{24}{5}$','$−@frac{7}{25}$'],0,'$2·@frac{4}{5}·@frac{3}{5}$'],
+  ['القيمة الدقيقة لـ $@cos 22.5°$ :',['$@frac{@sqrt{2 − @sqrt{2}}}{2}$','$@frac{@sqrt{2 + @sqrt{2}}}{2}$','$−@frac{@sqrt{2 + @sqrt{2}}}{2}$','$−@frac{@sqrt{2 − @sqrt{2}}}{2}$'],1,'$@sqrt{@frac{1 + @frac{@sqrt{2}}{2}}{2}}$ وموجب في الربع الأول.'],
+  ['أي مما يأتي <b>ليس</b> حلًا للمعادلة $@sin 2θ = 1$ ؟',['$90°$','$45°$','$225°$','$−135°$'],0,'$@sin 180° = 0 ≠ 1$'],
+  ['إذا كان $@cos θ = −@frac{@sqrt{5}}{3}$ ، $180° < θ < 270°$ ، فإن $@sin 2θ$ =',['$−@frac{1}{9}$','$−@frac{4@sqrt{5}}{9}$','$@frac{1}{9}$','$@frac{4@sqrt{5}}{9}$'],3,'$@sin θ = −@frac{2}{3}$ ⇐ $2(−@frac{2}{3})(−@frac{@sqrt{5}}{3})$'],
+  ['القيمة الدقيقة لـ $@cos 105°$ :',['$@frac{@sqrt{2 − @sqrt{3}}}{2}$','$@frac{@sqrt{2 + @sqrt{3}}}{2}$','$−@frac{@sqrt{2 + @sqrt{3}}}{2}$','$−@frac{@sqrt{2 − @sqrt{3}}}{2}$'],3,'$105° = @frac{210°}{2}$ في الربع الثاني ⇐ سالب.'],
+  ['إذا كان $@tan θ = 0$ فإن $@tan 2θ$ =',['$0$','$1$','$@frac{@sqrt{2}}{2}$','$2$'],0,'$@frac{0}{1 − 0}$'],
+  ['إذا كان $@cos θ = @frac{@sqrt{3}}{2}$ ، $0° < θ < 90°$ ، فإن $@tan @frac{θ}{2}$ =',['$2 − @sqrt{3}$','$@frac{@sqrt{3}}{3}$','$@sqrt{3} − 2$','$@sqrt{3}$'],0,'$θ = 30° ⇐ @tan 15° = 2 − @sqrt{3}$']
+ ],
+ hots:[
+  ['تبرير','هل $@sin 2θ = 2@sin θ$ ؟ برّر.','جرّب $θ = 90°$.','لا؛ $@sin 180° = 0$ بينما $2@sin 90° = 2$.'],
+  ['إثبات','أثبت أن $@tan θ = @frac{1 − @cos 2θ}{@sin 2θ}$.','استعمل $1 − 2@sin^{2}θ$ و $2@sin θ@cos θ$.','$@frac{1 − (1 − 2@sin^{2}θ)}{2@sin θ@cos θ} = @frac{2@sin^{2}θ}{2@sin θ@cos θ} = @tan θ$ ✓'],
+  ['تحليل','لماذا نحدد إشارة $@sin @frac{θ}{2}$ من ربع $@frac{θ}{2}$ لا من ربع $θ$ ؟ مثّل بـ $θ = 300°$.','أين تقع $150°$ ؟','لأن الدالة تُحسب للزاوية $@frac{θ}{2}$ ؛ فإذا $θ = 300°$ في الرابع فإن $@frac{θ}{2} = 150°$ في الثاني حيث $@sin$ موجب.']
+ ]},
+
+/* ======================= 3-5 ======================= */
+{id:'3-5', unit:'u3', title:'حل المعادلات المثلثية', lab:'trigeq',
+ goal:'أحل المعادلات المثلثية في فترة محددة ولجميع القيم، وأتعرف الحلول الدخيلة.',
+ idea:[
+  'المعادلة المثلثية صحيحة لقيم معينة فقط للمتغير، بخلاف المتطابقة.',
+  'نعزل الدالة المثلثية، أو نحلل إلى عوامل، أو نستعمل متطابقة لتوحيد الدوال، ثم نجد الزوايا.',
+  'لأن الدوال المثلثية دورية، فلجميع القيم نضيف $360°k$ (أو $2πk$)، وللظل $180°k$.'
+ ],
+ tip:'لا يوجد حل للمعادلة $@sin θ = 3$ ؛ لأن $−1 ≤ @sin θ ≤ 1$ دائمًا.',
+ rules:[
+  ['خطوات الحل','اعزل الدالة ← حلّل ← أوجد الزاوية المرجعية ← حدد الأرباع'],
+  ['الحل العام (جيب وجيب تمام)','$θ + 360°k$ أو $θ + 2πk$'],
+  ['الحل العام (ظل)','$θ + 180°k$ أو $θ + πk$'],
+  ['مدى الجيب وجيب التمام','$−1 ≤ @sin θ ≤ 1 ، −1 ≤ @cos θ ≤ 1$'],
+  ['الحلول الدخيلة','تحقق من الحلول بعد التربيع أو الضرب']
+ ],
+ rq:[
+  ['دورة دالة الظل:',['$90°$','$180°$','$360°$','$720°$'],1,'$@tan(θ + 180°) = @tan θ$'],
+  ['المعادلة $@sin θ = 3$ :',['لها حل واحد','لها حلان','ليس لها حل','لها عدد لا نهائي'],2,'خارج مدى الجيب.'],
+  ['حل $@sin θ − 1 = 0$ لجميع القيم بالراديان:',['$2kπ − @frac{π}{2}$','$2kπ + @frac{π}{2}$','$2π − @frac{π}{2}k$','$kπ$'],1,'$@sin θ = 1 ⇐ θ = @frac{π}{2}$']
+ ],
+ ex:{q:'حل $@sin 2θ = @cos θ$ حيث $0° ≤ θ ≤ 180°$.',
+  s:['$2@sin θ@cos θ − @cos θ = 0$','$@cos θ(2@sin θ − 1) = 0$','$@cos θ = 0 ⇐ θ = 90°$','$@sin θ = @frac{1}{2} ⇐ θ = 30° , 150°$ ، فالحلول: $30° ، 90° ، 150°$']},
+ qs:[
+  ['حل $@csc x = −@frac{2@sqrt{3}}{3}$ حيث $0° < x < 360°$ :',['$240° , 300°$','$30° , 150°$','$60° , 120°$','$210° , 330°$'],0,'$@sin x = −@frac{@sqrt{3}}{2}$ في الثالث والرابع.'],
+  ['أي مما يأتي ليس حلًا لـ $@sin θ + @cos θ@tan^{2}θ = 0$ ؟',['$@frac{5π}{4}$','$@frac{7π}{4}$','$@frac{3π}{4}$','$2π$'],0,'$@sin θ(1 + @tan θ) = 0$ ، و $@tan @frac{5π}{4} = 1 ≠ −1$'],
+  ['حل $@cos^{2}θ + 2@cos θ + 1 = 0$ حيث $0° ≤ θ ≤ 360°$ :',['$0°$','$90°$','$180°$','$270°$'],2,'$(@cos θ + 1)^{2} = 0$'],
+  ['حل $@cos θ + @frac{@sqrt{3}}{2} = 0$ حيث $0° ≤ θ ≤ 240°$ :',['$150° , 210°$','$30° , 330°$','$150°$ فقط','$120° , 240°$'],0,'$@cos θ = −@frac{@sqrt{3}}{2}$'],
+  ['عدد حلول $4@sin^{2}θ − 1 = 0$ حيث $0° < θ < 360°$ :',['$2$','$3$','$4$','$1$'],2,'$@sin θ = ±@frac{1}{2}$ : $30° ، 150° ، 210° ، 330°$'],
+  ['حل $@tan θ = 1$ لجميع القيم:',['$45° + 360°k$','$45° + 180°k$','$45° + 90°k$','$135° + 180°k$'],1,'دورة الظل $180°$.'],
+  ['حل $2@cos^{2}θ = 1$ لجميع القيم بالراديان:',['$@frac{π}{4} + @frac{π}{2}k$','$@frac{π}{4} + 2πk$','$@frac{π}{3} + πk$','$@frac{π}{2}k$'],0,'$@cos θ = ±@frac{@sqrt{2}}{2}$ : $45° ، 135° ، 225° ، ...$']
+ ],
+ hots:[
+  ['تبرير','لماذا ليس للمعادلة $@sin^{2}2θ + @cos^{2}2θ = 0$ أي حل؟','ما قيمة الطرف الأيسر دائمًا؟','لأن الطرف الأيسر يساوي 1 دائمًا (فيثاغورس)، و $1 ≠ 0$.'],
+  ['تحليل','كم حلًا للمعادلة $@sin θ = 0.3$ في الفترة $[0°, 720°]$ ؟','استعمل المختبر وحرّك الخط الأفقي.','4 حلول: حلّان في كل دورة كاملة.'],
+  ['تقييم','حل طالب $@sin θ = @cos θ$ بتربيع الطرفين فحصل على $45° ، 135° ، 225° ، 315°$. ما الخطأ؟','عوّض $135°$ في المعادلة الأصلية.','التربيع أضاف حلولًا دخيلة؛ الصحيح $45°$ و $225°$ فقط.']
+ ]},
+
+/* ======================= 4-1 ======================= */
+{id:'4-1', unit:'u4', title:'القطوع المكافئة', lab:'para',
+ goal:'أحلل معادلة القطع المكافئ وأحدد خصائصه، وأكتب معادلته من خصائصه.',
+ idea:[
+  '<b>القطع المكافئ</b> هو المحل الهندسي لجميع النقاط التي يكون بعدها عن نقطة ثابتة (<b>البؤرة</b>) مساويًا لبعدها عن مستقيم ثابت (<b>الدليل</b>).',
+  'عندما ترمي كرة فإنها تتحرك في مسار على شكل قطع مكافئ، وأطباق الاستقبال تجمع الإشارات في البؤرة.',
+  'إذا كان الحد المربع هو $x$ فالقطع رأسي (للأعلى أو للأسفل)، وإذا كان $y$ فهو أفقي (لليمين أو لليسار).'
+ ],
+ tip:'$c$ هي المسافة بين الرأس والبؤرة، وإشارتها تحدد الاتجاه.',
+ rules:[
+  ['التعريف','بُعد النقطة عن البؤرة = بُعدها عن الدليل'],
+  ['المفتوح رأسيًا','$(x − h)^{2} = 4c(y − k)$ ؛ للأعلى $c > 0$'],
+  ['خصائص الرأسي','البؤرة $(h, k + c)$ ، الدليل $y = k − c$ ، المحور $x = h$'],
+  ['المفتوح أفقيًا','$(y − k)^{2} = 4c(x − h)$ ؛ لليمين $c > 0$'],
+  ['خصائص الأفقي','البؤرة $(h + c, k)$ ، الدليل $x = h − c$ ، المحور $y = k$'],
+  ['الوتر البؤري','طوله $|4c|$ ، يمر بالبؤرة عموديًا على محور التماثل']
+ ],
+ rq:[
+  ['في القطع المكافئ، تسمى القطعة المستقيمة المارة بالبؤرة والعمودية على محور التماثل:',['الدليل','الوتر البؤري','المحور الأصغر','المحور المرافق'],1,'طولها $|4c|$.'],
+  ['$(y − 5)^{2} = −12(x − 2)$ منحنى:',['مفتوح للأعلى','مفتوح للأسفل','مفتوح لليمين','مفتوح لليسار'],3,'الحد المربع $y$ ⇐ أفقي، و $c = −3 < 0$ ⇐ لليسار.'],
+  ['بؤرة $(x − h)^{2} = 4c(y − k)$ :',['$(h + c, k)$','$(h, k + c)$','$(h, k − c)$','$(c, k)$'],1,'القطع رأسي ⇐ تتغير $y$.']
+ ],
+ ex:{q:'حدد خصائص القطع المكافئ $(y − 3)^{2} = −8(x + 1)$.',
+  s:['الصورة $(y − k)^{2} = 4c(x − h)$ ⇐ أفقي، $h = −1 ، k = 3$','$4c = −8 ⇐ c = −2$ ⇐ مفتوح لليسار','الرأس $(−1, 3)$ ، البؤرة $(h + c, k) = (−3, 3)$','الدليل $x = h − c = 1$ ، المحور $y = 3$ ، طول الوتر البؤري $|4c| = 8$']},
+ qs:[
+  ['إذا كانت المعادلة $(x + 2)^{2} = 4(y − 1)$ فإن البؤرة:',['$(−2, 1)$','$(−2, 2)$','$(2, −2)$','$(1, −2)$'],1,'$c = 1 ⇐ (h, k + c) = (−2, 2)$'],
+  ['إذا كانت المعادلة $(x − 1)^{2} = 8(y − 2)$ فإن الرأس:',['$(2, 1)$','$(−2, −1)$','$(1, 2)$','$(−1, −2)$'],2,'$h = 1 ، k = 2$'],
+  ['إذا كانت المعادلة $y^{2} = 16(x − 2)$ فالبعد بين البؤرة والرأس:',['وحدتان','أربع وحدات','16 وحدة','وحدة واحدة'],1,'$4c = 16 ⇐ c = 4$'],
+  ['إذا كانت المعادلة $@frac{1}{12}(x − 3)^{2} = y + 2$ فطول الوتر البؤري:',['$3$','$4$','$12$','$2$'],2,'$(x − 3)^{2} = 12(y + 2)$'],
+  ['إذا كانت المعادلة $(x − 3)^{2} = 12(y + 4)$ فمعادلة الدليل:',['$x = 3$','$x = 0$','$y = −7$','$y = −4$'],2,'$c = 3 ⇐ y = −4 − 3$'],
+  ['معادلة $x^{2} − 17 = 8y + 39$ بالصورة القياسية:',['$(x + 7)^{2} = 8y$','$x^{2} = −8(y + 7)$','$x^{2} = 8(y + 7)$','$(x − 7)^{2} = 8y$'],2,'$x^{2} = 8y + 56$'],
+  ['الصورة القياسية للقطع الذي دليله $x = −1$ وبؤرته $(5, −2)$ :',['$(y + 2)^{2} = 12(x − 2)$','$(y − 2)^{2} = 12(x + 2)$','$(y + 2)^{2} = 6(x − 2)$','$(x − 2)^{2} = 12(y + 2)$'],0,'الرأس منتصف المسافة: $(2, −2)$ ، $c = 3$']
+ ],
+ hots:[
+  ['ربط','لماذا توضع أداة الاستقبال في طبق الأقمار الصناعية عند البؤرة تمامًا؟','خاصية الانعكاس في القطع المكافئ.','لأن الإشارات القادمة موازية لمحور التماثل تنعكس عن سطح القطع وتتجمع كلها في البؤرة.'],
+  ['تحليل','ماذا يحدث لاتساع فتحة القطع المكافئ عندما تزداد $|c|$ ؟ جرّب في المختبر.','طول الوتر البؤري $|4c|$.','تتسع الفتحة؛ لأن الوتر البؤري يطول.'],
+  ['إبداع','اكتب معادلة قطع مكافئ رأسه $(−3, 2)$ ومحور تماثله $y = 2$ وطول وتره البؤري 8 ومفتوح لليمين.','المحور أفقي ⇐ $(y − k)^{2}$.','$(y − 2)^{2} = 8(x + 3)$']
+ ]},
+
+/* ======================= 4-2 ======================= */
+{id:'4-2', unit:'u4', title:'القطوع الناقصة والدوائر', lab:'ellipse',
+ goal:'أحدد خصائص القطع الناقص والدائرة، وأكتب معادلتيهما.',
+ idea:[
+  '<b>القطع الناقص</b> هو المحل الهندسي لجميع النقاط التي يكون <b>مجموع</b> بعديها عن نقطتين ثابتتين (البؤرتين) مقدارًا ثابتًا يساوي $2a$.',
+  'يمكنك رسمه بخيط مثبت بدبوسين: طول الخيط ثابت = $2a$.',
+  'إذا كان $a^{2}$ تحت $(x − h)^{2}$ فالمحور الأكبر أفقي، وإذا كان تحت $(y − k)^{2}$ فهو رأسي.',
+  '<b>الدائرة</b> حالة خاصة من القطع الناقص تنطبق فيها البؤرتان على المركز.'
+ ],
+ tip:'$a$ أكبر المقامين دائمًا ($a > b$ و $a > c$)، والاختلاف المركزي $e = @frac{c}{a}$ بين 0 و 1.',
+ rules:[
+  ['التعريف','$d_{1} + d_{2} = 2a$'],
+  ['المحور الأكبر أفقي','$@frac{(x − h)^{2}}{a^{2}} + @frac{(y − k)^{2}}{b^{2}} = 1$'],
+  ['خصائص الأفقي','البؤرتان $(h ± c, k)$ ، الرأسان $(h ± a, k)$ ، المرافقان $(h, k ± b)$'],
+  ['العلاقة بين a, b, c','$c^{2} = a^{2} − b^{2}$'],
+  ['الأطوال','المحور الأكبر $2a$ ، المحور الأصغر $2b$'],
+  ['الاختلاف المركزي','$e = @frac{c}{a} ، 0 < e < 1$'],
+  ['الدائرة','$(x − h)^{2} + (y − k)^{2} = r^{2}$ ، المركز منتصف القطر']
+ ],
+ rq:[
+  ['العلاقة بين $a , b , c$ في القطع الناقص:',['$c^{2} = a^{2} + b^{2}$','$c^{2} = a^{2} − b^{2}$','$a = b + c$','$c = a·b$'],1,'البؤرة داخل القطع ⇐ $c < a$.'],
+  ['كلما اقترب $e$ من الصفر يصبح القطع الناقص أقرب إلى:',['خط مستقيم','دائرة','قطع مكافئ','قطع زائد'],1,'$c → 0$ ⇐ البؤرتان تقتربان من المركز.'],
+  ['مجموع بعدي أي نقطة على القطع الناقص عن البؤرتين يساوي:',['$2b$','$2c$','$2a$','$a + b$'],2,'طول المحور الأكبر.']
+ ],
+ ex:{q:'حدد خصائص القطع الناقص $@frac{(x + 2)^{2}}{9} + @frac{y^{2}}{49} = 1$.',
+  s:['$49$ تحت $y^{2}$ ⇐ المحور الأكبر رأسي، المركز $(−2, 0)$','$a = 7 ، b = 3 ، c = @sqrt{49 − 9} = @sqrt{40} = 2@sqrt{10}$','الرأسان $(−2, ±7)$ ، البؤرتان $(−2, ±2@sqrt{10})$ ، المرافقان $(1, 0) ، (−5, 0)$','طول المحور الأكبر $14$ ، الأصغر $6$ ، $e = @frac{2@sqrt{10}}{7} ≈ 0.90$']},
+ qs:[
+  ['إذا كانت المعادلة $@frac{(x − 1)^{2}}{16} + @frac{(y + 2)^{2}}{9} = 1$ فإن المركز:',['$(1, 2)$','$(1, −2)$','$(−1, 2)$','$(−2, 1)$'],1,'$(h, k) = (1, −2)$'],
+  ['للقطع السابق، إحداثيا البؤرتين:',['$(1 ± @sqrt{7}, −2)$','$(5, −2) ، (−3, −2)$','$(1, −2 ± @sqrt{7})$','$(1, 4) ، (1, −8)$'],0,'$c^{2} = 16 − 9 = 7$ ، والمحور أفقي.'],
+  ['إذا كانت المعادلة $@frac{(x − 3)^{2}}{25} + (y − 2)^{2} = 1$ فالرأسان:',['$(8, 2) ، (−2, 2)$','$(8, −2) ، (2, −2)$','$(4, −2) ، (2, −2)$','$(4, 2) ، (2, 2)$'],0,'$(3 ± 5, 2)$'],
+  ['للقطع السابق، الرأسان المرافقان:',['$(3, 3) ، (3, 1)$','$(3, 7) ، (3, −3)$','$(−3, −3) ، (−3, −1)$','$(−3, 3) ، (3, 7)$'],0,'$(3, 2 ± 1)$'],
+  ['الاختلاف المركزي للقطع $@frac{(x + 5)^{2}}{72} + @frac{(y − 3)^{2}}{54} = 1$ :',['$2$','$0.58$','$0.5$','$0.2$'],2,'$c^{2} = 18 ⇐ e = @frac{3@sqrt{2}}{6@sqrt{2}}$'],
+  ['معادلة الدائرة التي مركزها $(−4, −3)$ وقطرها 12 :',['$(x − 4)^{2} + (y − 3)^{2} = 6$','$(x − 4)^{2} + (y − 3)^{2} = 36$','$(x + 4)^{2} + (y + 3)^{2} = 144$','$(x + 4)^{2} + (y + 3)^{2} = 36$'],3,'$r = 6$'],
+  ['معادلة الدائرة التي طرفا قطرها $(−4, −10) ، (4, −10)$ :',['$(x − 4)^{2} + (y − 10)^{2} = 4$','$(x − 4)^{2} + (y − 10)^{2} = 16$','$x^{2} + (y − 10)^{2} = 16$','$x^{2} + (y + 10)^{2} = 16$'],3,'المركز $(0, −10)$ ، $r = 4$'],
+  ['معادلة القطع الناقص الذي رأساه $(±10, 0)$ واختلافه المركزي $@frac{3}{5}$ :',['$@frac{x^{2}}{64} + @frac{y^{2}}{100} = 1$','$@frac{x^{2}}{8} + @frac{y^{2}}{10} = 1$','$@frac{x^{2}}{100} + @frac{y^{2}}{64} = 1$','$@frac{x^{2}}{10} − @frac{y^{2}}{8} = 1$'],2,'$a = 10 ، c = 6 ⇐ b^{2} = 64$']
+ ],
+ hots:[
+  ['تحليل','قطع ناقص رأساه $(−3, 4) ، (11, 4)$ وبؤرتاه $(−1, 4) ، (9, 4)$. اكتب معادلته.','المركز منتصف الرأسين، ثم $a$ و $c$.','المركز $(4, 4)$ ، $a = 7 ، c = 5 ، b^{2} = 24$ ⇐ $@frac{(x − 4)^{2}}{49} + @frac{(y − 4)^{2}}{24} = 1$'],
+  ['تبرير','لماذا تُعد الدائرة حالة خاصة من القطع الناقص؟ وما اختلافها المركزي؟','ماذا يحدث عندما $a = b$ ؟','عندما $a = b$ يكون $c = 0$ فتنطبق البؤرتان على المركز، و $e = 0$.'],
+  ['ربط','مدار الأرض حول الشمس قطع ناقص اختلافه المركزي نحو $0.017$. ماذا يعني ذلك؟','قيمة $e$ قريبة من صفر.','المدار قريب جدًا من الدائرة، فبعد الأرض عن الشمس يتغير قليلًا خلال السنة.']
+ ]},
+
+/* ======================= 4-3 ======================= */
+{id:'4-3', unit:'u4', title:'القطوع الزائدة', lab:'hyper',
+ goal:'أحدد خصائص القطع الزائد وخطي تقاربه، وأكتب معادلته.',
+ idea:[
+  '<b>القطع الزائد</b> هو المحل الهندسي لجميع النقاط التي تكون القيمة المطلقة <b>للفرق</b> بين بعديها عن البؤرتين مقدارًا ثابتًا يساوي $2a$.',
+  'للقطع الزائد فرعان وخطا تقارب يتقاطعان في المركز.',
+  'الحد ذو الإشارة الموجبة يحدد اتجاه المحور القاطع، و $a^{2}$ دائمًا تحت الحد الموجب.'
+ ],
+ tip:'في القطع الزائد $c$ هي الأكبر: $c^{2} = a^{2} + b^{2}$ ، و $e > 1$.',
+ rules:[
+  ['التعريف','$|d_{1} − d_{2}| = 2a$'],
+  ['المحور القاطع أفقي','$@frac{(x − h)^{2}}{a^{2}} − @frac{(y − k)^{2}}{b^{2}} = 1$'],
+  ['خصائص الأفقي','الرأسان $(h ± a, k)$ ، البؤرتان $(h ± c, k)$'],
+  ['خطا التقارب (أفقي)','$y − k = ±@frac{b}{a}(x − h)$'],
+  ['خطا التقارب (رأسي)','$y − k = ±@frac{a}{b}(x − h)$'],
+  ['العلاقة بين a, b, c','$c^{2} = a^{2} + b^{2}$'],
+  ['الاختلاف المركزي','$e = @frac{c}{a} > 1$']
+ ],
+ rq:[
+  ['القطع المخروطي الذي اختلافه المركزي أكبر من 1 دائمًا:',['المكافئ','الناقص','الدائرة','الزائد'],3,'$c > a$'],
+  ['القطعة المستقيمة التي طولها $2b$ وتعامد المحور القاطع في المركز تسمى:',['البعد البؤري','المحور المرافق','المحور الأكبر','الدليل'],1,'المحور المرافق.'],
+  ['العلاقة بين $a , b , c$ في القطع الزائد:',['$c^{2} = a^{2} − b^{2}$','$c^{2} = a^{2} + b^{2}$','$c = a − b$','$a^{2} = b^{2} + c^{2}$'],1,'عكس القطع الناقص.']
+ ],
+ ex:{q:'حدد خصائص القطع الزائد $@frac{(x − 1)^{2}}{9} − @frac{(y − 5)^{2}}{36} = 1$.',
+  s:['الحد الموجب $(x − 1)^{2}$ ⇐ المحور القاطع أفقي، المركز $(1, 5)$','$a = 3 ، b = 6 ، c = @sqrt{9 + 36} = @sqrt{45} = 3@sqrt{5}$','الرأسان $(−2, 5) ، (4, 5)$ ، البؤرتان $(1 ± 3@sqrt{5}, 5)$','خطا التقارب: $y − 5 = ±2(x − 1)$ ، $e = @frac{3@sqrt{5}}{3} = @sqrt{5} ≈ 2.24$']},
+ qs:[
+  ['معادلتا خطي التقارب للقطع $(@frac{x}{4})^{2} − (@frac{y}{5})^{2} = 1$ :',['$y = ±@frac{4}{5}x$','$y = ±@frac{5}{4}x$','$y = ±@frac{1}{5}x$','$y = ±@frac{1}{4}x$'],1,'$a = 4 ، b = 5 ⇐ ±@frac{b}{a}$'],
+  ['معادلتا خطي التقارب للقطع $@frac{x^{2}}{36} − @frac{y^{2}}{25} = 1$ :',['$y = ±@frac{6}{5}x$','$y = ±@frac{5}{6}x$','$y = ±@frac{36}{25}x$','$y = ±@frac{25}{36}x$'],1,'$@frac{b}{a} = @frac{5}{6}$'],
+  ['معادلة القطع الزائد الذي رأساه $(0, ±6)$ وبؤرتاه $(0, ±9)$ :',['$@frac{y^{2}}{36} − @frac{x^{2}}{45} = 1$','$@frac{x^{2}}{36} − @frac{y^{2}}{45} = 1$','$@frac{y^{2}}{45} − @frac{x^{2}}{36} = 1$','$@frac{y^{2}}{36} + @frac{x^{2}}{45} = 1$'],0,'رأسي، $b^{2} = 81 − 36 = 45$'],
+  ['بؤرتا القطع $@frac{y^{2}}{4} − @frac{x^{2}}{2} = 1$ :',['$(0, ±@sqrt{2})$','$(0, ±@sqrt{6})$','$(±@sqrt{2}, 0)$','$(±@sqrt{6}, 0)$'],1,'$c^{2} = 4 + 2 = 6$ ، رأسي.'],
+  ['الاختلاف المركزي للقطع $@frac{(x − 7)^{2}}{36} − @frac{(y + 10)^{2}}{121} = 1$ :',['$@frac{6}{11}$','$@frac{6}{@sqrt{157}}$','$@frac{@sqrt{157}}{11}$','$@frac{@sqrt{157}}{6}$'],3,'$c = @sqrt{157} ، a = 6$'],
+  ['معادلة القطع الزائد الذي رأساه $(−5, 5) ، (7, 5)$ وبؤرتاه $(−9, 5) ، (11, 5)$ :',['$@frac{(x − 1)^{2}}{36} − @frac{(y − 5)^{2}}{64} = 1$','$@frac{(x − 1)^{2}}{64} − @frac{(y − 5)^{2}}{36} = 1$','$@frac{(y − 5)^{2}}{36} − @frac{(x − 1)^{2}}{64} = 1$','$@frac{(x + 1)^{2}}{36} − @frac{(y + 5)^{2}}{64} = 1$'],0,'المركز $(1, 5)$ ، $a = 6 ، c = 10 ، b^{2} = 64$']
+ ],
+ hots:[
+  ['تحليل','ماذا يحدث لخطي التقارب عندما $a = b$ ؟','احسب الميل $@frac{b}{a}$.','يصبح الميلان $±1$ فيتعامد خطا التقارب ($y = ±x$ حول المركز).'],
+  ['تبرير','كيف تميّز من المعادلة بين قطع زائد أفقي ورأسي؟','لا تنظر لأي المقامين أكبر!','من الحد <b>الموجب</b>: إذا كان $(x − h)^{2}$ موجبًا فالمحور القاطع أفقي، وإن كان $(y − k)^{2}$ فرأسي.'],
+  ['مقارنة','قارن بين القطع الناقص والزائد في: التعريف، والعلاقة بين $a, b, c$ ، وقيمة $e$.','مجموع أم فرق؟','الناقص: مجموع $= 2a$ ، $c^{2} = a^{2} − b^{2}$ ، $0 < e < 1$. الزائد: فرق مطلق $= 2a$ ، $c^{2} = a^{2} + b^{2}$ ، $e > 1$.']
+ ]},
+
+/* ======================= 4-4 ======================= */
+{id:'4-4', unit:'u4', title:'تحديد أنواع القطوع المخروطية', lab:'conic',
+ goal:'أحدد نوع القطع المخروطي من معادلته العامة باستعمال المميز وإكمال المربع.',
+ idea:[
+  'المعادلة العامة لأي قطع مخروطي: $Ax^{2} + Bxy + Cy^{2} + Dx + Ey + F = 0$.',
+  'نحدد النوع باستعمال <b>المميز</b> $B^{2} − 4AC$.',
+  'إذا كان $B = 0$ يكون القطع أفقيًا أو رأسيًا، ويمكن تحويله للصورة القياسية بإكمال المربع. أما إذا $B ≠ 0$ فالقطع مائل.'
+ ],
+ tip:'عندما $B = 0$ : معامل مربع واحد فقط ⇐ مكافئ، المعاملان بنفس الإشارة ⇐ ناقص (ودائرة إن تساويا)، بإشارتين مختلفتين ⇐ زائد.',
+ rules:[
+  ['المعادلة العامة','$Ax^{2} + Bxy + Cy^{2} + Dx + Ey + F = 0$'],
+  ['قطع مكافئ','$B^{2} − 4AC = 0$'],
+  ['قطع ناقص','$B^{2} − 4AC < 0$ ، و $B ≠ 0$ أو $A ≠ C$'],
+  ['دائرة','$B^{2} − 4AC < 0$ ، $B = 0$ ، $A = C$'],
+  ['قطع زائد','$B^{2} − 4AC > 0$'],
+  ['الميل','$B = 0$ ⇐ أفقي أو رأسي ، $B ≠ 0$ ⇐ مائل']
+ ],
+ rq:[
+  ['إذا كان $B^{2} − 4AC > 0$ فالقطع:',['مكافئ','ناقص','دائرة','زائد'],3,'المميز موجب.'],
+  ['إذا كان $B^{2} − 4AC = 0$ فالقطع:',['مكافئ','ناقص','دائرة','زائد'],0,'المميز صفر.'],
+  ['دائرة تتطلب: $B = 0$ و',['$A = −C$','$A = C$','$A = 0$','$C = 0$'],1,'معاملا المربعين متساويان.']
+ ],
+ ex:{q:'اكتب $x^{2} + 4y^{2} − 6x + 16y − 11 = 0$ بالصورة القياسية وحدد نوعه.',
+  s:['$A = 1 ، C = 4 ، B = 0$ ⇐ $B^{2} − 4AC = −16 < 0$ و $A ≠ C$ ⇐ ناقص','نجمع: $(x^{2} − 6x) + 4(y^{2} + 4y) = 11$','نكمل المربع: $(x − 3)^{2} + 4(y + 2)^{2} = 11 + 9 + 16 = 36$','$@frac{(x − 3)^{2}}{36} + @frac{(y + 2)^{2}}{9} = 1$ قطع ناقص']},
+ qs:[
+  ['نوع القطع $4x^{2} − 5y = 9x − 12$ :',['مكافئ','ناقص','دائرة','زائد'],0,'$C = 0 ، B = 0 ⇐$ المميز صفر.'],
+  ['نوع القطع $5y^{2} = 2x + 6y − 8 + 3x^{2}$ :',['مكافئ','ناقص','دائرة','زائد'],3,'$A = −3 ، C = 5$ (بعد النقل) ⇐ $0 − 4(−3)(5) = 60 > 0$'],
+  ['نوع القطع $8x^{2} + 8y^{2} + 16x + 24 = 0$ حسب المميز:',['مكافئ','ناقص','دائرة','زائد'],2,'$A = C ، B = 0$'],
+  ['نوع القطع $16xy + 8x^{2} + 10y^{2} − 18x + 8y = 13$ :',['مكافئ','ناقص','دائرة','زائد'],1,'$256 − 320 = −64 < 0$ ، $B ≠ 0$'],
+  ['نوع القطع $xy = −8$ :',['مكافئ','ناقص','دائرة','زائد'],3,'$B = 1 ⇐ 1 − 0 > 0$'],
+  ['نوع القطع $16x^{2} − 24xy + 9y^{2} − 30x − 40y = 0$ :',['مكافئ','ناقص','دائرة','زائد'],0,'$576 − 4(16)(9) = 0$'],
+  ['الصورة القياسية لـ $x^{2} + y^{2} + 12x − 8y + 36 = 0$ :',['$(x + 6)^{2} + (y − 4)^{2} = 16$','$(x − 6)^{2} + (y + 4)^{2} = 16$','$(x + 6)^{2} + (y − 4)^{2} = 36$','$(x + 6)^{2} − (y − 4)^{2} = 16$'],0,'$36 + 16 − 36 = 16$ ⇐ دائرة نصف قطرها 4.']
+ ],
+ hots:[
+  ['تحليل','اكتب $9y^{2} − 16x^{2} − 18y − 64x − 199 = 0$ بالصورة القياسية وحدد نوعه.','أكمل المربع لكل متغير، وانتبه للإشارات.','$9(y − 1)^{2} − 16(x + 2)^{2} = 144$ ⇐ $@frac{(y − 1)^{2}}{16} − @frac{(x + 2)^{2}}{9} = 1$ قطع زائد رأسي.'],
+  ['تبرير','المعادلة $x^{2} + y^{2} = −4$ دائرة حسب المميز. هل لها تمثيل بياني؟','هل يمكن لمجموع مربعين أن يكون سالبًا؟','لا؛ لأن $x^{2} + y^{2} ≥ 0$ دائمًا، فلا توجد نقاط تحققها (دائرة تخيلية).'],
+  ['إبداع','اكتب معادلة عامة لقطع زائد فيها $B = 0$ ، ثم غيّر معاملًا واحدًا لتصبح قطعًا مكافئًا.','غيّر إشارة أو اجعل أحد المعاملين صفرًا.','مثال: $x^{2} − y^{2} + 2x − 3 = 0$ زائد، وبجعل معامل $y^{2}$ صفرًا: $x^{2} + 2x − y − 3 = 0$ مكافئ (مع إضافة حد $y$).']
+ ]}
+];
+/* ---------- أدوات عامة ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const MINUS = '−';
+function fmt(v, d = 2) {
+  if (!isFinite(v)) return v > 0 ? '∞' : (v < 0 ? '−∞' : 'غير معرف');
+  let s = (+v.toFixed(d)).toString();
+  if (s === '-0') s = '0';
+  return s.replace('-', MINUS);
+}
+
+/* ---------- محلل الرياضيات الصغير ---------- */
+function mparse(s) {
+  let i = 0, out = '';
+  const group = () => {
+    if (s[i] === '{') {
+      let d = 1, j = i + 1;
+      while (j < s.length && d) { if (s[j] === '{') d++; else if (s[j] === '}') d--; j++; }
+      const inner = s.slice(i + 1, j - 1); i = j; return mparse(inner);
+    }
+    const c = s[i]; i++;
+    return /[a-zA-Zθ]/.test(c || '') ? `<i>${c}</i>` : esc(c || '');
+  };
+  while (i < s.length) {
+    const c = s[i];
+    if (c === '@') {
+      const m = /^@([a-zA-Z]+)/.exec(s.slice(i));
+      const w = m ? m[1] : ''; i += 1 + w.length;
+      if (w === 'frac') { const a = group(), b = group(); out += `<span class="fr"><span class="nu">${a}</span><span class="de">${b}</span></span>`; }
+      else if (w === 'sqrt') {
+        let idx = '';
+        if (s[i] === '[') { const j = s.indexOf(']', i); idx = s.slice(i + 1, j); i = j + 1; }
+        const a = group();
+        out += `<span class="rt">${idx ? `<sup class="ri">${esc(idx)}</sup>` : ''}<span class="rs">√</span><span class="rc">${a}</span></span>`;
+      }
+      else if (w === 'lim' && s[i] === '_') { i++; const sub = group(); out += `<span class="lim"><span class="fn">lim</span><span class="ls">${sub}</span></span> `; }
+      else out += `<span class="fn">${w}</span>`;
+    }
+    else if (c === '^') { i++; out += `<sup>${group()}</sup>`; }
+    else if (c === '_') { i++; out += `<sub>${group()}</sub>`; }
+    else if (/[a-zA-Zθ]/.test(c)) { out += `<i>${c}</i>`; i++; }
+    else { out += esc(c); i++; }
+  }
+  return out;
+}
+const T = s => String(s).replace(/\$([^$]+)\$/g, (_, m) => `<span class="m" dir="ltr">${mparse(m)}</span>`);
+
+/* ---------- التقدم (محفوظ في متصفح الطالب فقط) ---------- */
+const STORE = 'm3book.v1';
+let PRO = { xp: 0, q: {}, r: {}, h: {} };
+try { const raw = localStorage.getItem(STORE); if (raw) PRO = Object.assign(PRO, JSON.parse(raw)); } catch (e) {}
+function save() { try { localStorage.setItem(STORE, JSON.stringify(PRO)); } catch (e) {} updateXP(); }
+function addXP(n, msg) { PRO.xp += n; save(); toast(`${msg} +${n}`); }
+function updateXP() { const e = $('#xpv'); if (e) e.textContent = PRO.xp; }
+let toastT;
+function toast(m) { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 1800); }
+const PRAISE = ['أحسنت!', 'ممتاز!', 'رائع، استمر!', 'إجابة موفقة!', 'بطل!', 'تفكير سليم!'];
+const praise = () => PRAISE[Math.floor(Math.random() * PRAISE.length)];
+
+function lessonStats(L) {
+  const allQ = [...L.rq.map((_, i) => `${L.id}:r${i}`), ...L.qs.map((_, i) => `${L.id}:q${i}`)];
+  const ok = allQ.filter(k => PRO.q[k] === 1).length;
+  const rk = L.rules.filter((_, i) => PRO.r[`${L.id}:${i}`]).length;
+  const hk = L.hots.filter((_, i) => PRO.h[`${L.id}:${i}`]).length;
+  let stars = 0;
+  if (rk === L.rules.length) stars++;
+  if (ok >= Math.ceil(allQ.length * 0.8)) stars++;
+  if (hk === L.hots.length) stars++;
+  return { ok, total: allQ.length, rk, hk, stars };
+}
+const starStr = n => '★'.repeat(n) + '☆'.repeat(3 - n);
+
+/* ---------- محرك الرسم ---------- */
+function colors() {
+  const cs = getComputedStyle(document.documentElement), g = n => cs.getPropertyValue(n).trim();
+  return { c1: g('--c1'), c2: g('--c2'), c3: g('--c3'), c4: g('--c4'), axis: g('--axis'), grid: g('--gridln'), ink: g('--ink'), muted: g('--muted'), sheet: g('--sheet'), marker: g('--marker'), bad: g('--bad'), ok: g('--ok') };
+}
+const MATHFONT = '"STIX Two Text","Cambria Math","Times New Roman",serif';
+function niceStep(span) {
+  const raw = span / 10, p = Math.pow(10, Math.floor(Math.log10(raw))), n = raw / p;
+  return (n < 1.5 ? 1 : n < 3.5 ? 2 : n < 7.5 ? 5 : 10) * p;
+}
+class Plot {
+  constructor(cv) { this.cv = cv; this.ctx = cv.getContext('2d'); this.win(-10, 10, -10, 10); }
+  fit() {
+    const b = this.cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+    const W = Math.max(1, Math.round(b.width * d)), H = Math.max(1, Math.round(b.height * d));
+    if (this.cv.width !== W || this.cv.height !== H) { this.cv.width = W; this.cv.height = H; }
+    this.W = b.width || 1; this.H = b.height || 1;
+    this.ctx.setTransform(d, 0, 0, d, 0, 0);
+    this.ctx.clearRect(0, 0, this.W, this.H);
+    this.region(0, 0, this.W, this.H);
+    this.C = colors();
+  }
+  region(x, y, w, h) { this.r = { x, y, w, h }; }
+  win(x0, x1, y0, y1) { this.x0 = x0; this.x1 = x1; this.y0 = y0; this.y1 = y1; }
+  square(cx, cy, half) {
+    const ar = this.r.w / this.r.h;
+    if (ar >= 1) this.win(cx - half * ar, cx + half * ar, cy - half, cy + half);
+    else this.win(cx - half, cx + half, cy - half / ar, cy + half / ar);
+  }
+  X(x) { return this.r.x + (x - this.x0) / (this.x1 - this.x0) * this.r.w; }
+  Y(y) { return this.r.y + this.r.h - (y - this.y0) / (this.y1 - this.y0) * this.r.h; }
+  ux(px) { return this.x0 + (px - this.r.x) / this.r.w * (this.x1 - this.x0); }
+  uy(py) { return this.y0 + (this.r.y + this.r.h - py) / this.r.h * (this.y1 - this.y0); }
+  clip() { const c = this.ctx; c.save(); c.beginPath(); c.rect(this.r.x, this.r.y, this.r.w, this.r.h); c.clip(); }
+  axes(o = {}) {
+    const c = this.ctx, C = this.C;
+    const sx = o.sx || niceStep(this.x1 - this.x0), sy = o.sy || niceStep(this.y1 - this.y0);
+    const fx = o.fx || (v => fmt(v, 2)), fy = o.fy || (v => fmt(v, 2));
+    this.clip();
+    c.lineWidth = 1; c.strokeStyle = C.grid; c.beginPath();
+    for (let x = Math.ceil(this.x0 / sx) * sx; x <= this.x1 + 1e-9; x += sx) { const p = Math.round(this.X(x)) + .5; c.moveTo(p, this.r.y); c.lineTo(p, this.r.y + this.r.h); }
+    for (let y = Math.ceil(this.y0 / sy) * sy; y <= this.y1 + 1e-9; y += sy) { const p = Math.round(this.Y(y)) + .5; c.moveTo(this.r.x, p); c.lineTo(this.r.x + this.r.w, p); }
+    c.stroke();
+    const ax = Math.min(Math.max(this.X(0), this.r.x + 1), this.r.x + this.r.w - 1);
+    const ay = Math.min(Math.max(this.Y(0), this.r.y + 1), this.r.y + this.r.h - 1);
+    c.strokeStyle = C.axis; c.lineWidth = 1.4; c.beginPath();
+    c.moveTo(this.r.x, ay); c.lineTo(this.r.x + this.r.w, ay); c.moveTo(ax, this.r.y); c.lineTo(ax, this.r.y + this.r.h); c.stroke();
+    if (o.labels !== false) {
+      c.fillStyle = C.muted; c.font = `12px ${MATHFONT}`; c.direction = 'ltr';
+      const every = o.every || 2;
+      let k = 0;
+      c.textAlign = 'center'; c.textBaseline = 'top';
+      for (let x = Math.ceil(this.x0 / sx) * sx; x <= this.x1 + 1e-9; x += sx, k++) {
+        if (Math.abs(x) < sx / 2 || (Math.round(x / sx) % every)) continue;
+        const ty = Math.min(ay + 4, this.r.y + this.r.h - 16);
+        c.fillText(fx(x), this.X(x), ty);
+      }
+      c.textAlign = 'right'; c.textBaseline = 'middle';
+      for (let y = Math.ceil(this.y0 / sy) * sy; y <= this.y1 + 1e-9; y += sy) {
+        if (Math.abs(y) < sy / 2 || (Math.round(y / sy) % every)) continue;
+        const tx = Math.max(ax - 5, this.r.x + 28);
+        c.fillText(fy(y), tx, this.Y(y));
+      }
+      c.textAlign = 'right'; c.textBaseline = 'bottom'; c.font = `italic 14px ${MATHFONT}`; c.fillStyle = C.axis;
+      c.fillText(o.xl || 'x', this.r.x + this.r.w - 6, ay - 4);
+      c.textAlign = 'left'; c.textBaseline = 'top';
+      c.fillText(o.yl || 'y', ax + 6, this.r.y + 4);
+    }
+    c.restore();
+  }
+  fn(f, o = {}) {
+    const c = this.ctx, from = o.from ?? this.x0, to = o.to ?? this.x1;
+    const N = Math.max(200, Math.round(this.r.w * 2)), span = this.y1 - this.y0;
+    this.clip(); c.strokeStyle = o.col || this.C.c1; c.lineWidth = o.w || 2.6; c.lineJoin = 'round'; c.lineCap = 'round';
+    c.setLineDash(o.dash || []); c.beginPath();
+    let pen = false, py = 0, pk = null;
+    for (let i = 0; i <= N; i++) {
+      const x = from + (to - from) * i / N, y = f(x), k = o.key ? o.key(x) : null;
+      if (!isFinite(y) || Math.abs(y) > 1e6) { pen = false; continue; }
+      if (pen && (Math.abs(y - py) > span * 0.9 || (o.key && k !== pk))) pen = false;
+      if (!pen) c.moveTo(this.X(x), this.Y(y)); else c.lineTo(this.X(x), this.Y(y));
+      pen = true; py = y; pk = k;
+    }
+    c.stroke(); c.setLineDash([]); c.restore();
+  }
+  curve(fx, fy, t0, t1, o = {}) {
+    const c = this.ctx, N = o.n || 300;
+    this.clip(); c.strokeStyle = o.col || this.C.c1; c.lineWidth = o.w || 2.6; c.setLineDash(o.dash || []); c.lineJoin = 'round'; c.beginPath();
+    for (let i = 0; i <= N; i++) { const t = t0 + (t1 - t0) * i / N, x = fx(t), y = fy(t); if (i) c.lineTo(this.X(x), this.Y(y)); else c.moveTo(this.X(x), this.Y(y)); }
+    c.stroke(); c.setLineDash([]); c.restore();
+  }
+  implicit(F, o = {}) {
+    const c = this.ctx, n = o.n || 150, ar = this.r.h / this.r.w, nx = n, ny = Math.round(n * ar);
+    const dx = (this.x1 - this.x0) / nx, dy = (this.y1 - this.y0) / ny, v = [];
+    for (let j = 0; j <= ny; j++) { v[j] = []; for (let i = 0; i <= nx; i++) v[j][i] = F(this.x0 + i * dx, this.y0 + j * dy); }
+    this.clip(); c.strokeStyle = o.col || this.C.c1; c.lineWidth = o.w || 2.6; c.lineCap = 'round'; c.beginPath();
+    const ip = (a, b) => a / (a - b);
+    for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+      const a = v[j][i], b = v[j][i + 1], d = v[j + 1][i], e = v[j + 1][i + 1];
+      const x = this.x0 + i * dx, y = this.y0 + j * dy, pts = [];
+      if ((a > 0) !== (b > 0)) pts.push([x + ip(a, b) * dx, y]);
+      if ((b > 0) !== (e > 0)) pts.push([x + dx, y + ip(b, e) * dy]);
+      if ((d > 0) !== (e > 0)) pts.push([x + ip(d, e) * dx, y + dy]);
+      if ((a > 0) !== (d > 0)) pts.push([x, y + ip(a, d) * dy]);
+      for (let k = 0; k + 1 < pts.length; k += 2) { c.moveTo(this.X(pts[k][0]), this.Y(pts[k][1])); c.lineTo(this.X(pts[k + 1][0]), this.Y(pts[k + 1][1])); }
+    }
+    c.stroke(); c.restore();
+  }
+  seg(x1, y1, x2, y2, o = {}) {
+    const c = this.ctx; this.clip(); c.strokeStyle = o.col || this.C.ink; c.lineWidth = o.w || 1.6; c.setLineDash(o.dash || []);
+    c.beginPath(); c.moveTo(this.X(x1), this.Y(y1)); c.lineTo(this.X(x2), this.Y(y2)); c.stroke(); c.setLineDash([]); c.restore();
+  }
+  vline(x, o = {}) { this.seg(x, this.y0 - 1, x, this.y1 + 1, o); }
+  hline(y, o = {}) { this.seg(this.x0 - 1, y, this.x1 + 1, y, o); }
+  dot(x, y, o = {}) {
+    const c = this.ctx, r = o.r || 5; if (!isFinite(x) || !isFinite(y)) return;
+    c.beginPath(); c.arc(this.X(x), this.Y(y), r, 0, Math.PI * 2);
+    if (o.hollow) { c.fillStyle = this.C.sheet; c.fill(); c.lineWidth = 2; c.strokeStyle = o.col || this.C.ink; c.stroke(); }
+    else { c.fillStyle = o.col || this.C.ink; c.fill(); c.lineWidth = 2; c.strokeStyle = this.C.sheet; c.stroke(); }
+  }
+  text(x, y, s, o = {}) {
+    const c = this.ctx; c.font = o.font || `600 13px ${MATHFONT}`; c.direction = o.rtl ? 'rtl' : 'ltr';
+    c.textAlign = o.align || 'left'; c.textBaseline = o.base || 'bottom';
+    const px = this.X(x) + (o.dx ?? 6), py = this.Y(y) + (o.dy ?? -6);
+    if (o.bg !== false) { c.lineWidth = 4; c.strokeStyle = this.C.sheet; c.lineJoin = 'round'; c.strokeText(s, px, py); }
+    c.fillStyle = o.col || this.C.ink; c.fillText(s, px, py);
+  }
+}
+
+/* ---------- مختبر تفاعلي ---------- */
+const LABS = new Set();
+const RM = window.matchMedia('(prefers-reduced-motion: reduce)');
+function makeLab(host, spec) {
+  host.innerHTML = `<div class="lab"><div class="cv-box"><canvas aria-label="تمثيل بياني تفاعلي"></canvas></div><div class="ctrls"></div></div>${spec.note ? `<p class="lab-note">${T(spec.note)}</p>` : ''}`;
+  const cv = host.querySelector('canvas'), P = new Plot(cv), box = host.querySelector('.ctrls');
+  if (spec.ratio) cv.style.aspectRatio = spec.ratio;
+  const s = {}, inputs = {}, outs = {}, segs = {}, specs = {};
+  const lab = { s, spec, P, visible: false, dirty: true, play: null, t0: performance.now() };
+  const setVal = (id, v) => {
+    s[id] = v;
+    if (inputs[id]) inputs[id].value = v;
+    if (outs[id]) outs[id].textContent = (specs[id].f || (x => fmt(x, 2)))(v);
+    if (segs[id]) segs[id].forEach(b => b.classList.toggle('on', String(b.dataset.v) === String(v)));
+    lab.dirty = true;
+  };
+  lab.setVal = setVal;
+  (spec.controls || []).forEach((c, n) => {
+    const d = document.createElement('div'); d.className = 'ctrl';
+    const uid = `${host.id || 'lab'}-${c.id || 'c' + n}`;
+    if (c.t === 'range') {
+      specs[c.id] = c; s[c.id] = c.v;
+      d.innerHTML = `<label for="${uid}"><span>${T(c.label)}</span><output></output></label><input id="${uid}" type="range" min="${c.min}" max="${c.max}" step="${c.step || 0.1}" value="${c.v}">`;
+      inputs[c.id] = d.querySelector('input'); outs[c.id] = d.querySelector('output');
+      inputs[c.id].addEventListener('input', e => { stopPlay(); setVal(c.id, +e.target.value); spec.onChange && spec.onChange(s, c.id, setVal); });
+      outs[c.id].textContent = (c.f || (x => fmt(x, 2)))(c.v);
+    } else if (c.t === 'seg') {
+      specs[c.id] = c; s[c.id] = c.v;
+      d.innerHTML = `<label><span>${T(c.label)}</span></label><div class="seg" role="group"></div>`;
+      const g = d.querySelector('.seg'); segs[c.id] = [];
+      c.opts.forEach(([v, l]) => {
+        const b = document.createElement('button'); b.type = 'button'; b.dataset.v = v; b.innerHTML = T(l);
+        if (String(v) === String(c.v)) b.classList.add('on');
+        b.addEventListener('click', () => { const val = typeof c.v === 'number' ? +v : v; setVal(c.id, val); spec.onChange && spec.onChange(s, c.id, setVal); });
+        g.appendChild(b); segs[c.id].push(b);
+      });
+    } else if (c.t === 'play') {
+      d.innerHTML = `<button type="button" class="play">▶ ${c.label || 'تشغيل الحركة'}</button>`;
+      const b = d.querySelector('button');
+      b.addEventListener('click', () => {
+        if (lab.play) { stopPlay(); return; }
+        const r = specs[c.target]; lab.play = { id: c.target, min: r.min, max: r.max, dur: c.dur || 5, start: performance.now(), from: s[c.target], btn: b, label: c.label || 'تشغيل الحركة' };
+        b.textContent = '❚❚ إيقاف'; kick();
+      });
+    }
+    box.appendChild(d);
+  });
+  function stopPlay() { if (lab.play) { lab.play.btn.textContent = '▶ ' + lab.play.label; lab.play = null; } }
+  const read = document.createElement('div'); read.className = 'readout'; read.setAttribute('aria-live', 'polite'); box.appendChild(read);
+  lab.read = read;
+  if (spec.drag) {
+    let down = false;
+    const mv = e => {
+      if (!down) return; const b = cv.getBoundingClientRect();
+      stopPlay(); spec.drag(s, P.ux(e.clientX - b.left), P.uy(e.clientY - b.top), setVal); lab.dirty = true; kick();
+    };
+    cv.addEventListener('pointerdown', e => { down = true; cv.setPointerCapture(e.pointerId); mv(e); });
+    cv.addEventListener('pointermove', mv);
+    cv.addEventListener('pointerup', () => down = false);
+    cv.addEventListener('pointercancel', () => down = false);
+  }
+  const io = new IntersectionObserver(es => { es.forEach(e => { lab.visible = e.isIntersecting; if (lab.visible) { lab.dirty = true; kick(); } }); });
+  io.observe(cv);
+  new ResizeObserver(() => { lab.dirty = true; kick(); }).observe(cv);
+  lab.io = io;
+  LABS.add(lab);
+  if (spec.init) spec.init(s, setVal);
+  return lab;
+}
+let rafOn = false;
+function kick() { if (!rafOn) { rafOn = true; requestAnimationFrame(loop); } }
+function loop(now) {
+  let more = false;
+  LABS.forEach(lab => {
+    if (!lab.P.cv.isConnected) { lab.io.disconnect(); LABS.delete(lab); return; }
+    if (!lab.visible) return;
+    if (lab.play) {
+      const p = lab.play, ph = ((now - p.start) / 1000 / p.dur) % 2, f = ph < 1 ? ph : 2 - ph;
+      lab.setVal(p.id, +(p.min + (p.max - p.min) * f).toFixed(3));
+      more = true;
+    }
+    const animated = lab.spec.anim && !RM.matches;
+    if (animated) more = true;
+    if (lab.dirty || animated || lab.play) {
+      const t = (now - lab.t0) / 1000;
+      lab.P.fit();
+      lab.spec.draw(lab.P, lab.s, t);
+      if (lab.spec.info && (lab.dirty || lab.play || lab.spec.liveInfo)) lab.read.innerHTML = T(lab.spec.info(lab.s, t));
+      lab.dirty = false;
+    }
+  });
+  if (more) requestAnimationFrame(loop); else rafOn = false;
+}
+const refreshAll = () => { LABS.forEach(l => l.dirty = true); kick(); };
+RM.addEventListener && RM.addEventListener('change', refreshAll);
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', refreshAll);
+new MutationObserver(refreshAll).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'class', 'style'] });
+/* ---------- مختبرات الدروس ---------- */
+const D2R = Math.PI / 180;
+const sgnTxt = v => v > 0 ? '+' : v < 0 ? MINUS : '';
+const ok = t => `<span class="badge ok">${t}</span>`;
+const bad = t => `<span class="badge bad">${t}</span>`;
+const inf = t => `<span class="badge inf">${t}</span>`;
+const signed = (v, d = 2) => (v >= 0 ? '+ ' : MINUS + ' ') + fmt(Math.abs(v), d);
+
+const W = {};
+
+/* 1-1 اختبار الخط الرأسي */
+W.vlt = {
+  note: 'اسحب الخط الرأسي بإصبعك على الرسم أو شغّل الحركة، وراقب عدد نقاط التقاطع.',
+  controls: [
+    { t: 'seg', id: 'r', label: 'العلاقة', v: 'p', opts: [['p', '$y = @frac{1}{2}x^{2} − 3$'], ['s', '$x = y^{2}$'], ['c', '$x^{2} + y^{2} = 16$'], ['w', '$y = 3@sin x$'], ['a', '$y = |x| − 2$']] },
+    { t: 'range', id: 'x', label: 'موقع الخط $x$', min: -6, max: 6, step: 0.05, v: 1.5 },
+    { t: 'play', target: 'x', label: 'حرّك الخط', dur: 6 }
+  ],
+  R: {
+    p: { f: true, ys: x => [0.5 * x * x - 3], draw: (P, C) => P.fn(x => 0.5 * x * x - 3, { col: C.c1 }) },
+    s: { f: false, ys: x => x < 0 ? [] : x === 0 ? [0] : [Math.sqrt(x), -Math.sqrt(x)], draw: (P, C) => P.curve(t => t * t, t => t, -4, 4, { col: C.c1 }) },
+    c: { f: false, ys: x => Math.abs(x) > 4 ? [] : Math.abs(x) === 4 ? [0] : [Math.sqrt(16 - x * x), -Math.sqrt(16 - x * x)], draw: (P, C) => P.curve(t => 4 * Math.cos(t), t => 4 * Math.sin(t), 0, 2 * Math.PI, { col: C.c1 }) },
+    w: { f: true, ys: x => [3 * Math.sin(x)], draw: (P, C) => P.fn(x => 3 * Math.sin(x), { col: C.c1 }) },
+    a: { f: true, ys: x => [Math.abs(x) - 2], draw: (P, C) => P.fn(x => Math.abs(x) - 2, { col: C.c1 }) }
+  },
+  draw(P, s) {
+    P.square(0, 0, 7); P.axes({ sx: 1 });
+    const R = this.R[s.r], C = P.C; R.draw(P, C);
+    const ys = R.ys(s.x), hit = ys.length > 1;
+    P.vline(s.x, { col: hit ? C.bad : C.c3, w: 3 });
+    ys.forEach(y => P.dot(s.x, y, { col: hit ? C.bad : C.c3, r: 6 }));
+  },
+  drag(s, x, y, set) { set('x', Math.max(-6, Math.min(6, +x.toFixed(2)))); },
+  info(s) {
+    const R = this.R[s.r], n = R.ys(s.x).length;
+    return `الخط $x = ${fmt(s.x)}$ يقطع المنحنى في <b>${n}</b> ${n === 1 ? 'نقطة' : 'نقاط'}.<br>` +
+      (R.f ? ok('دالة: لا يقطعها أي خط رأسي في أكثر من نقطة') : bad('ليست دالة: يوجد خط رأسي يقطعها في نقطتين'));
+  }
+};
+
+/* 1-2 التماثل */
+W.sym = {
+  note: 'حرّك النقطة $P$ وقارن بين $f(x)$ و $f(−x)$.',
+  controls: [
+    { t: 'seg', id: 'f', label: 'الدالة', v: 'q', opts: [['q', '$x^{2} − 2$'], ['c', '$@frac{1}{4}x^{3}$'], ['b', '$@frac{1}{4}x^{4} − 2x^{2}$'], ['o', '$x^{3} − 3x$'], ['n', '$x^{2} + x$']] },
+    { t: 'range', id: 'a', label: 'الإحداثي $x$ للنقطة', min: 0.2, max: 3.2, step: 0.05, v: 1.6 },
+    { t: 'play', target: 'a', label: 'تشغيل', dur: 4 }
+  ],
+  F: { q: [x => x * x - 2, 'e'], c: [x => x ** 3 / 4, 'o'], b: [x => x ** 4 / 4 - 2 * x * x, 'e'], o: [x => x ** 3 - 3 * x, 'o'], n: [x => x * x + x, 'n'] },
+  draw(P, s) {
+    P.square(0, 0, 6); P.axes({ sx: 1 }); const C = P.C;
+    const [f, k] = this.F[s.f], a = s.a, fa = f(a), fm = f(-a);
+    P.fn(f, { col: C.c1 });
+    if (k === 'e') P.seg(a, fa, -a, fm, { col: C.c4, dash: [6, 5], w: 2 });
+    if (k === 'o') P.seg(a, fa, -a, fm, { col: C.c4, dash: [6, 5], w: 2 });
+    P.dot(a, fa, { col: C.c2, r: 6 }); P.text(a, fa, `P(${fmt(a, 1)}, ${fmt(fa, 1)})`, { col: C.c2 });
+    P.dot(-a, fm, { col: C.c3, r: 6 }); P.text(-a, fm, `P'(${fmt(-a, 1)}, ${fmt(fm, 1)})`, { col: C.c3, align: 'right', dx: -8 });
+    if (k === 'o') P.dot(0, 0, { col: C.c4, r: 4 });
+  },
+  info(s) {
+    const [f, k] = this.F[s.f], a = s.a;
+    return `$f(${fmt(a)}) = ${fmt(f(a))}$ و $f(${fmt(-a)}) = ${fmt(f(-a))}$<br>` +
+      (k === 'e' ? ok('زوجية: $f(−x) = f(x)$ ، تماثل حول المحور $y$') : k === 'o' ? inf('فردية: $f(−x) = −f(x)$ ، تماثل حول الأصل') : bad('ليست زوجية ولا فردية'));
+  }
+};
+
+/* 1-3 الاتصال */
+W.cont = {
+  note: 'قرّب $x$ من القيمة $c$ من الجهتين (أو شغّل الحركة) وراقب قيمتي الدالة.',
+  controls: [
+    { t: 'seg', id: 'k', label: 'نوع الدالة', v: 'rem', opts: [['rem', 'قابل للإزالة'], ['jmp', 'قفزي'], ['inf', 'لا نهائي'], ['con', 'متصلة']] },
+    { t: 'range', id: 'd', label: 'البعد عن $c$', min: 0.02, max: 2.5, step: 0.01, v: 1.5 },
+    { t: 'play', target: 'd', label: 'اقترب من c', dur: 5 }
+  ],
+  K: {
+    rem: { c: 2, f: x => (x * x - 4) / (x - 2), name: '$f(x) = @frac{x^{2} − 4}{x − 2}$', L: 4, R: 4, fc: NaN },
+    jmp: { c: 1, f: x => x < 1 ? x + 2 : x - 1, name: '$f(x) = x + 2$ إذا $x < 1$ ، و $x − 1$ إذا $x ≥ 1$', L: 3, R: 0, fc: 0 },
+    inf: { c: 1, f: x => 1 / (x - 1), name: '$f(x) = @frac{1}{x − 1}$', L: -Infinity, R: Infinity, fc: NaN },
+    con: { c: 1, f: x => 0.5 * x * x + 1, name: '$f(x) = @frac{1}{2}x^{2} + 1$', L: 1.5, R: 1.5, fc: 1.5 }
+  },
+  draw(P, s) {
+    const K = this.K[s.k], C = P.C; P.square(K.c, 1.5, 6); P.axes({ sx: 1 });
+    P.vline(K.c, { col: C.muted, dash: [5, 5], w: 1.2 });
+    P.fn(K.f, { col: C.c1, key: s.k === 'jmp' ? (x => x < 1) : null });
+    if (s.k === 'rem') P.dot(2, 4, { hollow: true, col: C.c1, r: 6 });
+    if (s.k === 'jmp') { P.dot(1, 3, { hollow: true, col: C.c1, r: 6 }); P.dot(1, 0, { col: C.c1, r: 6 }); }
+    if (s.k === 'con') P.dot(1, 1.5, { col: C.c1, r: 5 });
+    const xl = K.c - s.d, xr = K.c + s.d;
+    P.dot(xl, K.f(xl), { col: C.c2, r: 6 }); P.dot(xr, K.f(xr), { col: C.c3, r: 6 });
+    P.seg(xl, 0, xl, K.f(xl), { col: C.c2, dash: [3, 4] }); P.seg(xr, 0, xr, K.f(xr), { col: C.c3, dash: [3, 4] });
+  },
+  info(s) {
+    const K = this.K[s.k], xl = K.c - s.d, xr = K.c + s.d;
+    const lim = (v) => isFinite(v) ? fmt(v) : (v > 0 ? '∞' : '−∞');
+    const verdict = { rem: bad('غير متصلة: عدم اتصال قابل للإزالة (فجوة)'), jmp: bad('غير متصلة: عدم اتصال قفزي'), inf: bad('غير متصلة: عدم اتصال لا نهائي'), con: ok('متصلة عند $x = 1$') }[s.k];
+    return `${K.name} ، $c = ${K.c}$<br>من اليسار: $f(${fmt(xl, 2)}) ≈ ${fmt(K.f(xl), 2)}$ ← $${lim(K.L)}$<br>من اليمين: $f(${fmt(xr, 2)}) ≈ ${fmt(K.f(xr), 2)}$ ← $${lim(K.R)}$<br>$f(${K.c})$ : ${isNaN(K.fc) ? 'غير معرفة' : '$' + fmt(K.fc) + '$'}<br>${verdict}`;
+  }
+};
+
+/* 1-4 القيم القصوى ومتوسط معدل التغير */
+W.sec = {
+  note: 'الأخضر: الدالة متزايدة ، البرتقالي: متناقصة. حرّك $x_{1}$ و $x_{2}$ لترى ميل القاطع.',
+  controls: [
+    { t: 'seg', id: 'f', label: 'الدالة', v: 'c', opts: [['c', '$x^{3} − 3x$'], ['q', '$−@frac{1}{4}x^{4} + 2x^{2}$']] },
+    { t: 'range', id: 'a', label: '$x_{1}$', min: -3, max: 3, step: 0.05, v: -1.5 },
+    { t: 'range', id: 'b', label: '$x_{2}$', min: -3, max: 3, step: 0.05, v: 2 },
+    { t: 'play', target: 'b', label: 'حرّك x₂', dur: 6 }
+  ],
+  F: { c: [x => x ** 3 - 3 * x, x => 3 * x * x - 3, [[-1, 'عظمى محلية'], [1, 'صغرى محلية']]], q: [x => -(x ** 4) / 4 + 2 * x * x, x => -(x ** 3) + 4 * x, [[-2, 'عظمى مطلقة'], [0, 'صغرى محلية'], [2, 'عظمى مطلقة']]] },
+  draw(P, s) {
+    const [f, df, ex] = this.F[s.f], C = P.C; P.square(0, 1, 5.5); P.axes({ sx: 1 });
+    P.fn(x => df(x) >= 0 ? f(x) : NaN, { col: C.c3, w: 3.2 });
+    P.fn(x => df(x) < 0 ? f(x) : NaN, { col: C.c2, w: 3.2 });
+    ex.forEach(([x, l]) => { P.dot(x, f(x), { col: C.c4, r: 5 }); P.text(x, f(x), l, { rtl: true, align: 'center', dx: 0, dy: f(x) > 0 ? -10 : 22, font: `600 12px ${MATHFONT}`, col: C.c4 }); });
+    const fa = f(s.a), fb = f(s.b);
+    if (Math.abs(s.b - s.a) > 1e-6) { const m = (fb - fa) / (s.b - s.a); P.fn(x => fa + m * (x - s.a), { col: C.c1, w: 2, dash: [8, 6] }); }
+    P.dot(s.a, fa, { col: C.c1, r: 6 }); P.dot(s.b, fb, { col: C.c1, r: 6 });
+  },
+  info(s) {
+    const f = this.F[s.f][0], fa = f(s.a), fb = f(s.b);
+    if (Math.abs(s.b - s.a) < 1e-6) return 'اختر قيمتين مختلفتين لـ $x_{1}$ و $x_{2}$.';
+    const m = (fb - fa) / (s.b - s.a);
+    return `$m_{sec} = @frac{f(${fmt(s.b)}) − f(${fmt(s.a)})}{${fmt(s.b)} − (${fmt(s.a)})} = @frac{${fmt(fb)} − (${fmt(fa)})}{${fmt(s.b - s.a)}}$<br><span class="big">$m_{sec} ≈ ${fmt(m)}$</span> ${m > 0 ? ok('القاطع صاعد') : m < 0 ? bad('القاطع هابط') : inf('القاطع أفقي')}`;
+  }
+};
+
+/* 1-5 الدوال الأم والتحويلات */
+const PARENTS = {
+  sq: [x => x * x, 'x^{2}', '(x − h)^{2}'], ab: [x => Math.abs(x), '|x|', '|x − h|'], rt: [x => x >= 0 ? Math.sqrt(x) : NaN, '@sqrt{x}', '@sqrt{x − h}'],
+  cu: [x => x ** 3, 'x^{3}', '(x − h)^{3}'], re: [x => 1 / x, '@frac{1}{x}', '@frac{1}{x − h}'], fl: [x => Math.floor(x), '[x]', '[x − h]']
+};
+W.trans = {
+  note: 'المنحنى المتقطع هو الدالة الأم، والمتصل هو $g(x) = a·f(x − h) + k$.',
+  controls: [
+    { t: 'seg', id: 'p', label: 'الدالة الأم', v: 'sq', opts: [['sq', '$x^{2}$'], ['ab', '$|x|$'], ['rt', '$@sqrt{x}$'], ['cu', '$x^{3}$'], ['re', '$@frac{1}{x}$'], ['fl', '$[x]$']] },
+    { t: 'range', id: 'a', label: '$a$ (تمدد/انعكاس حول $x$)', min: -3, max: 3, step: 0.25, v: 2 },
+    { t: 'range', id: 'h', label: '$h$ (انسحاب أفقي)', min: -5, max: 5, step: 0.5, v: 2 },
+    { t: 'range', id: 'k', label: '$k$ (انسحاب رأسي)', min: -5, max: 5, step: 0.5, v: -3 },
+    { t: 'seg', id: 'ry', label: 'انعكاس حول المحور $y$ : $f(−x)$', v: 0, opts: [[0, 'لا'], [1, 'نعم']] },
+    { t: 'play', target: 'h', label: 'حرّك أفقيًا', dur: 6 }
+  ],
+  g(s) { const f = PARENTS[s.p][0], sg = s.ry ? -1 : 1; return x => s.a * f(sg * (x - s.h)) + s.k; },
+  draw(P, s) {
+    const C = P.C, f = PARENTS[s.p][0]; P.square(0, 0, 7); P.axes({ sx: 1 });
+    const fl = s.p === 'fl';
+    P.fn(f, { col: C.muted, w: 2, dash: [6, 5], key: fl ? Math.floor : null });
+    const sg = s.ry ? -1 : 1;
+    P.fn(this.g(s), { col: C.c1, w: 3, key: fl ? (x => Math.floor(sg * (x - s.h))) : null });
+    if (s.p !== 're' && s.p !== 'fl') P.dot(s.h, s.k, { col: C.c2, r: 5 });
+    if (s.p === 're') { P.vline(s.h, { col: C.c2, dash: [4, 4], w: 1.2 }); P.hline(s.k, { col: C.c2, dash: [4, 4], w: 1.2 }); }
+  },
+  info(s) {
+    const t = [];
+    if (s.a === 0) return bad('$a$ لا يساوي صفرًا');
+    if (s.a < 0) t.push('انعكاس حول المحور $x$');
+    if (Math.abs(s.a) > 1) t.push(`توسع رأسي بمعامل $${fmt(Math.abs(s.a))}$`); else if (Math.abs(s.a) < 1) t.push(`تضييق رأسي بمعامل $${fmt(Math.abs(s.a))}$`);
+    if (s.ry) t.push('انعكاس حول المحور $y$');
+    if (s.h > 0) t.push(`انسحاب $${fmt(s.h)}$ وحدات لليمين`); else if (s.h < 0) t.push(`انسحاب $${fmt(-s.h)}$ وحدات لليسار`);
+    if (s.k > 0) t.push(`انسحاب $${fmt(s.k)}$ وحدات لأعلى`); else if (s.k < 0) t.push(`انسحاب $${fmt(-s.k)}$ وحدات لأسفل`);
+    const inner = s.h === 0 ? 'x' : `x ${s.h > 0 ? '−' : '+'} ${fmt(Math.abs(s.h))}`;
+    const arg = s.ry ? `−(${inner})` : inner;
+    const map = { sq: `(${arg})^{2}`, ab: `|${arg}|`, rt: `@sqrt{${arg}}`, cu: `(${arg})^{3}`, re: `@frac{1}{${arg}}`, fl: `[${arg}]` };
+    const aa = s.a === 1 ? '' : s.a === -1 ? '−' : fmt(s.a);
+    const kk = s.k === 0 ? '' : ` ${s.k > 0 ? '+' : '−'} ${fmt(Math.abs(s.k))}`;
+    return `<span class="big">$g(x) = ${aa}${map[s.p]}${kk}$</span><br>${t.length ? t.map(x => '• ' + x).join('<br>') : 'لا تحويلات: $g = f$'}`;
+  }
+};
+
+/* 1-6 تركيب الدوال */
+const CF = { sq: [x => x * x, 'x^{2}'], lin: [x => 2 * x - 3, '2x − 3'], ab: [x => Math.abs(x), '|x|'] };
+const CG = { p2: [x => x + 2, 'x + 2'], dbl: [x => 2 * x, '2x'], m1: [x => x - 1, 'x − 1'] };
+W.comp = {
+  note: 'الكرة تمر في الآلة الداخلية أولًا ثم الخارجية. بدّل الترتيب لترى أن $f(g(x)) ≠ g(f(x))$ غالبًا.',
+  anim: true, liveInfo: false, ratio: '1/1.05',
+  controls: [
+    { t: 'seg', id: 'f', label: '$f(x)$', v: 'sq', opts: [['sq', '$x^{2}$'], ['lin', '$2x − 3$'], ['ab', '$|x|$']] },
+    { t: 'seg', id: 'g', label: '$g(x)$', v: 'p2', opts: [['p2', '$x + 2$'], ['dbl', '$2x$'], ['m1', '$x − 1$']] },
+    { t: 'seg', id: 'o', label: 'الترتيب', v: 'fg', opts: [['fg', '$[f∘g](x)$'], ['gf', '$[g∘f](x)$']] },
+    { t: 'range', id: 'x', label: 'المدخل $x$', min: -3, max: 3, step: 0.5, v: 1 }
+  ],
+  draw(P, s, t) {
+    const C = P.C, c = P.ctx, W0 = P.W, H0 = P.H, f = CF[s.f][0], g = CG[s.g][0];
+    const first = s.o === 'fg' ? [g, 'g'] : [f, 'f'], second = s.o === 'fg' ? [f, 'f'] : [g, 'g'];
+    const v1 = first[0](s.x), v2 = second[0](v1);
+    const top = H0 * 0.36;
+    // الآلة
+    const bx = [W0 * 0.30, W0 * 0.70], bw = W0 * 0.18, bh = top * 0.42, by = top * 0.30;
+    c.font = `600 14px ${MATHFONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.direction = 'ltr';
+    c.strokeStyle = C.axis; c.lineWidth = 1.5; c.setLineDash([4, 4]);
+    c.beginPath(); c.moveTo(W0 * 0.06, by + bh / 2); c.lineTo(W0 * 0.94, by + bh / 2); c.stroke(); c.setLineDash([]);
+    [[bx[0], first[1], C.c3], [bx[1], second[1], C.c4]].forEach(([x, n, col]) => {
+      c.fillStyle = col; c.beginPath(); if (c.roundRect) c.roundRect(x - bw / 2, by, bw, bh, 10); else c.rect(x - bw / 2, by, bw, bh); c.fill();
+      c.fillStyle = C.sheet; c.font = `italic 700 20px ${MATHFONT}`; c.fillText(n, x, by + bh / 2);
+    });
+    c.font = `600 14px ${MATHFONT}`; c.fillStyle = C.ink;
+    c.fillText(`x = ${fmt(s.x)}`, W0 * 0.1, by - 12);
+    c.fillText(fmt(v1), W0 * 0.5, by - 12);
+    c.fillText(fmt(v2), W0 * 0.9, by - 12);
+    const ph = RM.matches ? 0.999 : (t / 3) % 1, px = W0 * (0.06 + 0.88 * ph);
+    c.beginPath(); c.arc(px, by + bh / 2, 8, 0, 7); c.fillStyle = C.c2; c.fill(); c.strokeStyle = C.sheet; c.lineWidth = 2; c.stroke();
+    c.font = `12px ${MATHFONT}`; c.fillStyle = C.muted;
+    c.fillText(ph < 0.3 ? fmt(s.x) : ph < 0.7 ? fmt(v1) : fmt(v2), px, by + bh + 16);
+    // التمثيل البياني للتركيب
+    P.region(8, top + 6, W0 - 16, H0 - top - 14);
+    P.win(-4.2, 4.2, -4, 12); P.axes({ sx: 1, sy: 2 });
+    const comp = s.o === 'fg' ? (x => f(g(x))) : (x => g(f(x)));
+    const other = s.o === 'fg' ? (x => g(f(x))) : (x => f(g(x)));
+    P.fn(other, { col: C.muted, w: 1.6, dash: [5, 5] });
+    P.fn(comp, { col: C.c1, w: 3 });
+    P.dot(s.x, v2, { col: C.c2, r: 6 });
+  },
+  info(s) {
+    const f = CF[s.f], g = CG[s.g], inner = s.o === 'fg' ? g : f, outer = s.o === 'fg' ? f : g;
+    const v1 = inner[0](s.x), v2 = outer[0](v1), n1 = s.o === 'fg' ? 'g' : 'f', n2 = s.o === 'fg' ? 'f' : 'g';
+    const sw = s.o === 'fg' ? f[0](g[0](s.x)) === g[0](f[0](s.x)) : true;
+    return `$${n1}(${fmt(s.x)}) = ${fmt(v1)}$ ثم $${n2}(${fmt(v1)}) = ${fmt(v2)}$<br><span class="big">$[${n2}∘${n1}](${fmt(s.x)}) = ${fmt(v2)}$</span><br>المنحنى المتصل: التركيب المختار ، والمتقطع: الترتيب الآخر.`;
+  }
+};
+
+/* 1-7 الدوال العكسية */
+const INV = {
+  lin: [x => 2 * x - 3, x => (x + 3) / 2, -6, 6, true, '2x − 3', '@frac{x + 3}{2}'],
+  cub: [x => x ** 3 / 4, x => Math.cbrt(4 * x), -3, 3, true, '@frac{1}{4}x^{3}', '@sqrt[3]{4x}'],
+  rt: [x => Math.sqrt(x), x => x * x, 0, 9, true, '@sqrt{x}', 'x^{2} ، x ≥ 0'],
+  sq: [x => x * x - 4, null, -3.4, 3.4, false, 'x^{2} − 4', '']
+};
+W.inv = {
+  note: 'حرّك شريط «الانعكاس» ليتحول منحنى $f$ إلى $f^{−1}$ بالانعكاس حول $y = x$ ، وحرّك الخط الأفقي لاختبار التباين.',
+  controls: [
+    { t: 'seg', id: 'f', label: 'الدالة', v: 'lin', opts: [['lin', '$2x − 3$'], ['cub', '$@frac{1}{4}x^{3}$'], ['rt', '$@sqrt{x}$'], ['sq', '$x^{2} − 4$']] },
+    { t: 'range', id: 'm', label: 'الانعكاس حول $y = x$', min: 0, max: 1, step: 0.01, v: 1, f: v => Math.round(v * 100) + '%' },
+    { t: 'play', target: 'm', label: 'شغّل الانعكاس', dur: 3 },
+    { t: 'range', id: 'y', label: 'الخط الأفقي $y$', min: -4, max: 5, step: 0.1, v: 1 }
+  ],
+  draw(P, s) {
+    const C = P.C, F = INV[s.f]; P.square(0, 0, 6.5); P.axes({ sx: 1 });
+    P.fn(x => x, { col: C.muted, w: 1.5, dash: [6, 5] });
+    P.fn(F[0], { col: C.c1, w: 3, from: F[2], to: F[3] });
+    const m = s.m;
+    if (m > 0) P.curve(t => (1 - m) * t + m * F[0](t), t => (1 - m) * F[0](t) + m * t, F[2], F[3], { col: C.c2, w: 3 });
+    P.hline(s.y, { col: C.c3, w: 2 });
+    const xs = [], N = 600;
+    for (let i = 0; i < N; i++) { const a = F[2] + (F[3] - F[2]) * i / N, b = F[2] + (F[3] - F[2]) * (i + 1) / N, fa = F[0](a) - s.y, fb = F[0](b) - s.y; if (fa === 0 || fa * fb < 0) xs.push(a + (b - a) * (fa / (fa - fb || 1))); }
+    xs.forEach(x => P.dot(x, s.y, { col: xs.length > 1 ? C.bad : C.c3, r: 6 }));
+    this._n = xs.length;
+  },
+  info(s) {
+    const F = INV[s.f];
+    return (F[4] ? ok('متباينة: لا يقطعها أي خط أفقي في أكثر من نقطة') + `<br>$f(x) = ${F[5]}$ ⇐ $f^{−1}(x) = ${F[6]}$` :
+      bad('ليست متباينة: يوجد خط أفقي يقطعها في نقطتين') + `<br>$f(x) = ${F[5]}$ ليس لها دالة عكسية إلا بتقييد المجال (مثل $x ≥ 0$).`) +
+      `<br>المنحنى البرتقالي: صورة $f$ بعد الانعكاس.`;
+  }
+};
+
+/* 2-1 الدوال الأسية */
+W.expo = {
+  note: 'الخط المتقطع هو خط التقارب الأفقي $y = k$.',
+  controls: [
+    { t: 'range', id: 'a', label: '$a$', min: -3, max: 3, step: 0.25, v: 1 },
+    { t: 'range', id: 'b', label: 'الأساس $b$', min: 0.2, max: 3, step: 0.05, v: 2 },
+    { t: 'play', target: 'b', label: 'غيّر الأساس', dur: 6 },
+    { t: 'range', id: 'h', label: '$h$', min: -4, max: 4, step: 0.5, v: 0 },
+    { t: 'range', id: 'k', label: '$k$', min: -4, max: 4, step: 0.5, v: 0 }
+  ],
+  draw(P, s) {
+    const C = P.C; P.square(0, 2, 6.5); P.axes({ sx: 1 });
+    P.hline(s.k, { col: C.c2, dash: [7, 5], w: 1.6 });
+    if (s.a !== 0 && Math.abs(s.b - 1) > 0.001) P.fn(x => s.a * Math.pow(s.b, x - s.h) + s.k, { col: C.c1, w: 3 });
+    P.dot(s.h, s.a + s.k, { col: C.c3, r: 5 }); P.text(s.h, s.a + s.k, `(${fmt(s.h)}, ${fmt(s.a + s.k)})`, { col: C.c3 });
+  },
+  info(s) {
+    if (s.a === 0) return bad('$a ≠ 0$');
+    if (Math.abs(s.b - 1) < 0.001) return bad('$b = 1$ تعطي دالة ثابتة، وليست أسية');
+    const type = (s.b > 1) === (s.a > 0) ? 'متزايدة' : 'متناقصة';
+    return `<span class="big">$f(x) = ${fmt(s.a)}(${fmt(s.b)})^{x ${s.h >= 0 ? '−' : '+'} ${fmt(Math.abs(s.h))}} ${s.k >= 0 ? '+' : '−'} ${fmt(Math.abs(s.k))}$</span><br>` +
+      (s.b > 1 ? ok('نمو أسي: $b > 1$') : inf('اضمحلال أسي: $0 < b < 1$')) + ` الدالة ${type}<br>المجال: $ℝ$ ، المدى: $${s.a > 0 ? `y > ${fmt(s.k)}` : `y < ${fmt(s.k)}`}$<br>خط التقارب: $y = ${fmt(s.k)}$` + (s.a < 0 ? '<br>$a < 0$ ⇐ انعكاس حول المحور $x$' : '');
+  }
+};
+
+/* 2-2 الربح المركب */
+W.interest = {
+  note: 'المنحنى: الربح المركب ، الخط المتقطع: الربح البسيط للمقارنة.',
+  ratio: '1/0.9',
+  controls: [
+    { t: 'range', id: 'P', label: 'رأس المال $P$ (ريال)', min: 1000, max: 100000, step: 1000, v: 50000, f: v => v.toLocaleString('en') },
+    { t: 'range', id: 'r', label: 'المعدل السنوي $r$', min: 1, max: 15, step: 0.25, v: 6, f: v => fmt(v) + '%' },
+    { t: 'range', id: 't', label: 'عدد السنوات $t$', min: 1, max: 30, step: 1, v: 10 },
+    { t: 'seg', id: 'n', label: 'مرات الإضافة في السنة $n$', v: 12, opts: [[1, 'سنويًا 1'], [2, 'نصف سنوي 2'], [4, 'ربع سنوي 4'], [12, 'شهريًا 12']] },
+    { t: 'play', target: 't', label: 'مرّر السنوات', dur: 6 }
+  ],
+  draw(P, s) {
+    const C = P.C, r = s.r / 100, A = t => s.P * Math.pow(1 + r / s.n, s.n * t);
+    const ymax = A(30) * 1.05, step = niceStep(ymax);
+    P.region(46, 8, P.W - 54, P.H - 34); P.win(0, 30, 0, ymax);
+    P.axes({ sx: 5, sy: step, every: 1, fy: v => v >= 1e6 ? fmt(v / 1e6, 1) + 'M' : fmt(v / 1000, 0) + 'k', xl: 't', yl: 'A' });
+    P.fn(t => s.P * (1 + r * t), { col: C.muted, w: 2, dash: [6, 5] });
+    P.fn(A, { col: C.c1, w: 1.6, dash: [2, 4] });
+    P.fn(A, { col: C.c1, w: 3.2, from: 0, to: s.t });
+    P.dot(s.t, A(s.t), { col: C.c2, r: 6 });
+  },
+  info(s) {
+    const r = s.r / 100, A = s.P * Math.pow(1 + r / s.n, s.n * s.t), simple = s.P * (1 + r * s.t);
+    return `$A = ${s.P.toLocaleString('en')}(1 + @frac{${fmt(r, 4)}}{${s.n}})^{${s.n} × ${s.t}}$<br><span class="big">$A ≈ ${A.toLocaleString('en', { maximumFractionDigits: 2 })}$ ريال</span><br>الربح: $${(A - s.P).toLocaleString('en', { maximumFractionDigits: 2 })}$ ريال<br>الربح البسيط كان سيعطي $${simple.toLocaleString('en', { maximumFractionDigits: 2 })}$ فقط.`;
+  }
+};
+
+/* 2-3 اللوغاريتم عكس الأسية */
+W.logexp = {
+  note: 'كل نقطة $(t, b^{t})$ على المنحنى الأسي تقابلها $(b^{t}, t)$ على المنحنى اللوغاريتمي.',
+  controls: [
+    { t: 'range', id: 'b', label: 'الأساس $b$', min: 1.2, max: 4, step: 0.05, v: 2 },
+    { t: 'range', id: 't', label: 'الأس $t$', min: -2, max: 2.6, step: 0.05, v: 1.5 },
+    { t: 'play', target: 't', label: 'تتبّع النقطة', dur: 5 }
+  ],
+  draw(P, s) {
+    const C = P.C; P.square(2, 2, 5); P.axes({ sx: 1 });
+    P.fn(x => x, { col: C.muted, w: 1.5, dash: [6, 5] });
+    P.fn(x => Math.pow(s.b, x), { col: C.c2, w: 2.6 });
+    P.fn(x => x > 0 ? Math.log(x) / Math.log(s.b) : NaN, { col: C.c1, w: 3, from: 0.0005 });
+    const v = Math.pow(s.b, s.t);
+    P.seg(s.t, v, v, s.t, { col: C.c4, dash: [4, 4], w: 1.6 });
+    P.dot(s.t, v, { col: C.c2, r: 6 }); P.dot(v, s.t, { col: C.c1, r: 6 });
+    P.dot(0, 1, { col: C.c2, r: 4 }); P.dot(1, 0, { col: C.c1, r: 4 });
+    P.text(v, s.t, `(${fmt(v)}, ${fmt(s.t)})`, { col: C.c1, dy: 18 });
+    P.text(s.t, v, `(${fmt(s.t)}, ${fmt(v)})`, { col: C.c2, align: 'right', dx: -8 });
+  },
+  info(s) {
+    const v = Math.pow(s.b, s.t);
+    return `<span class="big">$${fmt(s.b)}^{${fmt(s.t)}} = ${fmt(v)} ⇔ @log_{${fmt(s.b)}} ${fmt(v)} = ${fmt(s.t)}$</span><br>البرتقالي: $y = b^{x}$ ، الأزرق: $y = @log_{b} x$<br>كلاهما انعكاس للآخر حول $y = x$.`;
+  }
+};
+
+/* 2-4 خصائص اللوغاريتمات */
+W.logprop = {
+  note: 'طول العمودين الأولين معًا يساوي طول العمود الثالث دائمًا: الضرب داخل اللوغاريتم يصبح جمعًا.',
+  ratio: '1/0.85',
+  controls: [
+    { t: 'seg', id: 'B', label: 'الأساس', v: 2, opts: [[2, '$2$'], [3, '$3$'], [10, '$10$']] },
+    { t: 'seg', id: 'op', label: 'الخاصية', v: 'mul', opts: [['mul', 'الضرب'], ['div', 'القسمة'], ['pow', 'القوة']] },
+    { t: 'range', id: 'm', label: '$m$', min: 1, max: 64, step: 1, v: 8 },
+    { t: 'range', id: 'n', label: '$n$ (أو الأس $p$)', min: 1, max: 16, step: 1, v: 4 }
+  ],
+  vals(s) {
+    const L = x => Math.log(x) / Math.log(s.B);
+    if (s.op === 'mul') return [[`log m`, L(s.m)], [`log n`, L(s.n)], [`log mn`, L(s.m * s.n)]];
+    if (s.op === 'div') return [[`log m`, L(s.m)], [`−log n`, -L(s.n)], [`log m/n`, L(s.m / s.n)]];
+    return [[`log m`, L(s.m)], [`× ${s.n}`, null], [`log m^${s.n}`, s.n * L(s.m)]];
+  },
+  draw(P, s) {
+    const C = P.C, c = P.ctx, v = this.vals(s), max = Math.max(4, ...v.map(x => Math.abs(x[1] || 0))) * 1.15;
+    const min = s.op === 'div' ? -max * 0.7 : 0;
+    P.region(36, 14, P.W - 46, P.H - 50); P.win(0, 3, min, max);
+    P.axes({ sx: 1, sy: niceStep(max - min), labels: true, every: 1, fx: () => '', xl: ' ', yl: ' ' });
+    const cols = [C.c1, C.c3, C.c2];
+    v.forEach(([lab, val], i) => {
+      c.font = `600 13px ${MATHFONT}`; c.textAlign = 'center'; c.direction = 'ltr';
+      if (val === null) { c.fillStyle = C.ink; c.fillText(lab, P.X(i + 0.5), P.Y((max + min) / 2)); }
+      else {
+        let base = 0;
+        if (s.op === 'mul' && i === 2) {
+          const a = v[0][1], b = v[1][1];
+          c.fillStyle = cols[0]; c.globalAlpha = .9; c.fillRect(P.X(i + 0.2), P.Y(a), P.X(i + 0.8) - P.X(i + 0.2), P.Y(0) - P.Y(a));
+          c.fillStyle = cols[1]; c.fillRect(P.X(i + 0.2), P.Y(a + b), P.X(i + 0.8) - P.X(i + 0.2), P.Y(a) - P.Y(a + b)); c.globalAlpha = 1;
+          c.strokeStyle = cols[2]; c.lineWidth = 3; c.strokeRect(P.X(i + 0.2), P.Y(val), P.X(i + 0.8) - P.X(i + 0.2), P.Y(0) - P.Y(val));
+        } else {
+          c.fillStyle = cols[i]; c.fillRect(P.X(i + 0.2), P.Y(Math.max(val, 0)), P.X(i + 0.8) - P.X(i + 0.2), Math.abs(P.Y(val) - P.Y(0)));
+        }
+        c.fillStyle = C.ink; c.textBaseline = 'bottom';
+        c.fillText(fmt(val, 3), P.X(i + 0.5), P.Y(Math.max(val, 0)) - 4);
+        c.textBaseline = 'top'; c.fillStyle = C.muted; c.fillText(lab, P.X(i + 0.5), P.r.y + P.r.h + 8);
+      }
+    });
+  },
+  info(s) {
+    const L = x => Math.log(x) / Math.log(s.B), b = s.B;
+    if (s.op === 'mul') return `$@log_{${b}} ${s.m} + @log_{${b}} ${s.n} = ${fmt(L(s.m), 3)} + ${fmt(L(s.n), 3)}$<br><span class="big">$= ${fmt(L(s.m * s.n), 3)} = @log_{${b}} ${s.m * s.n}$</span>`;
+    if (s.op === 'div') return `$@log_{${b}} ${s.m} − @log_{${b}} ${s.n} = ${fmt(L(s.m), 3)} − ${fmt(L(s.n), 3)}$<br><span class="big">$= ${fmt(L(s.m / s.n), 3)} = @log_{${b}} @frac{${s.m}}{${s.n}}$</span>`;
+    return `$${s.n} × @log_{${b}} ${s.m} = ${s.n} × ${fmt(L(s.m), 3)}$<br><span class="big">$= ${fmt(s.n * L(s.m), 3)} = @log_{${b}} ${s.m}^{${s.n}}$</span>`;
+  }
+};
+
+/* 2-5 المعادلات والمتباينات اللوغاريتمية */
+W.logeq = {
+  note: 'نقطة التقاطع تعطي حل المعادلة، والجزء الملوّن على المحور $x$ يعطي حل المتباينة.',
+  controls: [
+    { t: 'seg', id: 'b', label: 'الأساس $b$', v: 2, opts: [[2, '$2$'], [4, '$4$'], [0.5, '$0.5$']] },
+    { t: 'seg', id: 'op', label: 'النوع', v: '>', opts: [['=', '$@log_{b} x = c$'], ['>', '$@log_{b} x > c$'], ['<', '$@log_{b} x < c$']] },
+    { t: 'range', id: 'c', label: '$c$', min: -3, max: 3, step: 0.5, v: 1.5 },
+    { t: 'play', target: 'c', label: 'غيّر c', dur: 6 }
+  ],
+  draw(P, s) {
+    const C = P.C, L = x => Math.log(x) / Math.log(s.b), x0 = Math.pow(s.b, s.c);
+    P.square(4, 0, 5); P.axes({ sx: 1 });
+    P.hline(s.c, { col: C.c2, w: 2 });
+    P.fn(x => x > 0 ? L(x) : NaN, { col: C.c1, w: 3, from: 0.0005 });
+    if (s.op !== '=') {
+      const right = (s.op === '>') === (s.b > 1);
+      const a = right ? x0 : 0, e = right ? P.x1 : x0;
+      P.seg(a, 0, e, 0, { col: C.c3, w: 7 });
+      P.dot(x0, 0, { col: C.c3, r: 6, hollow: true }); if (!right) P.dot(0, 0, { col: C.c3, r: 6, hollow: true });
+    }
+    P.seg(x0, 0, x0, s.c, { col: C.c4, dash: [4, 4] });
+    P.dot(x0, s.c, { col: C.c2, r: 6 }); P.text(x0, s.c, `x = ${fmt(x0, 3)}`, { col: C.c2 });
+  },
+  info(s) {
+    const x0 = Math.pow(s.b, s.c), inc = s.b > 1;
+    if (s.op === '=') return `<span class="big">$@log_{${s.b}} x = ${fmt(s.c)} ⇔ x = ${s.b}^{${fmt(s.c)}} = ${fmt(x0, 4)}$</span>`;
+    const right = (s.op === '>') === inc;
+    return `$@log_{${s.b}} x ${s.op} ${fmt(s.c)}$<br><span class="big">${right ? `$x > ${fmt(x0, 4)}$` : `$0 < x < ${fmt(x0, 4)}$`}</span><br>` + (inc ? ok('$b > 1$ : الإشارة لا تتغير') : bad('$0 < b < 1$ : تنعكس الإشارة'));
+  }
+};
+
+/* 2-6 تغيير الأساس */
+W.cob = {
+  note: 'حل $a^{x} = n$ هو الإحداثي $x$ لنقطة التقاطع، ويساوي $@frac{@log n}{@log a}$.',
+  controls: [
+    { t: 'seg', id: 'a', label: 'الأساس $a$', v: 6, opts: [[2, '$2$'], [3, '$3$'], [5, '$5$'], [6, '$6$']] },
+    { t: 'range', id: 'n', label: '$n$', min: 1, max: 200, step: 1, v: 40 },
+    { t: 'play', target: 'n', label: 'غيّر n', dur: 7 }
+  ],
+  draw(P, s) {
+    const C = P.C, x0 = Math.log10(s.n) / Math.log10(s.a), ym = 220;
+    P.region(40, 8, P.W - 48, P.H - 30); P.win(-1, 8, -10, ym);
+    P.axes({ sx: 1, sy: 20, every: 2 });
+    P.hline(s.n, { col: C.c2, w: 2 });
+    P.fn(x => Math.pow(s.a, x), { col: C.c1, w: 3 });
+    P.seg(x0, 0, x0, s.n, { col: C.c4, dash: [4, 4] });
+    P.dot(x0, s.n, { col: C.c2, r: 6 }); P.text(x0, s.n, `x ≈ ${fmt(x0, 4)}`, { col: C.c2 });
+  },
+  info(s) {
+    const ln = Math.log10(s.n), la = Math.log10(s.a);
+    return `$${s.a}^{x} = ${s.n} ⇐ x = @log_{${s.a}} ${s.n} = @frac{@log ${s.n}}{@log ${s.a}}$<br>$= @frac{${fmt(ln, 4)}}{${fmt(la, 4)}}$ ⇐ <span class="big">$x ≈ ${fmt(ln / la, 4)}$</span>`;
+  }
+};
+
+/* دائرة الوحدة المشتركة */
+function unitCircle(P, ang, C, opt = {}) {
+  P.square(0, 0, 1.45); P.axes({ sx: 0.5, labels: false });
+  P.curve(t => Math.cos(t), t => Math.sin(t), 0, 2 * Math.PI, { col: C.axis, w: 1.6 });
+  const c = P.ctx;
+  if (opt.astc) {
+    const q = Math.floor((((ang % 360) + 360) % 360) / 90);
+    [['A', 1.2, 1.22, 'الكل موجب'], ['S', -1.2, 1.22, 'sin موجب'], ['T', -1.2, -1.12, 'tan موجب'], ['C', 1.2, -1.12, 'cos موجب']].forEach(([L, x, y, d], i) => {
+      P.text(x, y, L, { col: i === q ? C.c2 : C.muted, align: 'center', dx: 0, dy: 0, base: 'middle', font: `700 ${i === q ? 26 : 18}px ${MATHFONT}` });
+      P.text(x, y - 0.16, d, { col: i === q ? C.c2 : C.muted, align: 'center', dx: 0, dy: 0, base: 'middle', rtl: true, font: `600 11px ${MATHFONT}` });
+    });
+  }
+  return null;
+}
+function arc(P, a0, a1, r, col) { P.curve(t => r * Math.cos(t), t => r * Math.sin(t), a0 * D2R, a1 * D2R, { col, w: 2, n: 80 }); }
+
+/* 3-1 دائرة الوحدة */
+W.unit = {
+  note: 'اسحب النقطة على الدائرة. الأزرق $@cos θ$ ، البرتقالي $@sin θ$ ، الأخضر $@tan θ$.',
+  controls: [
+    { t: 'range', id: 'a', label: 'الزاوية $θ$', min: 0, max: 360, step: 1, v: 135, f: v => v + '°' },
+    { t: 'play', target: 'a', label: 'دوّر الزاوية', dur: 10 }
+  ],
+  draw(P, s) {
+    const C = P.C, t = s.a * D2R, x = Math.cos(t), y = Math.sin(t);
+    unitCircle(P, s.a, C, { astc: true });
+    arc(P, 0, s.a, 0.22, C.c4);
+    P.seg(0, 0, x, y, { col: C.ink, w: 2 });
+    P.seg(0, 0, x, 0, { col: C.c1, w: 4 }); P.seg(x, 0, x, y, { col: C.c2, w: 4 });
+    if (Math.abs(x) > 0.08) { const tn = y / x; if (Math.abs(tn) < 3) { P.seg(1, 0, 1, tn, { col: C.c3, w: 3 }); P.seg(0, 0, 1, tn, { col: C.c3, w: 1, dash: [3, 4] }); } }
+    P.dot(x, y, { col: C.c2, r: 7 });
+    P.text(x, y, `(${fmt(x)}, ${fmt(y)})`, { col: C.ink, align: x < 0 ? 'right' : 'left', dx: x < 0 ? -10 : 10 });
+  },
+  drag(s, x, y, set) { let a = Math.round(Math.atan2(y, x) / D2R); if (a < 0) a += 360; set('a', a); },
+  info(s) {
+    const t = s.a * D2R, c = Math.cos(t), si = Math.sin(t), tn = Math.abs(c) < 1e-9 ? NaN : si / c;
+    return `$@sin ${s.a}° ≈ ${fmt(si, 3)}$ ، $@cos ${s.a}° ≈ ${fmt(c, 3)}$ ، $@tan ${s.a}° ${isNaN(tn) ? '$ غير معرف $' : '≈ ' + fmt(tn, 3)}$<br>$@sin^{2}θ + @cos^{2}θ = ${fmt(si * si, 3)} + ${fmt(c * c, 3)} = 1$ ✓`;
+  }
+};
+
+/* 3-2 فحص المتطابقات بيانيًا */
+const IDS = [
+  ['$@csc θ@cos θ@tan θ = 1$', t => 1 / Math.sin(t) * Math.cos(t) * Math.tan(t), t => 1, true],
+  ['$@cot^{2}θ − @cos^{2}θ = @cot^{2}θ@cos^{2}θ$', t => 1 / Math.tan(t) ** 2 - Math.cos(t) ** 2, t => Math.cos(t) ** 2 / Math.tan(t) ** 2, true],
+  ['$@frac{@cos θ}{1 − @sin θ} = @frac{1 + @sin θ}{@cos θ}$', t => Math.cos(t) / (1 - Math.sin(t)), t => (1 + Math.sin(t)) / Math.cos(t), true],
+  ['$@sin θ@cos θ@tan θ + @cos^{2}θ = 1$', t => Math.sin(t) * Math.cos(t) * Math.tan(t) + Math.cos(t) ** 2, t => 1, true],
+  ['$@sin θ + @cos θ = 1$', t => Math.sin(t) + Math.cos(t), t => 1, false],
+  ['$@cos 2θ = 2@cos θ$', t => Math.cos(2 * t), t => 2 * Math.cos(t), false]
+];
+W.ident = {
+  note: 'الأزرق: الطرف الأيمن من المتطابقة كما كُتب أولًا ، والبرتقالي المتقطع: الطرف الآخر. إذا انطبقا تمامًا فهي متطابقة.',
+  controls: [
+    { t: 'seg', id: 'i', label: 'العبارة', v: 0, opts: IDS.map((d, i) => [i, d[0]]) },
+    { t: 'range', id: 'x', label: 'جرّب قيمة $θ$', min: -360, max: 360, step: 5, v: 45, f: v => v + '°' },
+    { t: 'play', target: 'x', label: 'مرّر θ', dur: 8 }
+  ],
+  draw(P, s) {
+    const C = P.C, d = IDS[s.i];
+    P.win(-2 * Math.PI, 2 * Math.PI, -4, 4); P.axes({ sx: Math.PI / 2, sy: 1, every: 2, fx: v => fmt(v / Math.PI, 1).replace(/^(−?)1$/, '$1') + 'π', xl: 'θ' });
+    P.fn(d[1], { col: C.c1, w: 4.5 });
+    P.fn(d[2], { col: C.c2, w: 2.4, dash: [7, 6] });
+    const t = s.x * D2R; P.vline(t, { col: C.muted, dash: [3, 4], w: 1 });
+    P.dot(t, d[1](t), { col: C.c1, r: 6 }); P.dot(t, d[2](t), { col: C.c2, r: 4 });
+  },
+  info(s) {
+    const d = IDS[s.i], t = s.x * D2R, L = d[1](t), R = d[2](t);
+    const good = Math.abs(L - R) < 1e-6 || (!isFinite(L) && !isFinite(R));
+    return `${d[0]}<br>عند $θ = ${s.x}°$ : الطرف الأول $≈ ${fmt(L, 4)}$ ، الطرف الثاني $≈ ${fmt(R, 4)}$ ${good ? ok('متساويان') : bad('مختلفان')}<br>` + (d[3] ? ok('متطابقة: المنحنيان منطبقان') : bad('ليست متطابقة: يكفي مثال مضاد واحد'));
+  }
+};
+
+/* 3-3 المجموع والفرق */
+W.sum = {
+  note: 'الأزرق الزاوية $A$ ، البرتقالي الزاوية $B$ تُضاف بعدها، والنقطة عند $A + B$.',
+  controls: [
+    { t: 'range', id: 'A', label: '$A$', min: 0, max: 180, step: 5, v: 45, f: v => v + '°' },
+    { t: 'range', id: 'B', label: '$B$', min: 0, max: 180, step: 5, v: 30, f: v => v + '°' },
+    { t: 'play', target: 'B', label: 'حرّك B', dur: 7 }
+  ],
+  draw(P, s) {
+    const C = P.C, a = s.A * D2R, ab = (s.A + s.B) * D2R;
+    unitCircle(P, s.A + s.B, C);
+    arc(P, 0, s.A, 0.25, C.c1); arc(P, s.A, s.A + s.B, 0.35, C.c2);
+    P.seg(0, 0, Math.cos(a), Math.sin(a), { col: C.c1, w: 2.5 });
+    P.seg(0, 0, Math.cos(ab), Math.sin(ab), { col: C.c2, w: 2.5 });
+    P.seg(Math.cos(ab), 0, Math.cos(ab), Math.sin(ab), { col: C.c3, w: 3.5 });
+    P.dot(Math.cos(a), Math.sin(a), { col: C.c1, r: 5 }); P.dot(Math.cos(ab), Math.sin(ab), { col: C.c2, r: 7 });
+    P.text(Math.cos(ab), Math.sin(ab), 'A + B', { col: C.c2, align: Math.cos(ab) < 0 ? 'right' : 'left', dx: Math.cos(ab) < 0 ? -10 : 10 });
+  },
+  info(s) {
+    const a = s.A * D2R, b = s.B * D2R, sa = Math.sin(a), ca = Math.cos(a), sb = Math.sin(b), cb = Math.cos(b);
+    return `$@sin(A + B) = @sin A@cos B + @cos A@sin B$<br>$= (${fmt(sa, 3)})(${fmt(cb, 3)}) + (${fmt(ca, 3)})(${fmt(sb, 3)}) = ${fmt(sa * cb + ca * sb, 3)}$<br>` +
+      `$@cos(A + B) = ${fmt(ca * cb - sa * sb, 3)}$<br>للمقارنة: $@sin A + @sin B = ${fmt(sa + sb, 3)}$ ${Math.abs(sa + sb - Math.sin(a + b)) < 1e-6 ? '' : bad('لا يساوي $@sin(A + B)$')}`;
+  }
+};
+
+/* 3-4 ضعف الزاوية ونصفها */
+W.double = {
+  note: 'الأخضر $@frac{θ}{2}$ ، الأزرق $θ$ ، البرتقالي $2θ$. لاحظ في أي ربع تقع كل زاوية.',
+  controls: [
+    { t: 'range', id: 'a', label: '$θ$', min: 0, max: 360, step: 1, v: 50, f: v => v + '°' },
+    { t: 'play', target: 'a', label: 'دوّر θ', dur: 10 }
+  ],
+  draw(P, s) {
+    const C = P.C; unitCircle(P, s.a, C);
+    [[s.a / 2, C.c3, 0.2], [s.a, C.c1, 0.3], [2 * s.a, C.c2, 0.4]].forEach(([g, col, r]) => {
+      const t = g * D2R; arc(P, 0, g, r, col); P.seg(0, 0, Math.cos(t), Math.sin(t), { col, w: 2.5 }); P.dot(Math.cos(t), Math.sin(t), { col, r: 6 });
+    });
+  },
+  drag(s, x, y, set) { let a = Math.round(Math.atan2(y, x) / D2R); if (a < 0) a += 360; set('a', a); },
+  info(s) {
+    const t = s.a * D2R, si = Math.sin(t), c = Math.cos(t), h = s.a / 2;
+    return `$@sin 2θ = 2@sin θ@cos θ = 2(${fmt(si, 3)})(${fmt(c, 3)}) = ${fmt(2 * si * c, 3)}$<br>$@cos 2θ = 1 − 2@sin^{2}θ = ${fmt(1 - 2 * si * si, 3)}$<br>$@frac{θ}{2} = ${fmt(h, 1)}°$ في الربع ${['الأول', 'الثاني', 'الثالث', 'الرابع'][Math.min(3, Math.floor(h / 90))]} ⇐ $@sin @frac{θ}{2} = ${Math.sin(h * D2R) >= 0 ? '+' : '−'}@sqrt{@frac{1 − @cos θ}{2}} = ${fmt(Math.sin(h * D2R), 3)}$`;
+  }
+};
+
+/* 3-5 المعادلات المثلثية */
+W.trigeq = {
+  note: 'كل نقطة تقاطع بين المنحنى والخط الأفقي $y = c$ حلٌّ للمعادلة.',
+  ratio: '1/0.8',
+  controls: [
+    { t: 'seg', id: 'f', label: 'المعادلة', v: 'sin', opts: [['sin', '$@sin θ = c$'], ['cos', '$@cos θ = c$'], ['tan', '$@tan θ = c$']] },
+    { t: 'range', id: 'c', label: '$c$', min: -1.5, max: 1.5, step: 0.05, v: 0.5 },
+    { t: 'seg', id: 'r', label: 'الفترة', v: 360, opts: [[360, '$[0°, 360°]$'], [720, '$[0°, 720°]$']] },
+    { t: 'play', target: 'c', label: 'غيّر c', dur: 8 }
+  ],
+  sols(s) {
+    const out = [];
+    for (let d = 0; d <= s.r; d += 0.25) {
+      const F = { sin: Math.sin, cos: Math.cos, tan: Math.tan }[s.f];
+      const a = F(d * D2R) - s.c, b = F((d + 0.25) * D2R) - s.c;
+      if (Math.abs(a) < 1e-9) out.push(d); else if (a * b < 0 && Math.abs(a - b) < 1) out.push(d + 0.25 * a / (a - b));
+    }
+    return out.filter((v, i, A) => !i || v - A[i - 1] > 0.6).filter(v => v <= s.r + 1e-9);
+  },
+  draw(P, s) {
+    const C = P.C, F = { sin: Math.sin, cos: Math.cos, tan: Math.tan }[s.f];
+    P.region(30, 8, P.W - 38, P.H - 30); P.win(-10, s.r + 10, -2.2, 2.2);
+    P.axes({ sx: s.r === 360 ? 30 : 90, sy: 0.5, every: s.r === 360 ? 3 : 1, fx: v => fmt(v, 0) + '°', xl: 'θ' });
+    P.fn(d => F(d * D2R), { col: C.c1, w: 3, from: 0, to: s.r });
+    P.hline(s.c, { col: C.c2, w: 2 });
+    this.sols(s).forEach(d => { P.dot(d, s.c, { col: C.c2, r: 6 }); P.text(d, s.c, fmt(d, 0) + '°', { col: C.c2, align: 'center', dx: 0, dy: s.c > 0 ? 20 : -10, base: s.c > 0 ? 'top' : 'bottom' }); });
+  },
+  info(s) {
+    if (s.f !== 'tan' && Math.abs(s.c) > 1) return bad(`لا يوجد حل: $−1 ≤ @${s.f} θ ≤ 1$`);
+    const L = this.sols(s);
+    const per = s.f === 'tan' ? '180°k' : '360°k';
+    return `<span class="big">$@${s.f} θ = ${fmt(s.c)}$</span><br>الحلول في الفترة: ${L.length ? L.map(v => '$' + fmt(v, 1) + '°$').join(' ، ') : 'لا يوجد'}<br>عدد الحلول: <b>${L.length}</b><br>الحل العام: كل حل $+ ${per}$`;
+  }
+};
+
+/* 4-1 القطع المكافئ */
+W.para = {
+  anim: true, liveInfo: true,
+  note: 'النقطة $P$ تتحرك على القطع: بعدها عن البؤرة (البرتقالي) يساوي دائمًا بعدها عن الدليل (الأخضر).',
+  controls: [
+    { t: 'seg', id: 'o', label: 'الاتجاه', v: 'v', opts: [['v', 'رأسي $(x − h)^{2}$'], ['h', 'أفقي $(y − k)^{2}$']] },
+    { t: 'range', id: 'c', label: '$c$', min: -3, max: 3, step: 0.25, v: 1 },
+    { t: 'range', id: 'h', label: '$h$', min: -4, max: 4, step: 0.5, v: 0 },
+    { t: 'range', id: 'k', label: '$k$', min: -4, max: 4, step: 0.5, v: -1 }
+  ],
+  draw(P, s, t) {
+    const C = P.C, c = s.c || 0.25, h = s.h, k = s.k, V = s.o === 'v';
+    P.square(0, 0, 8); P.axes({ sx: 1, every: 2 });
+    const u = RM.matches ? 2 : 4 * Math.sin(t * 0.9);
+    if (V) {
+      P.fn(x => (x - h) ** 2 / (4 * c) + k, { col: C.c1, w: 3 });
+      P.hline(k - c, { col: C.c3, w: 2 }); P.vline(h, { col: C.muted, dash: [5, 5], w: 1 });
+      P.seg(h - 2 * c, k + c, h + 2 * c, k + c, { col: C.c4, w: 2, dash: [2, 3] });
+      const px = h + u, py = (u * u) / (4 * c) + k;
+      P.seg(px, py, h, k + c, { col: C.c2, w: 2.5 }); P.seg(px, py, px, k - c, { col: C.c3, w: 2.5 });
+      P.dot(px, py, { col: C.ink, r: 6 }); P.dot(h, k + c, { col: C.c2, r: 6 }); P.dot(h, k, { col: C.c1, r: 4 });
+      this._d = [Math.hypot(px - h, py - k - c), Math.abs(py - (k - c))];
+    } else {
+      P.curve(y => (y - k) ** 2 / (4 * c) + h, y => y, k - 10, k + 10, { col: C.c1, w: 3 });
+      P.vline(h - c, { col: C.c3, w: 2 }); P.hline(k, { col: C.muted, dash: [5, 5], w: 1 });
+      P.seg(h + c, k - 2 * c, h + c, k + 2 * c, { col: C.c4, w: 2, dash: [2, 3] });
+      const py = k + u, px = (u * u) / (4 * c) + h;
+      P.seg(px, py, h + c, k, { col: C.c2, w: 2.5 }); P.seg(px, py, h - c, py, { col: C.c3, w: 2.5 });
+      P.dot(px, py, { col: C.ink, r: 6 }); P.dot(h + c, k, { col: C.c2, r: 6 }); P.dot(h, k, { col: C.c1, r: 4 });
+      this._d = [Math.hypot(px - h - c, py - k), Math.abs(px - (h - c))];
+    }
+  },
+  info(s) {
+    const c = s.c || 0.25, h = s.h, k = s.k, V = s.o === 'v', d = this._d || [0, 0];
+    const xh = h === 0 ? 'x' : `(x ${h > 0 ? '−' : '+'} ${fmt(Math.abs(h))})`, yk = k === 0 ? 'y' : `(y ${k > 0 ? '−' : '+'} ${fmt(Math.abs(k))})`;
+    const eq = V ? `${xh}^{2} = ${fmt(4 * c)}${yk}` : `${yk}^{2} = ${fmt(4 * c)}${xh}`;
+    const dir = V ? (c > 0 ? 'مفتوح للأعلى' : 'مفتوح للأسفل') : (c > 0 ? 'مفتوح لليمين' : 'مفتوح لليسار');
+    return `<span class="big">$${eq}$</span> ${inf(dir)}<br>الرأس $(${fmt(h)}, ${fmt(k)})$ ، البؤرة $${V ? `(${fmt(h)}, ${fmt(k + c)})` : `(${fmt(h + c)}, ${fmt(k)})`}$<br>الدليل: $${V ? `y = ${fmt(k - c)}` : `x = ${fmt(h - c)}`}$ ، الوتر البؤري $|4c| = ${fmt(Math.abs(4 * c))}$<br>$PF ≈ ${fmt(d[0])}$ و $PD ≈ ${fmt(d[1])}$ ${ok('متساويان')}`;
+  }
+};
+
+/* 4-2 القطع الناقص */
+W.ellipse = {
+  anim: true, liveInfo: true,
+  note: 'مجموع بعدي النقطة المتحركة عن البؤرتين ثابت ويساوي $2a$. اجعل نصفي المحورين متساويين لتحصل على دائرة.',
+  controls: [
+    { t: 'range', id: 'p', label: 'نصف المحور الأفقي', min: 1, max: 7, step: 0.5, v: 5 },
+    { t: 'range', id: 'q', label: 'نصف المحور الرأسي', min: 1, max: 7, step: 0.5, v: 3 },
+    { t: 'range', id: 'h', label: '$h$', min: -3, max: 3, step: 0.5, v: 0 },
+    { t: 'range', id: 'k', label: '$k$', min: -3, max: 3, step: 0.5, v: 0 }
+  ],
+  geo(s) { const a = Math.max(s.p, s.q), b = Math.min(s.p, s.q), c = Math.sqrt(a * a - b * b), hor = s.p >= s.q; return { a, b, c, hor }; },
+  draw(P, s, t) {
+    const C = P.C, { a, b, c, hor } = this.geo(s), h = s.h, k = s.k;
+    P.square(0, 0, 8.5); P.axes({ sx: 1, every: 2 });
+    P.curve(u => h + s.p * Math.cos(u), u => k + s.q * Math.sin(u), 0, 2 * Math.PI, { col: C.c1, w: 3 });
+    const F1 = hor ? [h - c, k] : [h, k - c], F2 = hor ? [h + c, k] : [h, k + c];
+    const u = RM.matches ? 1 : t * 0.7, px = h + s.p * Math.cos(u), py = k + s.q * Math.sin(u);
+    P.seg(px, py, F1[0], F1[1], { col: C.c2, w: 2.5 }); P.seg(px, py, F2[0], F2[1], { col: C.c3, w: 2.5 });
+    if (hor) P.seg(h - a, k, h + a, k, { col: C.muted, dash: [5, 5], w: 1 }); else P.seg(h, k - a, h, k + a, { col: C.muted, dash: [5, 5], w: 1 });
+    P.dot(F1[0], F1[1], { col: C.c2, r: 6 }); P.dot(F2[0], F2[1], { col: C.c3, r: 6 }); P.dot(px, py, { col: C.ink, r: 6 }); P.dot(h, k, { col: C.c4, r: 4 });
+    this._d = [Math.hypot(px - F1[0], py - F1[1]), Math.hypot(px - F2[0], py - F2[1])];
+  },
+  info(s) {
+    const { a, b, c, hor } = this.geo(s), d = this._d || [0, 0], h = s.h, k = s.k;
+    const xh = h === 0 ? 'x' : `(x ${h > 0 ? '−' : '+'} ${fmt(Math.abs(h))})`, yk = k === 0 ? 'y' : `(y ${k > 0 ? '−' : '+'} ${fmt(Math.abs(k))})`;
+    if (c < 1e-9) return `<span class="big">$${xh}^{2} + ${yk}^{2} = ${fmt(a * a)}$</span> ${inf('دائرة')}<br>المركز $(${fmt(h)}, ${fmt(k)})$ ، نصف القطر $r = ${fmt(a)}$ ، $e = 0$<br>$d_{1} + d_{2} = ${fmt(d[0] + d[1])}$`;
+    return `<span class="big">$@frac{${xh}^{2}}{${fmt(s.p * s.p)}} + @frac{${yk}^{2}}{${fmt(s.q * s.q)}} = 1$</span><br>المحور الأكبر ${hor ? 'أفقي' : 'رأسي'} ، $a = ${fmt(a)} ، b = ${fmt(b)} ، c = @sqrt{a^{2} − b^{2}} ≈ ${fmt(c)}$<br>$d_{1} + d_{2} ≈ ${fmt(d[0])} + ${fmt(d[1])} = ${fmt(d[0] + d[1])} = 2a$ ✓<br>الاختلاف المركزي $e = @frac{c}{a} ≈ ${fmt(c / a, 3)}$`;
+  }
+};
+
+/* 4-3 القطع الزائد */
+W.hyper = {
+  anim: true, liveInfo: true,
+  note: 'الفرق المطلق بين بعدي النقطة عن البؤرتين ثابت $= 2a$. الخطان المتقطعان هما خطا التقارب.',
+  controls: [
+    { t: 'seg', id: 'o', label: 'المحور القاطع', v: 'h', opts: [['h', 'أفقي'], ['v', 'رأسي']] },
+    { t: 'range', id: 'a', label: '$a$', min: 1, max: 5, step: 0.5, v: 2 },
+    { t: 'range', id: 'b', label: '$b$', min: 1, max: 5, step: 0.5, v: 3 },
+    { t: 'range', id: 'h', label: '$h$', min: -3, max: 3, step: 0.5, v: 0 },
+    { t: 'range', id: 'k', label: '$k$', min: -3, max: 3, step: 0.5, v: 0 }
+  ],
+  draw(P, s, t) {
+    const C = P.C, a = s.a, b = s.b, c = Math.hypot(a, b), h = s.h, k = s.k, H = s.o === 'h';
+    P.square(0, 0, 9); P.axes({ sx: 1, every: 2 });
+    const m = H ? b / a : a / b;
+    P.fn(x => k + m * (x - h), { col: C.muted, dash: [6, 5], w: 1.4 }); P.fn(x => k - m * (x - h), { col: C.muted, dash: [6, 5], w: 1.4 });
+    const bw = H ? a : b, bh = H ? b : a;
+    [[-1, -1, 1, -1], [1, -1, 1, 1], [1, 1, -1, 1], [-1, 1, -1, -1]].forEach(([x1, y1, x2, y2]) => P.seg(h + x1 * bw, k + y1 * bh, h + x2 * bw, k + y2 * bh, { col: C.muted, w: 1, dash: [2, 4] }));
+    [1, -1].forEach(sg => {
+      if (H) P.curve(u => h + sg * a * Math.cosh(u), u => k + b * Math.sinh(u), -3, 3, { col: C.c1, w: 3 });
+      else P.curve(u => h + b * Math.sinh(u), u => k + sg * a * Math.cosh(u), -3, 3, { col: C.c1, w: 3 });
+    });
+    const F1 = H ? [h - c, k] : [h, k - c], F2 = H ? [h + c, k] : [h, k + c];
+    const u = RM.matches ? 0.8 : 1.6 * Math.sin(t * 0.8);
+    const px = H ? h + a * Math.cosh(u) : h + b * Math.sinh(u), py = H ? k + b * Math.sinh(u) : k + a * Math.cosh(u);
+    P.seg(px, py, F1[0], F1[1], { col: C.c2, w: 2.5 }); P.seg(px, py, F2[0], F2[1], { col: C.c3, w: 2.5 });
+    P.dot(F1[0], F1[1], { col: C.c2, r: 6 }); P.dot(F2[0], F2[1], { col: C.c3, r: 6 }); P.dot(px, py, { col: C.ink, r: 6 }); P.dot(h, k, { col: C.c4, r: 4 });
+    this._d = [Math.hypot(px - F1[0], py - F1[1]), Math.hypot(px - F2[0], py - F2[1])];
+  },
+  info(s) {
+    const a = s.a, b = s.b, c = Math.hypot(a, b), h = s.h, k = s.k, H = s.o === 'h', d = this._d || [0, 0];
+    const xh = h === 0 ? 'x' : `(x ${h > 0 ? '−' : '+'} ${fmt(Math.abs(h))})`, yk = k === 0 ? 'y' : `(y ${k > 0 ? '−' : '+'} ${fmt(Math.abs(k))})`;
+    const eq = H ? `@frac{${xh}^{2}}{${fmt(a * a)}} − @frac{${yk}^{2}}{${fmt(b * b)}} = 1` : `@frac{${yk}^{2}}{${fmt(a * a)}} − @frac{${xh}^{2}}{${fmt(b * b)}} = 1`;
+    const m = H ? `@frac{${fmt(b)}}{${fmt(a)}}` : `@frac{${fmt(a)}}{${fmt(b)}}`;
+    return `<span class="big">$${eq}$</span><br>$c = @sqrt{a^{2} + b^{2}} ≈ ${fmt(c)}$ ، خطا التقارب: $${yk === 'y' ? 'y' : yk} = ±${m}${xh === 'x' ? 'x' : xh}$<br>$|d_{1} − d_{2}| ≈ |${fmt(d[0])} − ${fmt(d[1])}| = ${fmt(Math.abs(d[0] - d[1]))} = 2a$ ✓<br>$e = @frac{c}{a} ≈ ${fmt(c / a, 3)} > 1$`;
+  }
+};
+
+/* 4-4 تحديد نوع القطع */
+const PRE = { para: [1, 0, 0, 0, -4, -4], ell: [1, 0, 4, 0, 0, -16], cir: [1, 0, 1, 0, 0, -9], hyp: [1, 0, -1, 0, 0, -4], rot: [2, 2, 2, 0, 0, -12] };
+W.conic = {
+  note: 'غيّر المعاملات وراقب المميز $B^{2} − 4AC$ ونوع القطع، أو اختر مثالًا جاهزًا.',
+  controls: [
+    { t: 'seg', id: 'pre', label: 'أمثلة', v: 'ell', opts: [['para', 'مكافئ'], ['ell', 'ناقص'], ['cir', 'دائرة'], ['hyp', 'زائد'], ['rot', 'ناقص مائل']] },
+    { t: 'range', id: 'A', label: '$A$', min: -3, max: 3, step: 0.5, v: 1 },
+    { t: 'range', id: 'B', label: '$B$', min: -4, max: 4, step: 0.5, v: 0 },
+    { t: 'range', id: 'C', label: '$C$', min: -3, max: 3, step: 0.5, v: 4 },
+    { t: 'range', id: 'D', label: '$D$', min: -6, max: 6, step: 1, v: 0 },
+    { t: 'range', id: 'E', label: '$E$', min: -6, max: 6, step: 1, v: 0 },
+    { t: 'range', id: 'F', label: '$F$', min: -20, max: 20, step: 1, v: -16 }
+  ],
+  onChange(s, id, set) { if (id === 'pre') { const p = PRE[s.pre];['A', 'B', 'C', 'D', 'E', 'F'].forEach((k, i) => set(k, p[i])); } },
+  draw(P, s) {
+    const C = P.C; P.square(0, 0, 7); P.axes({ sx: 1, every: 2 });
+    P.implicit((x, y) => s.A * x * x + s.B * x * y + s.C * y * y + s.D * x + s.E * y + s.F, { col: C.c1, w: 3, n: 170 });
+  },
+  info(s) {
+    const d = s.B * s.B - 4 * s.A * s.C;
+    let type;
+    if (s.A === 0 && s.B === 0 && s.C === 0) type = bad('ليست قطعًا مخروطيًا (معادلة خطية)');
+    else if (d === 0) type = inf('قطع مكافئ');
+    else if (d < 0) type = (s.B === 0 && s.A === s.C) ? ok('دائرة') : ok('قطع ناقص');
+    else type = bad('قطع زائد');
+    const term = (v, t, first) => v === 0 ? '' : `${first ? (v < 0 ? '−' : '') : (v < 0 ? ' − ' : ' + ')}${Math.abs(v) === 1 && t ? '' : fmt(Math.abs(v))}${t}`;
+    let eq = ''; [[s.A, 'x^{2}'], [s.B, 'xy'], [s.C, 'y^{2}'], [s.D, 'x'], [s.E, 'y'], [s.F, '']].forEach(([v, t]) => { eq += term(v, t, eq === ''); });
+    return `<span class="big">$${eq || '0'} = 0$</span><br>$B^{2} − 4AC = (${fmt(s.B)})^{2} − 4(${fmt(s.A)})(${fmt(s.C)}) = ${fmt(d)}$<br>${type} ${s.B !== 0 ? inf('مائل: $B ≠ 0$') : ''}`;
+  }
+};
+
+/* غلاف الصفحة الرئيسية */
+W.cover = {
+  anim: true,
+  draw(P, s, t) {
+    const C = P.C; P.square(0, 0, 5); P.axes({ sx: 1, labels: false });
+    const T0 = RM.matches ? 1 : t;
+    const a = 1.5 * Math.sin(T0 * 0.5), h = 1.5 * Math.sin(T0 * 0.37), k = 1.2 * Math.cos(T0 * 0.29);
+    P.fn(x => x * x / 2, { col: C.muted, w: 1.6, dash: [6, 5] });
+    P.fn(x => a * (x - h) ** 2 / 2 + k, { col: C.c1, w: 3.2 });
+    P.fn(x => 2.5 * Math.sin(x + T0 * 0.6), { col: C.c2, w: 2.4 });
+    P.curve(u => 3.6 * Math.cos(u), u => 2.2 * Math.sin(u), 0, 7, { col: C.c3, w: 2 });
+    const x0 = 3.6 * Math.cos(T0 * 0.8), y0 = 2.2 * Math.sin(T0 * 0.8);
+    P.dot(x0, y0, { col: C.c3, r: 6 }); P.dot(h, k, { col: C.c1, r: 5 });
+  }
+};
+/* ---------- الملخصات المصورة (مأخوذة من ملخصَي السبورة) ---------- */
+const CHANNEL = 'https://www.youtube.com/@Ali-Math';
+/* ضع هنا رابط مقطع كل درس عند توفره، مثل: '1-1': 'https://www.youtube.com/watch?v=...' */
+const VIDEOS = {
+  '1-1': 'https://www.youtube.com/watch?v=jGAGjSjtmR0',
+  '1-2': 'https://www.youtube.com/watch?v=YxZHtAX593I',
+  '3-4': 'https://www.youtube.com/watch?v=EOtlmt7Gwls',
+  '3-5': 'https://www.youtube.com/watch?v=jyMBWgmpUNw',
+  '4-2': 'https://www.youtube.com/watch?v=G6R0PoKDc1c',
+  '4-4': 'https://www.youtube.com/watch?v=S-hc5urW-As'
+};
+const videoURL = L => VIDEOS[L.id] || `${CHANNEL}/search?query=${encodeURIComponent(L.title)}`;
+
+const SHEETS = [
+ {id:'trig', title:'طلائع المتطابقات المثلثية', sub:'وأشهر المتطابقات', lessons:['3-1','3-2','3-3','3-4','3-5'],
+  boxes:[
+   {n:'المتطابقات الأساسية (المثلث القائم)', f:['$@sin θ = @frac{المقابل}{الوتر}$','$@cos θ = @frac{المجاور}{الوتر}$','$@tan θ = @frac{المقابل}{المجاور}$','$@cot θ = @frac{1}{@tan θ}$','$@sec θ = @frac{1}{@cos θ}$','$@csc θ = @frac{1}{@sin θ}$'], note:'حيث $θ$ زاوية حادة في المثلث القائم.'},
+   {n:'المتطابقات الأساسية بين الدوال', f:['$@tan θ = @frac{@sin θ}{@cos θ}$','$@cot θ = @frac{@cos θ}{@sin θ}$','$@sec θ = @frac{1}{@cos θ}$','$@csc θ = @frac{1}{@sin θ}$'], note:'لا يُسمح بالقسمة على صفر، أي أن $@sin θ ≠ 0$ و $@cos θ ≠ 0$.'},
+   {n:'المتطابقات المتتامة', f:['$@sin(90° − θ) = @cos θ$','$@cos(90° − θ) = @sin θ$','$@tan(90° − θ) = @cot θ$','$@cot(90° − θ) = @tan θ$','$@sec(90° − θ) = @csc θ$','$@csc(90° − θ) = @sec θ$'], note:'لإيجاد متممة زاوية: حوّل $θ$ إلى $90° − θ$ وبدّل الدالة بالمتممة لها.'},
+   {n:'متطابقات فيثاغورس', f:['$@sin^{2}θ + @cos^{2}θ = 1$','$1 + @tan^{2}θ = @sec^{2}θ$','$1 + @cot^{2}θ = @csc^{2}θ$'], note:'تُستخدم كثيرًا في تبسيط المعادلات وحلها.'},
+   {n:'متطابقات القوى (حاصل الضرب)', f:['$@sin^{2}θ = @frac{1 − @cos 2θ}{2}$','$@cos^{2}θ = @frac{1 + @cos 2θ}{2}$','$@tan^{2}θ = @frac{1 − @cos 2θ}{1 + @cos 2θ}$'], note:'تُستخدم عند وجود زوايا مضاعفة $(2θ)$.'},
+   {n:'متطابقات مجموع زاويتين والفرق بينهما', f:['$@sin(A ± B) = @sin A@cos B ± @cos A@sin B$','$@cos(A ± B) = @cos A@cos B ∓ @sin A@sin B$','$@tan(A ± B) = @frac{@tan A ± @tan B}{1 ∓ @tan A@tan B}$'], note:'تُستخدم في تبسيط العبارات التي تحتوي على زاويتين أو أكثر.'},
+   {n:'متطابقات ضعف الزاوية', f:['$@sin 2θ = 2@sin θ@cos θ$','$@cos 2θ = @cos^{2}θ − @sin^{2}θ$','$= 1 − 2@sin^{2}θ = 2@cos^{2}θ − 1$','$@tan 2θ = @frac{2@tan θ}{1 − @tan^{2}θ}$'], note:'تُستخدم عند التعامل مع الزوايا المضاعفة $(2θ)$.'}
+  ],
+  examples:[
+   {q:'بسّط $@frac{@sin^{2}θ}{1 − @cos θ}$ مستعملًا فيثاغورس.', s:['$@sin^{2}θ = 1 − @cos^{2}θ = (1 − @cos θ)(1 + @cos θ)$','$@frac{(1 − @cos θ)(1 + @cos θ)}{1 − @cos θ}$','$= 1 + @cos θ$']},
+   {q:'أوجد $@cos^{2}15°$ باستعمال متطابقة القوى.', s:['$@cos^{2}15° = @frac{1 + @cos 30°}{2}$','$= @frac{1 + @frac{@sqrt{3}}{2}}{2} = @frac{2 + @sqrt{3}}{4}$']}
+  ],
+  tips:['حوّل كل العبارة إلى $@sin$ و $@cos$ إذا لم تعرف من أين تبدأ.','متطابقات فيثاغورس الثلاث مصدرها واحد: اقسم $@sin^{2}θ + @cos^{2}θ = 1$ على $@cos^{2}θ$ أو على $@sin^{2}θ$.','في $@cos(A ± B)$ تنعكس الإشارة دائمًا.'],
+  memo:'إتقان المتطابقات المثلثية هو مفتاحك لتبسيط المعادلات وحل المسائل في الرياضيات.',
+  quiz:[
+   ['$@sec(90° − θ)$ =',['$@csc θ$','$@sec θ$','$@cos θ$','$@cot θ$'],0,'المتممة: sec ↔ csc'],
+   ['$1 + @cot^{2}θ$ =',['$@sec^{2}θ$','$@csc^{2}θ$','$@tan^{2}θ$','$1$'],1,'اقسم فيثاغورس الأولى على $@sin^{2}θ$.'],
+   ['$@frac{1 − @cos 2θ}{2}$ =',['$@cos^{2}θ$','$@sin^{2}θ$','$@sin 2θ$','$@tan^{2}θ$'],1,'متطابقة القوى للجيب.'],
+   ['$@tan θ$ يساوي:',['$@frac{@cos θ}{@sin θ}$','$@frac{@sin θ}{@cos θ}$','$@frac{1}{@sin θ}$','$@sin θ@cos θ$'],1,'المتطابقة النسبية.'],
+   ['$@cos(A − B)$ =',['$@cos A@cos B − @sin A@sin B$','$@cos A@cos B + @sin A@sin B$','$@sin A@cos B − @cos A@sin B$','$@cos A − @cos B$'],1,'الفرق في جيب التمام يعطي جمعًا.'],
+   ['في مثلث قائم، $@cos θ$ =',['المقابل ÷ الوتر','المجاور ÷ الوتر','المقابل ÷ المجاور','الوتر ÷ المجاور'],1,'جيب التمام = المجاور على الوتر.']
+  ]},
+ {id:'log', title:'ملخص خصائص اللوغاريتمات', sub:'الخصائص الأساسية والإضافية', lessons:['2-3','2-4','2-5','2-6'],
+  boxes:[
+   {n:'تعريف اللوغاريتم', f:['$a^{x} = b ⇔ @log_{a} b = x$','$2^{3} = 8 ⇔ @log_{2} 8 = 3$'], note:'حيث $a > 0$ ، $a ≠ 1$ ، $b > 0$.'},
+   {n:'① لوغاريتم حاصل الضرب', f:['$@log_{a}(MN) = @log_{a} M + @log_{a} N$','مثال: $@log_{2}(4 × 8) = 2 + 3 = 5$']},
+   {n:'② لوغاريتم حاصل القسمة', f:['$@log_{a} @frac{M}{N} = @log_{a} M − @log_{a} N$','مثال: $@log_{3} @frac{81}{3} = 4 − 1 = 3$']},
+   {n:'③ لوغاريتم القوة', f:['$@log_{a} M^{n} = n@log_{a} M$','مثال: $@log_{2} 8^{2} = 2(3) = 6$']},
+   {n:'④ لوغاريتم العدد 1', f:['$@log_{a} 1 = 0$','لأن $a^{0} = 1$']},
+   {n:'⑤ لوغاريتم الأساس نفسه', f:['$@log_{a} a = 1$','لأن $a^{1} = a$']},
+   {n:'⑥ لوغاريتم قوة الأساس', f:['$@log_{a} a^{x} = x$','مثال: $@log_{5} 5^{4} = 4$']},
+   {n:'⑦ تحويل اللوغاريتم إلى صورة أسية', f:['$a^{@log_{a} M} = M$','مثال: $3^{@log_{3} 7} = 7$']},
+   {n:'⑧ تغيير الأساس', f:['$@log_{a} M = @frac{@log_{b} M}{@log_{b} a}$','مثال: $@log_{2} 7 = @frac{@log 7}{@log 2}$']},
+   {n:'⑨ خاصية المقلوب', f:['$@log_{a} @frac{1}{M} = −@log_{a} M$','مثال: $@log_{2} @frac{1}{8} = −3$']}
+  ],
+  examples:[
+   {q:'استعمل $@log_{4} 3 ≈ 0.7925$ لتقريب قيمة $@log_{4} 192$ (خاصية الضرب).', s:['$192 = 64 × 3 = 4^{3} × 3$','$@log_{4} 192 = @log_{4} 4^{3} + @log_{4} 3$','$= 3 + 0.7925 = 3.7925$']},
+   {q:'استعمل $@log_{6} 5 ≈ 0.8982$ لتقريب قيمة $@log_{6} 7.2$ (خاصية القسمة).', s:['$7.2 = @frac{36}{5} = @frac{6^{2}}{5}$','$@log_{6} 7.2 = @log_{6} 6^{2} − @log_{6} 5$','$= 2 − 0.8982 = 1.1018$']},
+   {q:'تحقق من فهمك: استعمل $@log_{4} 2 = 0.5$ لإيجاد $@log_{4} 32$.', s:['$32 = 16 × 2$','$@log_{4} 32 = @log_{4} 16 + @log_{4} 2$','$= 2 + 0.5 = 2.5$']},
+   {q:'تحقق من فهمك: استعمل $@log_{3} 2 ≈ 0.63$ لإيجاد $@log_{3} 4.5$.', s:['$4.5 = @frac{9}{2}$','$@log_{3} 4.5 = @log_{3} 9 − @log_{3} 2$','$= 2 − 0.63 = 1.37$']}
+  ],
+  tips:['الجمع داخل اللوغاريتم لا يتحول إلى جمع لوغاريتمين؛ خاصية الجمع تخص حاصل الضرب.','الطرح داخل اللوغاريتم لا يتحول إلى طرح لوغاريتمين؛ خاصية الطرح تخص حاصل القسمة.','لا يجوز أن يكون مدخل اللوغاريتم صفرًا أو عددًا سالبًا.','لا يجوز أن يكون الأساس سالبًا أو صفرًا أو واحدًا.','انتبه: $@log_{a} M^{2} = 2@log_{a} |M|$ عندما $M ≠ 0$ ، ودون القيمة المطلقة راعِ مجال التعبير.'],
+  memo:'الضرب داخل اللوغاريتم يتحول إلى جمع، والقسمة تتحول إلى طرح، والأس ينزل أمام اللوغاريتم معاملًا.',
+  quiz:[
+   ['$@log_{2} 32$ =',['$4$','$5$','$16$','$6$'],1,'$2^{5} = 32$'],
+   ['$@log_{a} @frac{1}{M}$ =',['$@frac{1}{@log_{a} M}$','$−@log_{a} M$','$@log_{M} a$','$0$'],1,'خاصية المقلوب.'],
+   ['$7^{@log_{7} 12}$ =',['$7$','$12$','$84$','$1$'],1,'$a^{@log_{a} M} = M$'],
+   ['$@log_{5} 1$ =',['$5$','$1$','$0$','غير معرف'],2,'$5^{0} = 1$'],
+   ['$@log_{3} 6 + @log_{3} 1.5$ =',['$@log_{3} 7.5$','$2$','$1$','$@log_{3} 4.5$'],1,'$@log_{3} 9 = 2$'],
+   ['أي العبارات خاطئة؟',['$@log(M + N) = @log M + @log N$','$@log MN = @log M + @log N$','$@log M^{3} = 3@log M$','$@log 10 = 1$'],0,'الجمع داخل اللوغاريتم لا يتوزع.']
+  ]}
+];
+const sheetFor = id => SHEETS.find(s => s.lessons.includes(id));
+
+/* صفحة ملخص */
+function renderSheet(S) {
+  main.innerHTML = `<div class="page">
+  <header class="hero-l sheet-hero"><div class="unit">ملخص للحفظ والمراجعة</div><h1>${S.title}</h1><p class="goal">${S.sub} · الدروس: ${S.lessons.map(id => `<a href="#l-${id}" style="color:inherit">${id}</a>`).join(' ، ')}</p>
+  <div class="btn-row"><button type="button" class="btn" id="hide-all" style="background:var(--sheet)">وضع التسميع: أخفِ القوانين</button></div></header>
+  <section class="sheet"><div class="sum-grid" id="boxes"></div></section>
+  <section class="sheet"><div class="sec-h"><span class="tag">تتبّع</span><h2>أمثلة محلولة</h2></div><div id="sx" class="qs"></div></section>
+  <section class="sheet"><div class="sec-h"><span class="tag">انتبه</span><h2>تنبيهات مهمة للاختبار</h2></div><ul class="tips">${S.tips.map(t => `<li>${T(t)}</li>`).join('')}</ul><div class="tip"><b>قاعدة للحفظ:</b> ${T(S.memo)}</div></section>
+  <section class="sheet"><div class="sec-h"><span class="tag">اختبر حفظك</span><h2>أسئلة سريعة على الملخص</h2></div><div id="squiz"></div></section>
+  </div>`;
+  const bx = $('#boxes');
+  S.boxes.forEach((b, i) => {
+    const d = document.createElement('div'); d.className = 'sum-box c' + (i % 5);
+    d.innerHTML = `<h3><span class="n">${i + 1}</span>${T(b.n)}</h3><ul>${b.f.map(f => `<li class="fx" tabindex="0">${T(f)}</li>`).join('')}</ul>${b.note ? `<p class="note">${T(b.note)}</p>` : ''}`;
+    d.querySelectorAll('.fx').forEach(li => { const tg = () => li.classList.toggle('peek'); li.addEventListener('click', tg); li.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tg(); } }); });
+    bx.appendChild(d);
+  });
+  let hidden = false;
+  $('#hide-all').addEventListener('click', e => { hidden = !hidden; bx.classList.toggle('quiz-mode', hidden); bx.querySelectorAll('.peek').forEach(x => x.classList.remove('peek')); e.target.textContent = hidden ? 'أظهر كل القوانين' : 'وضع التسميع: أخفِ القوانين'; if (hidden) toast('حاول تذكّر كل قانون ثم اضغطه لتتأكد'); });
+  const sx = $('#sx');
+  S.examples.forEach(ex => {
+    const d = document.createElement('div'); d.className = 'q';
+    d.innerHTML = `<div class="ex-q">${T(ex.q)}</div><ol class="ex-steps"></ol><div class="btn-row"><button type="button" class="btn fill">أظهر الخطوة الأولى</button></div>`;
+    const ol = d.querySelector('ol'), b = d.querySelector('button'); let n = 0;
+    b.addEventListener('click', () => { const li = document.createElement('li'); li.innerHTML = `<span>${T(ex.s[n])}</span>`; n++; if (n === ex.s.length) { li.classList.add('final'); b.disabled = true; b.textContent = 'اكتمل الحل'; } else b.textContent = 'الخطوة التالية'; ol.appendChild(li); });
+    sx.appendChild(d);
+  });
+  quizBlock($('#squiz'), S.quiz, `sheet-${S.id}:`);
+}
+
+/* فهرس الكتاب: الدرس + المقطع + الملخص */
+function renderIndex() {
+  main.innerHTML = `<div class="page"><section class="sheet"><div class="sec-h"><span class="tag">الفهرس</span><h2>فهرس الكتاب</h2></div>
+  <p>لكل درس: شرح الأستاذ علي العنبري بالفيديو، وملخص الدرس، وصفحة الكتاب التفاعلية.</p>
+  ${UNITS.map(u => `<h3 class="ix-u">${u.name}</h3><div class="ix">${LESSONS.filter(l => l.unit === u.id).map(l => { const sh = sheetFor(l.id); return `<div class="ix-row"><span class="no">${l.id}</span><span class="t">${l.title}</span><span class="ix-a"><a class="chip vid" href="${videoURL(l)}" target="_blank" rel="noopener">${VIDEOS[l.id] ? '▶ المقطع' : '⌕ ابحث في القناة'}</a><a class="chip" href="#s-${l.id}">الملخص</a>${sh ? `<a class="chip" href="#sheet-${sh.id}">ملخص الفصل</a>` : ''}<a class="chip fill" href="#l-${l.id}">الكتاب</a></span></div>`; }).join('')}</div>`).join('')}
+  </section></div>`;
+}
+
+/* ملخص درس واحد (القوانين مفتوحة + الفكرة) */
+function renderLessonSummary(L) {
+  const sh = sheetFor(L.id);
+  main.innerHTML = `<div class="page"><header class="hero-l"><div class="unit">ملخص الدرس · ${unitName(L.unit)}</div><h1><span class="num">${L.id}</span>${L.title}</h1>
+  <div class="btn-row"><a class="btn" style="background:var(--sheet)" href="${videoURL(L)}" target="_blank" rel="noopener">▶ شاهد المقطع</a><a class="btn" style="background:var(--sheet)" href="#l-${L.id}">افتح الدرس في الكتاب</a>${sh ? `<a class="btn" style="background:var(--sheet)" href="#sheet-${sh.id}">${sh.title}</a>` : ''}</div></header>
+  <section class="sheet"><div class="sec-h"><span class="tag">الفكرة</span><h2>باختصار</h2></div>${L.idea.map(p => `<p>${T(p)}</p>`).join('')}<div class="tip"><b>تذكّر:</b> ${T(L.tip)}</div></section>
+  <section class="sheet"><div class="sec-h"><span class="tag">احفظ</span><h2>القوانين</h2></div><div class="sum-grid">${L.rules.map(([n, f], i) => `<div class="sum-box c${i % 5}"><h3><span class="n">${i + 1}</span>${T(n)}</h3><ul><li class="fx">${T(f)}</li></ul></div>`).join('')}</div></section>
+  <section class="sheet"><div class="sec-h"><span class="tag">مثال</span><h2>${T(L.ex.q)}</h2></div><ol class="ex-steps">${L.ex.s.map((s, i) => `<li class="${i === L.ex.s.length - 1 ? 'final' : ''}"><span>${T(s)}</span></li>`).join('')}</ol></section>
+  </div>`;
+}
+/* ---------- الصفحات ---------- */
+const main = $('#main'), toc = $('#toc');
+const unitName = id => UNITS.find(u => u.id === id).name;
+function hash32(str) { let h = 2166136261; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function order(n, seed) { const a = [...Array(n).keys()]; let x = seed || 1; for (let i = n - 1; i > 0; i--) { x = (Math.imul(x, 1103515245) + 12345) >>> 0; const j = x % (i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function buildTOC(cur) {
+  let h = `<div class="tools"><a href="#home" class="${cur === 'home' ? 'on' : ''}"><span class="no">⌂</span>الصفحة الرئيسية</a>
+  <a href="#memorize" class="${cur === 'memorize' ? 'on' : ''}"><span class="no">⇄</span>بطاقات حفظ القوانين</a>
+  <a href="#challenge" class="${cur === 'challenge' ? 'on' : ''}"><span class="no">✓</span>تحدّي المراجعة</a>
+  <a href="#index" class="${cur === 'index' ? 'on' : ''}"><span class="no">≡</span>فهرس المقاطع والملخصات</a>
+  ${SHEETS.map(s => `<a href="#sheet-${s.id}" class="${cur === 'sheet-' + s.id ? 'on' : ''}"><span class="no">▤</span>${s.title}</a>`).join('')}</div>`;
+  UNITS.forEach(u => {
+    h += `<h4>${u.name}</h4>`;
+    LESSONS.filter(l => l.unit === u.id).forEach(l => {
+      const st = lessonStats(l).stars;
+      h += `<a href="#l-${l.id}" class="${cur === 'l-' + l.id ? 'on' : ''}"><span class="no">${l.id}</span><span>${l.title}</span><span class="st" aria-label="${st} نجوم">${starStr(st)}</span></a>`;
+    });
+  });
+  toc.innerHTML = h;
+}
+
+/* ---------- سؤال اختيار من متعدد ---------- */
+function renderQ(host, q, key, onDone) {
+  const [text, opts, ans, why] = q, ord = order(opts.length, hash32(key));
+  const d = document.createElement('div'); d.className = 'q';
+  d.innerHTML = `<div class="qt"><span>${T(text)}</span></div><div class="opts"></div><div class="fb" aria-live="polite"></div>`;
+  const box = d.querySelector('.opts'), fb = d.querySelector('.fb'); let tries = 0, done = false;
+  ord.forEach((oi, n) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'opt';
+    b.innerHTML = `<span class="k">${'ABCD'[n]}</span><span>${T(opts[oi])}</span>`;
+    b.addEventListener('click', () => {
+      if (done) return; tries++;
+      if (oi === ans) {
+        b.classList.add('ok'); done = true;
+        box.querySelectorAll('.opt').forEach(x => x.disabled = true);
+        fb.innerHTML = `<div class="fb-msg ok"><b>${tries === 1 ? praise() : 'صحيح بعد المحاولة!'}</b> ${T(why)}</div>`;
+        const first = tries === 1;
+        if (!(key in PRO.q)) { PRO.q[key] = first ? 1 : 0; if (first) addXP(10, praise()); else save(); }
+        onDone && onDone(first);
+      } else {
+        b.classList.add('bad'); b.disabled = true;
+        if (tries >= 2) {
+          done = true; box.querySelectorAll('.opt').forEach((x, i) => { x.disabled = true; if (ord[i] === ans) x.classList.add('ok'); });
+          fb.innerHTML = `<div class="fb-msg bad"><b>الإجابة الصحيحة مظللة بالأخضر.</b> ${T(why)}</div>`;
+          if (!(key in PRO.q)) { PRO.q[key] = 0; save(); }
+          onDone && onDone(false);
+        } else fb.innerHTML = `<div class="fb-msg bad">إجابة غير صحيحة. راجع القانون وحاول مرة أخرى.</div>`;
+      }
+    });
+    box.appendChild(b);
+  });
+  host.appendChild(d);
+}
+function quizBlock(host, list, prefix) {
+  host.innerHTML = '<div class="qs"></div><div class="score-line"><span class="sc"></span><button type="button" class="btn">أعد المحاولة</button></div>';
+  const qs = host.querySelector('.qs'), sc = host.querySelector('.sc');
+  const upd = () => { const ok = list.filter((_, i) => PRO.q[`${prefix}${i}`] === 1).length; sc.textContent = `صحيحة من المحاولة الأولى: ${ok} من ${list.length}`; buildTOC(location.hash.slice(1)); };
+  list.forEach((q, i) => renderQ(qs, q, `${prefix}${i}`, upd));
+  host.querySelector('.btn').addEventListener('click', () => { list.forEach((_, i) => delete PRO.q[`${prefix}${i}`]); save(); quizBlock(host, list, prefix); });
+  upd();
+}
+
+/* ---------- صفحة الدرس ---------- */
+function renderLesson(L) {
+  const idx = LESSONS.indexOf(L), prev = LESSONS[idx - 1], next = LESSONS[idx + 1];
+  const st = lessonStats(L);
+  main.innerHTML = `<article class="page">
+  <header class="hero-l">
+    <div class="unit">${unitName(L.unit)}</div>
+    <h1><span class="num">${L.id}</span>${L.title}</h1>
+    <p class="goal"><b>هدف الدرس:</b> ${T(L.goal)}</p>
+    <div class="start-row"><a class="start vid" href="${videoURL(L)}" target="_blank" rel="noopener"><b>${VIDEOS[L.id] ? '▶ شاهد شرح الدرس' : '⌕ شرح الدرس في قناة الأستاذ'}</b><span>${VIDEOS[L.id] ? 'مقطع الأستاذ علي العنبري على يوتيوب' : 'بحث عن الدرس داخل قناة علي العنبري'}</span></a><a class="start" href="#s-${L.id}"><b>ملخص الدرس</b><span>الفكرة والقوانين في صفحة واحدة</span></a>${sheetFor(L.id) ? `<a class="start" href="#sheet-${sheetFor(L.id).id}"><b>${sheetFor(L.id).title}</b><span>الملخص الشامل للفصل</span></a>` : ''}</div>
+    <div class="steps-nav">${[['s-idea', 'الفكرة'], ['s-lab', 'جرّب بنفسك'], ['s-ex', 'مثال محلول'], ['s-rules', 'القوانين'], ['s-rq', 'أسئلة القوانين'], ['s-qs', 'تدرّب'], ['s-hots', 'التفكير العليا']].map(([i, t]) => `<a href="#l-${L.id}" data-go="${i}">${t}</a>`).join('')}</div>
+  </header>
+  <section class="sheet idea" id="s-idea"><div class="sec-h"><span class="tag">١ · افهم</span><h2>الفكرة الأساسية</h2></div>${L.idea.map(p => `<p>${T(p)}</p>`).join('')}<div class="tip"><b>تذكّر:</b> ${T(L.tip)}</div></section>
+  <section class="sheet" id="s-lab"><div class="sec-h"><span class="tag">٢ · شاهد</span><h2>جرّب بنفسك</h2></div><div id="lab-${L.id}"></div></section>
+  <section class="sheet" id="s-ex"><div class="sec-h"><span class="tag">٣ · تتبّع</span><h2>مثال محلول خطوة بخطوة</h2></div><div class="ex-q">${T(L.ex.q)}</div><ol class="ex-steps"></ol><div class="btn-row"><button type="button" class="btn fill" id="ex-next">أظهر الخطوة الأولى</button><button type="button" class="btn" id="ex-all">أظهر الحل كاملًا</button></div></section>
+  <section class="sheet" id="s-rules"><div class="sec-h"><span class="tag">٤ · احفظ</span><h2>قوانين الدرس</h2></div><p>اقرأ اسم القانون وحاول تذكّره، ثم اضغط البطاقة لتقلبها. إذا كنت تحفظه علّمه بـ «حفظته».</p><div class="rules" id="rules"></div><div class="memo-bar"><span id="memo-t"></span><div class="meter"><i id="memo-m"></i></div><button type="button" class="btn" id="flip-all">اقلب الكل</button></div></section>
+  <section class="sheet" id="s-rq"><div class="sec-h"><span class="tag">٥ · اختبر حفظك</span><h2>أسئلة على القوانين</h2></div><div id="rq"></div></section>
+  <section class="sheet" id="s-qs"><div class="sec-h"><span class="tag">٦ · تدرّب</span><h2>تدرّب على الأفكار</h2></div><div id="qs"></div></section>
+  <section class="sheet" id="s-hots"><div class="sec-h"><span class="tag" style="background:var(--plum-soft);color:var(--plum)">٧ · فكّر</span><h2>أسئلة مهارات التفكير العليا</h2></div><p>اكتب إجابتك أولًا، ثم استعن بالتلميح، وقارن بالإجابة النموذجية.</p><div class="hots" id="hots"></div></section>
+  <nav class="pager">${prev ? `<a class="btn" href="#l-${prev.id}">→ ${prev.id} ${prev.title}</a>` : '<span></span>'}${next ? `<a class="btn fill" href="#l-${next.id}">${next.id} ${next.title} ←</a>` : `<a class="btn fill" href="#challenge">انتقل إلى تحدّي المراجعة ←</a>`}</nav>
+  </article>`;
+  main.querySelectorAll('[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); document.getElementById(a.dataset.go).scrollIntoView({ behavior: RM.matches ? 'auto' : 'smooth', block: 'start' }); }));
+
+  // المختبر
+  const host = $(`#lab-${L.id}`); makeLab(host, W[L.lab]);
+
+  // المثال
+  const ol = main.querySelector('.ex-steps'), nb = $('#ex-next'); let shown = 0;
+  const showStep = () => {
+    if (shown >= L.ex.s.length) return;
+    const li = document.createElement('li'); li.innerHTML = `<span>${T(L.ex.s[shown])}</span>`; shown++;
+    if (shown === L.ex.s.length) { li.classList.add('final'); nb.disabled = true; nb.textContent = 'اكتمل الحل'; } else nb.textContent = `الخطوة التالية (${shown + 1} من ${L.ex.s.length})`;
+    ol.appendChild(li);
+  };
+  nb.addEventListener('click', showStep);
+  $('#ex-all').addEventListener('click', () => { while (shown < L.ex.s.length) showStep(); });
+
+  // القوانين
+  const rb = $('#rules');
+  const memo = () => { const k = L.rules.filter((_, i) => PRO.r[`${L.id}:${i}`]).length; $('#memo-t').textContent = `حفظت ${k} من ${L.rules.length}`; $('#memo-m').style.width = (k / L.rules.length * 100) + '%'; buildTOC('l-' + L.id); };
+  L.rules.forEach(([n, f], i) => {
+    const key = `${L.id}:${i}`, d = document.createElement('div');
+    d.className = 'rule'; d.tabIndex = 0; d.setAttribute('role', 'button'); d.setAttribute('aria-label', `بطاقة القانون: ${n}. اضغط للقلب`);
+    d.innerHTML = `<div class="in"><div class="fa">${PRO.r[key] ? '<span class="kn">محفوظ</span>' : ''}<span class="nm">${T(n)}</span><span class="hint">اضغط لتقلب البطاقة</span></div><div class="fb"><div class="fx">${T(f)}</div><div class="btn-row"><button type="button" class="btn fill kbtn">${PRO.r[key] ? 'محفوظ ✓' : 'حفظته'}</button></div></div></div>`;
+    const flip = () => d.classList.toggle('flip');
+    d.addEventListener('click', e => { if (e.target.closest('.kbtn')) return; flip(); });
+    d.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
+    d.querySelector('.kbtn').addEventListener('click', e => {
+      e.stopPropagation();
+      if (PRO.r[key]) { delete PRO.r[key]; save(); e.target.textContent = 'حفظته'; d.querySelector('.kn')?.remove(); }
+      else { PRO.r[key] = 1; addXP(5, 'قانون جديد في ذاكرتك'); e.target.textContent = 'محفوظ ✓'; d.querySelector('.fa').insertAdjacentHTML('afterbegin', '<span class="kn">محفوظ</span>'); }
+      memo();
+    });
+    rb.appendChild(d);
+  });
+  $('#flip-all').addEventListener('click', () => { const any = [...rb.children].some(c => !c.classList.contains('flip')); [...rb.children].forEach(c => c.classList.toggle('flip', any)); });
+  memo();
+
+  quizBlock($('#rq'), L.rq, `${L.id}:r`);
+  quizBlock($('#qs'), L.qs, `${L.id}:q`);
+
+  // التفكير العليا
+  const hb = $('#hots');
+  L.hots.forEach(([lvl, q, hint, a], i) => {
+    const key = `${L.id}:${i}`, d = document.createElement('div'); d.className = 'hot';
+    const tid = `hot-${L.id}-${i}`;
+    d.innerHTML = `<div class="lvl">${lvl}</div><div class="qt">${T(q)}</div><label for="${tid}" class="lab-note">إجابتي:</label><textarea id="${tid}" placeholder="اكتب خطواتك وتبريرك هنا"></textarea>
+      <div class="btn-row"><button type="button" class="btn hb">تلميح</button><button type="button" class="btn ab">الإجابة النموذجية</button></div><div class="out"></div>`;
+    const out = d.querySelector('.out');
+    try { const v = localStorage.getItem('m3draft:' + tid); if (v) d.querySelector('textarea').value = v; } catch (e) {}
+    d.querySelector('textarea').addEventListener('input', e => { try { localStorage.setItem('m3draft:' + tid, e.target.value); } catch (er) {} });
+    d.querySelector('.hb').addEventListener('click', () => { out.innerHTML = `<div class="rev"><b>تلميح:</b> ${T(hint)}</div>`; });
+    d.querySelector('.ab').addEventListener('click', () => {
+      out.innerHTML = `<div class="rev"><b>الإجابة النموذجية:</b> ${T(a)}<div class="btn-row"><button type="button" class="btn fill sb">${PRO.h[key] ? 'تم التقييم ✓' : 'إجابتي تطابق الفكرة'}</button></div></div>`;
+      out.querySelector('.sb').addEventListener('click', e => { if (!PRO.h[key]) { PRO.h[key] = 1; addXP(15, 'تفكير عميق'); e.target.textContent = 'تم التقييم ✓'; buildTOC('l-' + L.id); } });
+    });
+    hb.appendChild(d);
+  });
+}
+
+/* ---------- الرئيسية ---------- */
+function renderHome() {
+  const totalR = LESSONS.reduce((a, l) => a + l.rules.length, 0), knownR = Object.keys(PRO.r).length;
+  const okQ = Object.values(PRO.q).filter(v => v === 1).length, totalQ = LESSONS.reduce((a, l) => a + l.qs.length + l.rq.length, 0);
+  const stars = LESSONS.reduce((a, l) => a + lessonStats(l).stars, 0);
+  main.innerHTML = `<div class="page">
+  <section class="cover">
+    <div style="min-width:0">
+      <div class="lab-note">ثالث ثانوي · مسارات · الخطة الإثرائية والعلاجية</div>
+      <h1>رياضياتنا <mark>حياة</mark></h1>
+      <p>كتاب تفهم فيه الدرس بالرسم المتحرك، وتحفظ قوانينه ببطاقات تقلبها، وتتدرّب على أسئلته وتعرف نتيجتك فورًا، ثم تتحدّى نفسك بأسئلة التفكير العليا.</p>
+      <div class="btn-row"><a class="btn fill" href="#l-1-1">ابدأ من الدرس الأول</a><a class="btn" href="#memorize">بطاقات الحفظ</a><a class="btn" href="#challenge">تحدّي المراجعة</a><a class="btn" href="#index">فهرس المقاطع والملخصات</a></div>
+    </div>
+    <div id="cover-lab" class="cover-lab"></div>
+  </section>
+  <section class="stats" aria-label="تقدّمي">
+    <div class="stat"><b>${PRO.xp}</b><span>نقاطي</span></div>
+    <div class="stat"><b>${knownR}/${totalR}</b><span>قوانين حفظتها</span></div>
+    <div class="stat"><b>${okQ}/${totalQ}</b><span>أسئلة صحيحة من أول محاولة</span></div>
+    <div class="stat"><b>${stars}/${LESSONS.length * 3}</b><span>نجوم الدروس</span></div>
+  </section>
+  <section class="sheet"><div class="sec-h"><span class="tag">طريقة المذاكرة</span><h2>كل درس في سبع خطوات</h2></div>
+    <div class="how"><div><b>افهم</b>الفكرة باختصار</div><div><b>شاهد</b>رسمًا متحركًا تغيّره بيدك</div><div><b>تتبّع</b>مثالًا محلولًا خطوة بخطوة</div><div><b>احفظ</b>القوانين ببطاقات تُقلب</div><div><b>اختبر</b>حفظك بأسئلة على القوانين</div><div><b>تدرّب</b>على أسئلة الخطة</div><div><b>فكّر</b>في أسئلة التفكير العليا</div></div>
+    <div class="how" style="margin-top:10px">${SHEETS.map(s => `<a href="#sheet-${s.id}" style="text-decoration:none;color:inherit;background:var(--marker-soft)" class="lcard"><b>${s.title}</b><span class="lab-note">ملخص للحفظ مع وضع التسميع وأسئلة سريعة</span></a>`).join('')}</div>
+    <p class="lab-note">النجمة الأولى: حفظ كل قوانين الدرس · الثانية: 80% صحيحة من أول محاولة · الثالثة: إنهاء أسئلة التفكير العليا. يُحفظ تقدّمك في هذا الجهاز فقط.</p>
+  </section>
+  <div class="units">${UNITS.map(u => `<section class="sheet unit-card"><h2>${u.name}</h2><div class="lesson-grid">${LESSONS.filter(l => l.unit === u.id).map(l => { const s = lessonStats(l); return `<a class="lcard" href="#l-${l.id}"><span class="no">${l.id}</span><span class="t">${l.title}</span><span class="stars" aria-label="${s.stars} من 3 نجوم">${starStr(s.stars)}</span></a>`; }).join('')}</div></section>`).join('')}</div>
+  </div>`;
+  const cl = $('#cover-lab'); cl.innerHTML = '<div class="cv-box" style="border:0"><canvas aria-hidden="true"></canvas></div>';
+  // غلاف متحرك بدون أدوات تحكم
+  const cv = cl.querySelector('canvas'), P = new Plot(cv);
+  const lab = { s: {}, spec: W.cover, P, visible: false, dirty: true, play: null, t0: performance.now(), read: { set innerHTML(v) {} }, setVal() {} };
+  lab.io = new IntersectionObserver(es => es.forEach(e => { lab.visible = e.isIntersecting; kick(); })); lab.io.observe(cv);
+  LABS.add(lab); kick();
+}
+
+/* ---------- بطاقات الحفظ ---------- */
+let flashFilter = 'all', flashOnlyNew = false, flashIdx = 0;
+function renderMemorize() {
+  const all = []; LESSONS.forEach(l => l.rules.forEach((r, i) => all.push({ l, r, key: `${l.id}:${i}` })));
+  let list = all.filter(x => flashFilter === 'all' || x.l.unit === flashFilter);
+  if (flashOnlyNew) list = list.filter(x => !PRO.r[x.key]);
+  if (flashIdx >= list.length) flashIdx = 0;
+  const known = all.filter(x => (flashFilter === 'all' || x.l.unit === flashFilter) && PRO.r[x.key]).length;
+  const tot = all.filter(x => flashFilter === 'all' || x.l.unit === flashFilter).length;
+  const cur = list[flashIdx];
+  main.innerHTML = `<div class="page">
+  <section class="sheet"><div class="sec-h"><span class="tag">احفظ</span><h2>بطاقات حفظ القوانين</h2></div>
+  <p>اقرأ اسم القانون، قل الصيغة بصوت مسموع، ثم اقلب البطاقة لتتأكد. البطاقات التي تحفظها تخرج من «غير المحفوظة».</p>
+  <div class="ctrl"><div class="seg" id="ff">${[['all', 'كل الفصول'], ...UNITS.map(u => [u.id, u.name.split(':')[0]])].map(([v, t]) => `<button type="button" data-v="${v}" class="${flashFilter === v ? 'on' : ''}">${t}</button>`).join('')}<button type="button" data-new="1" class="${flashOnlyNew ? 'on' : ''}">غير المحفوظة فقط</button></div></div>
+  <div class="memo-bar"><span>حفظت ${known} من ${tot}</span><div class="meter"><i style="width:${tot ? known / tot * 100 : 0}%"></i></div></div>
+  </section>
+  ${cur ? `<section class="flash-stage">
+    <button type="button" class="flash" id="fc" aria-label="اقلب البطاقة"><div class="in"><div class="fa"><span class="les">${cur.l.id} · ${cur.l.title}</span><span class="nm">${T(cur.r[0])}</span><span class="lab-note">اضغط لتقلب</span></div><div class="fb">${T(cur.r[1])}</div></div></button>
+    <div class="lab-note">البطاقة ${flashIdx + 1} من ${list.length}</div>
+    <div class="btn-row"><button type="button" class="btn" id="fprev">السابقة</button><button type="button" class="btn" id="fagain">أحتاج مراجعة</button><button type="button" class="btn fill" id="fknow">${PRO.r[cur.key] ? 'محفوظ ✓ التالية' : 'حفظته'}</button><button type="button" class="btn" id="fnext">التالية</button></div>
+  </section>` : `<section class="sheet"><p><b>أحسنت!</b> حفظت كل القوانين في هذا الاختيار. جرّب «تحدّي المراجعة» لتثبيتها.</p><a class="btn fill" href="#challenge">ابدأ التحدّي</a></section>`}
+  </div>`;
+  main.querySelectorAll('#ff button').forEach(b => b.addEventListener('click', () => { if (b.dataset.new) flashOnlyNew = !flashOnlyNew; else flashFilter = b.dataset.v; flashIdx = 0; renderMemorize(); }));
+  if (!cur) return;
+  $('#fc').addEventListener('click', () => $('#fc').classList.toggle('flip'));
+  $('#fprev').addEventListener('click', () => { flashIdx = (flashIdx - 1 + list.length) % list.length; renderMemorize(); });
+  $('#fnext').addEventListener('click', () => { flashIdx = (flashIdx + 1) % list.length; renderMemorize(); });
+  $('#fagain').addEventListener('click', () => { if (PRO.r[cur.key]) { delete PRO.r[cur.key]; save(); } flashIdx = (flashIdx + 1) % list.length; renderMemorize(); });
+  $('#fknow').addEventListener('click', () => { if (!PRO.r[cur.key]) { PRO.r[cur.key] = 1; addXP(5, 'قانون جديد في ذاكرتك'); if (flashOnlyNew) { renderMemorize(); return; } } flashIdx = (flashIdx + 1) % list.length; renderMemorize(); });
+}
+
+/* ---------- تحدّي المراجعة ---------- */
+let chUnit = 'all';
+function renderChallenge() {
+  const pool = []; LESSONS.forEach(l => { if (chUnit === 'all' || l.unit === chUnit) { l.rq.forEach(q => pool.push([q, l])); l.qs.forEach(q => pool.push([q, l])); } });
+  const pick = order(pool.length, (Date.now() % 100000) + 7).slice(0, 10).map(i => pool[i]);
+  main.innerHTML = `<div class="page"><section class="sheet"><div class="sec-h"><span class="tag">راجع</span><h2>تحدّي المراجعة: 10 أسئلة عشوائية</h2></div>
+  <div class="ctrl"><div class="seg" id="cu">${[['all', 'كل الفصول'], ...UNITS.map(u => [u.id, u.name.split(':')[0]])].map(([v, t]) => `<button type="button" data-v="${v}" class="${chUnit === v ? 'on' : ''}">${t}</button>`).join('')}</div></div>
+  <p class="lab-note">كل إجابة صحيحة من أول محاولة = نقطة. حاول أن تصل إلى 8 من 10.</p></section>
+  <section class="sheet"><div class="qs" id="chq"></div><div class="score-line"><span id="chs">النتيجة: 0 من 10</span><button type="button" class="btn fill" id="chn">أسئلة جديدة</button></div><div id="chr"></div></section></div>`;
+  let done = 0, score = 0; const box = $('#chq');
+  pick.forEach(([q, l], i) => {
+    const wrap = document.createElement('div'); box.appendChild(wrap);
+    renderQ(wrap, [q[0] + ` <span class="lab-note">(درس ${l.id})</span>`, q[1], q[2], q[3]], `ch:${Date.now()}:${i}`, first => {
+      done++; if (first) score++;
+      $('#chs').textContent = `النتيجة: ${score} من ${pick.length}`;
+      if (done === pick.length) {
+        const msg = score >= 9 ? 'مستوى ممتاز! أنت جاهز للاختبار.' : score >= 7 ? 'جيد جدًا. راجع الدروس التي أخطأت فيها.' : 'لا بأس، ارجع إلى قوانين الدروس ثم أعد التحدّي.';
+        $('#chr').innerHTML = `<div class="tip"><b>${score} من ${pick.length}</b> — ${msg}</div>`;
+        if (score >= 8) addXP(30, 'تحدٍّ مكتمل');
+      }
+    });
+  });
+  main.querySelectorAll('#cu button').forEach(b => b.addEventListener('click', () => { chUnit = b.dataset.v; renderChallenge(); }));
+  $('#chn').addEventListener('click', renderChallenge);
+}
+
+/* ---------- التوجيه ---------- */
+function route() {
+  const h = location.hash.slice(1) || 'home';
+  LABS.forEach(l => { l.io && l.io.disconnect(); }); LABS.clear();
+  if (h.startsWith('l-')) { const L = LESSONS.find(x => 'l-' + x.id === h); if (L) renderLesson(L); else renderHome(); }
+  else if (h === 'memorize') renderMemorize();
+  else if (h === 'challenge') renderChallenge();
+  else if (h === 'index') renderIndex();
+  else if (h.startsWith('sheet-')) { const S = SHEETS.find(x => 'sheet-' + x.id === h); if (S) renderSheet(S); else renderHome(); }
+  else if (h.startsWith('s-')) { const L = LESSONS.find(x => 's-' + x.id === h); if (L) renderLessonSummary(L); else renderHome(); }
+  else renderHome();
+  buildTOC(h);
+  toc.classList.remove('open'); $('#ov').classList.remove('show');
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', route);
+$('#menu').addEventListener('click', () => { toc.classList.toggle('open'); $('#ov').classList.toggle('show'); });
+$('#ov').addEventListener('click', () => { toc.classList.remove('open'); $('#ov').classList.remove('show'); });
+updateXP();
+route();
+</script>
+</body>
+</html>
