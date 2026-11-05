@@ -235,6 +235,8 @@ main{min-width:0;padding-block:24px 80px;padding-left:max(16px,env(safe-area-ins
 .m .lim .ls{font-size:.62em}
 .cover-lab canvas{aspect-ratio:1/1}
 
+.ix-btn{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;text-decoration:none;font-weight:700;background:var(--blue);color:var(--sheet);border-radius:10px;padding:5px 14px}
+.ix-btn:hover{filter:brightness(1.1)}
 .start-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .start{flex:1 1 180px;min-width:0;display:flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--ink);background:var(--sheet);border-radius:12px;padding:10px 14px;border:2px solid transparent}
 .start span{font-size:.82rem;color:var(--muted)}
@@ -264,7 +266,8 @@ ul.tips{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;ga
 </style>
 <div dir="rtl" lang="ar">
 <header class="top">
-  <button type="button" class="menu-btn" id="menu" aria-label="فتح الفهرس">☰ الفهرس</button>
+  <a class="ix-btn" href="#index" aria-label="فهرس الكتاب">☰ الفهرس</a>
+  <button type="button" class="menu-btn" id="menu" aria-label="فتح قائمة الدروس">الدروس</button>
   <a class="brand" href="#home"><b>ر</b><span>رياضياتنا حياة</span></a>
   <span class="sp"></span>
   <span class="xp" title="نقاطك"><span>نقاطي</span><span id="xpv">0</span></span>
@@ -2194,6 +2197,9 @@ const CHANNEL = 'https://www.youtube.com/@Ali-Math';
 const VIDEOS = {
   '1-1': 'https://www.youtube.com/watch?v=jGAGjSjtmR0',
   '1-2': 'https://www.youtube.com/watch?v=YxZHtAX593I',
+  '1-7': 'https://www.youtube.com/watch?v=dUJNnt4c16A',
+  '3-1': 'https://www.youtube.com/watch?v=2gwDTiJ32Fw',
+  '3-2': 'https://www.youtube.com/watch?v=rVPJa4OGppo',
   '3-4': 'https://www.youtube.com/watch?v=EOtlmt7Gwls',
   '3-5': 'https://www.youtube.com/watch?v=jyMBWgmpUNw',
   '4-2': 'https://www.youtube.com/watch?v=G6R0PoKDc1c',
