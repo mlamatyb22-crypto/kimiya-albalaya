@@ -8,7 +8,7 @@
 
 الاستخدام (يحتاج ffmpeg على جهازك):
     python3 split_ayahs.py 067.mp3 --surah 67 --out ~/tilawa-clips/minshawi
-    python3 split_ayahs.py 002.mp3 --surah 2 --lead 1      # تبدأ الملف بالبسملة منفصلة (تُحفظ 000.mp3)
+    python3 split_ayahs.py 002.mp3 --surah 2 --lead 1      # تبدأ الملف بالبسملة منفصلة (تُحفظ 002000a.mp3)
     python3 split_ayahs.py f.mp3 --ayahs 29 --check-only   # فحص دون قص
 
 هذا التقطيع آلي ولا يعرف الكلمات؛ لا تعتمد النتيجة إلا بعد فحص تقرير الثقة وسماع عينات.
@@ -66,7 +66,7 @@ def main():
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument('--surah', type=int, help='رقم السورة (١–١١٤)')
     g.add_argument('--ayahs', type=int, help='عدد الآيات يدويًا')
-    ap.add_argument('--lead', type=int, default=0, help='عدد المقاطع التمهيدية قبل الآية الأولى (استعاذة/بسملة) تُحفظ باسم 000a,000b')
+    ap.add_argument('--lead', type=int, default=0, help='عدد المقاطع التمهيدية قبل الآية الأولى (استعاذة/بسملة) تُحفظ باسم 067000a,067000b')
     ap.add_argument('--out', default='clips')
     ap.add_argument('--noise', type=float, default=-35, help='عتبة الصمت بالديسيبل')
     ap.add_argument('--min-silence', type=float, default=0.25)
@@ -113,7 +113,7 @@ def main():
 
     out = Path(a.out).expanduser()
     out.mkdir(parents=True, exist_ok=True)
-    names = [f'000{chr(97 + i)}' for i in range(a.lead)] + [f'{surah:03d}{i + 1:03d}' if surah else f'{i + 1:03d}' for i in range(n)]
+    names = [f'{surah:03d}000{chr(97 + i)}' for i in range(a.lead)] + [f'{surah:03d}{i + 1:03d}' if surah else f'{i + 1:03d}' for i in range(n)]
     manifest = []
     for name, (s, e) in zip(names, segs):
         dest = out / f'{name}.mp3'
@@ -123,7 +123,7 @@ def main():
             print(f'فشل قص {name}: {r.stderr.strip()}', file=sys.stderr)
             return 1
         manifest.append({'file': dest.name, 'start': round(s, 3), 'end': round(e, 3), 'seconds': round(e - s, 2)})
-    (out / 'manifest.json').write_text(json.dumps(
+    (out / (f'{surah:03d}.manifest.json' if surah else 'manifest.json')).write_text(json.dumps(
         {'source': src.name, 'surah': surah, 'ayahs': n, 'margin': round(margin, 2), 'clips': manifest},
         ensure_ascii=False, indent=1), encoding='utf-8')
     print(f'تم: {len(manifest)} مقطعًا في {out}')
