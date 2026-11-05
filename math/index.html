@@ -88,8 +88,9 @@ main{min-width:0;padding-block:24px 80px;padding-left:max(16px,env(safe-area-ins
 @media (max-width:900px){
   .wrap{grid-template-columns:minmax(0,1fr)}
   .menu-btn{display:block}
-  nav.toc{position:fixed;inset:calc(env(safe-area-inset-top,0px) + 56px) 0 0 auto;width:min(320px,88vw);height:auto;z-index:25;transform:translateX(105%);transition:transform .25s;box-shadow:-6px 0 30px rgba(0,0,0,.18);background:var(--sheet)}
+  nav.toc{position:fixed;top:calc(env(safe-area-inset-top,0px) + 56px);right:0;bottom:auto;left:auto;width:min(320px,88vw);height:calc(100vh - 56px - env(safe-area-inset-top,0px));height:calc(100dvh - 56px - env(safe-area-inset-top,0px));overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;padding-bottom:calc(60px + env(safe-area-inset-bottom,0px));z-index:25;transform:translateX(105%);transition:transform .25s;box-shadow:-6px 0 30px rgba(0,0,0,.18);background:var(--sheet)}
   nav.toc.open{transform:none}
+  body.no-scroll{overflow:hidden}
 }
 
 /* ---------- blocks ---------- */
@@ -2560,12 +2561,14 @@ function route() {
   else if (h.startsWith('s-')) { const L = LESSONS.find(x => 's-' + x.id === h); if (L) renderLessonSummary(L); else renderHome(); }
   else renderHome();
   buildTOC(h);
-  toc.classList.remove('open'); $('#ov').classList.remove('show');
+  closeMenu();
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', route);
-$('#menu').addEventListener('click', () => { toc.classList.toggle('open'); $('#ov').classList.toggle('show'); });
-$('#ov').addEventListener('click', () => { toc.classList.remove('open'); $('#ov').classList.remove('show'); });
+function closeMenu() { toc.classList.remove('open'); $('#ov').classList.remove('show'); document.body.classList.remove('no-scroll'); }
+$('#menu').addEventListener('click', () => { const o = !toc.classList.contains('open'); if (!o) { closeMenu(); return; } toc.classList.add('open'); $('#ov').classList.add('show'); document.body.classList.add('no-scroll'); toc.scrollTop = 0; });
+$('#ov').addEventListener('click', closeMenu);
+toc.addEventListener('click', e => { if (e.target.closest('a')) closeMenu(); });
 updateXP();
 route();
 </script>
