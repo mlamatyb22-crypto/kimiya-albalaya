@@ -239,6 +239,28 @@ main{min-width:0;padding-block:24px 80px;padding-left:max(16px,env(safe-area-ins
 
 .ix-btn{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;text-decoration:none;font-weight:700;background:var(--blue);color:var(--sheet);border-radius:10px;padding:5px 14px}
 .ix-btn:hover{filter:brightness(1.1)}
+.hx{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;align-items:center}
+@media (max-width:720px){.hx{grid-template-columns:minmax(0,1fr)}}
+.hx-fig{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:6px}
+.hx-fig svg{display:block;width:100%;height:auto;max-width:100%}
+.hx-out{fill:none;stroke:var(--axis);stroke-width:3;stroke-linejoin:round}
+.hx-sp{stroke:var(--axis);stroke-width:2;opacity:.55}
+.hx-tri{fill:var(--marker);opacity:.45;transition:all .3s}
+.hx-hl{stroke:var(--c2);stroke-width:6;stroke-linecap:round;stroke-dasharray:400;stroke-dashoffset:400;animation:hxdraw .6s forwards}
+@keyframes hxdraw{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.hx-hl{animation:none;stroke-dashoffset:0}}
+.hx-l circle{fill:var(--sheet);stroke:var(--axis);stroke-width:2;transition:all .25s}
+.hx-l text{font-family:var(--f-math);font-style:italic;font-size:22px;font-weight:600;text-anchor:middle;fill:var(--muted);transition:all .25s}
+.hx-l.on circle{fill:var(--c2);stroke:var(--c2)}
+.hx-l.on text{fill:var(--c2);font-size:25px}
+.hx-l.main circle{fill:var(--c1);stroke:var(--c1)}
+.hx-l.main text{fill:var(--c1)}
+.hx-l.one circle{fill:var(--marker);stroke:var(--axis)}
+.hx-l.one text{fill:#1d2a44;font-style:normal;font-size:20px}
+.hx-l.one.on circle{fill:var(--c2)}
+.hx-rule{margin:10px 0 6px}
+.hx-f{font-size:1.25rem;background:var(--marker-soft);border-radius:12px;padding:12px 14px;min-height:64px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hx-n{font-family:var(--f-math);font-size:.8rem;color:var(--muted);background:var(--sheet);border-radius:999px;padding:0 8px}
 .start-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .start{flex:1 1 180px;min-width:0;display:flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--ink);background:var(--sheet);border-radius:12px;padding:10px 14px;border:2px solid transparent}
 .start span{font-size:.82rem;color:var(--muted)}
@@ -841,7 +863,7 @@ const LESSONS = [
  ]},
 
 /* ======================= 3-2 ======================= */
-{id:'3-2', unit:'u3', title:'إثبات صحة المتطابقات المثلثية', lab:'ident',
+{id:'3-2', unit:'u3', title:'إثبات صحة المتطابقات المثلثية', lab:'ident', memo:'hex',
  goal:'أثبت صحة المتطابقات بتحويل أحد الطرفين إلى الآخر أو بتحويل الطرفين معًا.',
  idea:[
   'لإثبات متطابقة نبدأ عادة <b>بالطرف الأكثر تعقيدًا</b> ونبسّطه حتى يصبح مثل الطرف الآخر.',
@@ -859,7 +881,9 @@ const LESSONS = [
  rq:[
   ['عند إثبات متطابقة نبدأ غالبًا بـ:',['الطرف الأبسط','الطرف الأكثر تعقيدًا','نقل الحدود','تربيع الطرفين'],1,'التبسيط أسهل من التعقيد.'],
   ['$(1 + @sin θ)(1 − @sin θ)$ =',['$@sin^{2}θ$','$@cos^{2}θ$','$1$','$@tan^{2}θ$'],1,'فرق مربعين ثم فيثاغورس.'],
-  ['$@csc^{2}θ − @cot^{2}θ$ =',['$0$','$1$','$−1$','$@sec^{2}θ$'],1,'من $@cot^{2}θ + 1 = @csc^{2}θ$.']
+  ['$@csc^{2}θ − @cot^{2}θ$ =',['$0$','$1$','$−1$','$@sec^{2}θ$'],1,'من $@cot^{2}θ + 1 = @csc^{2}θ$.'],
+  ['في سداسي المتطابقات، الدالة المقابلة لـ $@cos$ عبر المنتصف هي:',['$@sec$','$@csc$','$@cot$','$@tan$'],0,'المتقابلتان مقلوبتان: $@cos θ · @sec θ = 1$'],
+  ['حسب السداسي، $@cot θ$ تساوي حاصل ضرب جارتيها:',['$@cos θ · @csc θ$','$@sin θ · @sec θ$','$@tan θ · @cos θ$','$@sec θ · @csc θ$'],0,'جارتا $@cot$ هما $@cos$ و $@csc$ : $@cos θ · @frac{1}{@sin θ}$']
  ],
  ex:{q:'أثبت أن $@frac{@cos θ}{1 − @sin θ} = @frac{1 + @sin θ}{@cos θ}$.',
   s:['نضرب البسط والمقام في المرافق $(1 + @sin θ)$:','$@frac{@cos θ(1 + @sin θ)}{(1 − @sin θ)(1 + @sin θ)} = @frac{@cos θ(1 + @sin θ)}{1 − @sin^{2}θ}$','$= @frac{@cos θ(1 + @sin θ)}{@cos^{2}θ}$','$= @frac{1 + @sin θ}{@cos θ}$ ✓']},
@@ -2316,6 +2340,61 @@ function renderLessonSummary(L) {
   <section class="sheet"><div class="sec-h"><span class="tag">مثال</span><h2>${T(L.ex.q)}</h2></div><ol class="ex-steps">${L.ex.s.map((s, i) => `<li class="${i === L.ex.s.length - 1 ? 'final' : ''}"><span>${T(s)}</span></li>`).join('')}</ol></section>
   </div>`;
 }
+/* ---------- حيلة الحفظ: سداسي المتطابقات (درس 3-2) ---------- */
+const HEX_V = { sin: 120, cos: 60, cot: 0, csc: -60, sec: -120, tan: 180 };
+const HEX_ORDER = ['tan', 'sin', 'cos', 'cot', 'csc', 'sec']; // اتجاه عقارب الساعة
+const HEX_MODES = {
+  rec: { name: 'المقلوب', rule: 'كل دالتين متقابلتين عبر الرقم 1 في المنتصف إحداهما مقلوب الأخرى، وحاصل ضربهما $1$.',
+    steps: [['sin', 'csc'], ['cos', 'sec'], ['tan', 'cot']].map(([a, b]) => ({ hl: [a, b], lines: [[a, 'one'], ['one', b]], f: `$@${a} θ = @frac{1}{@${b} θ}$ ⇔ $@${a} θ · @${b} θ = 1$` })) },
+  quo: { name: 'القسمة', rule: 'ابدأ من أي دالة وتحرّك مع عقارب الساعة: الدالة = الأولى بعدها ÷ الثانية بعدها.',
+    steps: HEX_ORDER.map((f, i) => { const a = HEX_ORDER[(i + 1) % 6], b = HEX_ORDER[(i + 2) % 6]; return { hl: [f, a, b], main: f, lines: [[f, a], [a, b]], f: `$@${f} θ = @frac{@${a} θ}{@${b} θ}$` }; }) },
+  pro: { name: 'الضرب', rule: 'كل دالة = حاصل ضرب جارتيها على السداسي.',
+    steps: HEX_ORDER.map((f, i) => { const a = HEX_ORDER[(i + 5) % 6], b = HEX_ORDER[(i + 1) % 6]; return { hl: [f, a, b], main: f, lines: [[a, f], [f, b]], f: `$@${f} θ = @${a} θ · @${b} θ$` }; }) },
+  pyt: { name: 'فيثاغورس', rule: 'في كل مثلث ملوّن رأسه للأسفل: مربع الرأسين العلويين معًا = مربع الرأس السفلي.',
+    steps: [['sin', 'cos', 'one', '$@sin^{2}θ + @cos^{2}θ = 1$'], ['tan', 'one', 'sec', '$@tan^{2}θ + 1 = @sec^{2}θ$'], ['one', 'cot', 'csc', '$1 + @cot^{2}θ = @csc^{2}θ$']].map(([a, b, c, f]) => ({ hl: [a, b, c], tri: [a, b, c], lines: [[a, b], [b, c], [c, a]], f })) }
+};
+function hexMemo(host) {
+  const R = 120, cx = 180, cy = 150;
+  const P = k => k === 'one' ? [cx, cy] : [cx + R * Math.cos(HEX_V[k] * D2R), cy - R * Math.sin(HEX_V[k] * D2R)];
+  const outline = HEX_ORDER.map(k => P(k).join(',')).join(' ');
+  const spokes = HEX_ORDER.map(k => `<line x1="${cx}" y1="${cy}" x2="${P(k)[0]}" y2="${P(k)[1]}" class="hx-sp"/>`).join('');
+  const labels = HEX_ORDER.map(k => { const [x, y] = P(k), dx = (x - cx) * 0.28, dy = (y - cy) * 0.28; return `<g class="hx-l" data-k="${k}"><circle cx="${x}" cy="${y}" r="9"/><text x="${x + dx}" y="${y + dy}" dy=".35em">${k}</text></g>`; }).join('');
+  host.innerHTML = `<div class="hx">
+    <div class="hx-fig"><svg viewBox="0 0 360 300" role="img" aria-label="سداسي المتطابقات المثلثية">
+      <polygon class="hx-tri" id="hx-tri" points=""/>
+      <polygon points="${outline}" class="hx-out"/>${spokes}
+      <g id="hx-hl"></g>${labels}
+      <g class="hx-l one" data-k="one"><circle cx="${cx}" cy="${cy}" r="17"/><text x="${cx}" y="${cy}" dy=".36em">1</text></g>
+    </svg></div>
+    <div class="hx-side">
+      <div class="seg" id="hx-modes">${Object.entries(HEX_MODES).map(([k, m]) => `<button type="button" data-m="${k}">${m.name}</button>`).join('')}</div>
+      <p class="hx-rule" id="hx-rule"></p>
+      <div class="hx-f" id="hx-f" aria-live="polite"></div>
+      <div class="btn-row"><button type="button" class="btn fill" id="hx-next">المثال التالي</button><button type="button" class="play" id="hx-play">▶ تشغيل تلقائي</button></div>
+      <p class="lab-note">ارسم السداسي في ورقة الاختبار قبل أن تبدأ: الصف العلوي $@sin   @cos$ ، الأوسط $@tan   1   @cot$ ، السفلي $@sec   @csc$. تذكّر أن الدوال التي تبدأ بـ «co» في اليمين.</p>
+    </div></div>`;
+  host.querySelectorAll('.lab-note').forEach(n => n.innerHTML = T(n.innerHTML));
+  let mode = 'rec', i = 0, timer = null;
+  const svg = host.querySelector('svg'), hl = host.querySelector('#hx-hl'), tri = host.querySelector('#hx-tri');
+  const show = () => {
+    const M = HEX_MODES[mode], st = M.steps[i % M.steps.length];
+    host.querySelectorAll('#hx-modes button').forEach(b => b.classList.toggle('on', b.dataset.m === mode));
+    host.querySelector('#hx-rule').innerHTML = T(M.rule);
+    host.querySelector('#hx-f').innerHTML = `<span class="hx-n">${(i % M.steps.length) + 1} / ${M.steps.length}</span>${T(st.f)}`;
+    svg.querySelectorAll('.hx-l').forEach(g => { g.classList.toggle('on', st.hl.includes(g.dataset.k)); g.classList.toggle('main', st.main === g.dataset.k); });
+    tri.setAttribute('points', st.tri ? st.tri.map(k => P(k).join(',')).join(' ') : '');
+    hl.innerHTML = st.lines.map(([a, b], n) => { const [x1, y1] = P(a), [x2, y2] = P(b); return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="hx-hl" style="animation-delay:${n * .25}s"/>`; }).join('');
+  };
+  const stop = () => { clearInterval(timer); timer = null; host.querySelector('#hx-play').textContent = '▶ تشغيل تلقائي'; };
+  host.querySelectorAll('#hx-modes button').forEach(b => b.addEventListener('click', () => { stop(); mode = b.dataset.m; i = 0; show(); }));
+  host.querySelector('#hx-next').addEventListener('click', () => { stop(); i++; show(); });
+  host.querySelector('#hx-play').addEventListener('click', e => {
+    if (timer) { stop(); return; }
+    e.target.textContent = '❚❚ إيقاف';
+    timer = setInterval(() => { if (!host.isConnected) { stop(); return; } i++; if (i >= HEX_MODES[mode].steps.length) { const ks = Object.keys(HEX_MODES); mode = ks[(ks.indexOf(mode) + 1) % ks.length]; i = 0; } show(); }, 2200);
+  });
+  show();
+}
 /* ---------- الصفحات ---------- */
 const main = $('#main'), toc = $('#toc');
 const unitName = id => UNITS.find(u => u.id === id).name;
@@ -2395,6 +2474,7 @@ function renderLesson(L) {
   <section class="sheet" id="s-lab"><div class="sec-h"><span class="tag">٢ · شاهد</span><h2>جرّب بنفسك</h2></div><div id="lab-${L.id}"></div></section>
   <section class="sheet" id="s-ex"><div class="sec-h"><span class="tag">٣ · تتبّع</span><h2>مثال محلول خطوة بخطوة</h2></div><div class="ex-q">${T(L.ex.q)}</div><ol class="ex-steps"></ol><div class="btn-row"><button type="button" class="btn fill" id="ex-next">أظهر الخطوة الأولى</button><button type="button" class="btn" id="ex-all">أظهر الحل كاملًا</button></div></section>
   <section class="sheet" id="s-rules"><div class="sec-h"><span class="tag">٤ · احفظ</span><h2>قوانين الدرس</h2></div><p>اقرأ اسم القانون وحاول تذكّره، ثم اضغط البطاقة لتقلبها. إذا كنت تحفظه علّمه بـ «حفظته».</p><div class="rules" id="rules"></div><div class="memo-bar"><span id="memo-t"></span><div class="meter"><i id="memo-m"></i></div><button type="button" class="btn" id="flip-all">اقلب الكل</button></div></section>
+  ${L.memo === 'hex' ? `<section class="sheet" id="s-memo"><div class="sec-h"><span class="tag" style="background:var(--marker-soft);color:var(--ink)">حيلة للحفظ</span><h2>سداسي المتطابقات</h2></div><p>شكل واحد تحفظ منه المقلوب والقسمة والضرب وفيثاغورس. اختر القاعدة ثم اضغط «المثال التالي».</p><div id="hexm"></div></section>` : ''}
   <section class="sheet" id="s-rq"><div class="sec-h"><span class="tag">٥ · اختبر حفظك</span><h2>أسئلة على القوانين</h2></div><div id="rq"></div></section>
   <section class="sheet" id="s-qs"><div class="sec-h"><span class="tag">٦ · تدرّب</span><h2>تدرّب على الأفكار</h2></div><div id="qs"></div></section>
   <section class="sheet" id="s-hots"><div class="sec-h"><span class="tag" style="background:var(--plum-soft);color:var(--plum)">٧ · فكّر</span><h2>أسئلة مهارات التفكير العليا</h2></div><p>اكتب إجابتك أولًا، ثم استعن بالتلميح، وقارن بالإجابة النموذجية.</p><div class="hots" id="hots"></div></section>
@@ -2437,6 +2517,7 @@ function renderLesson(L) {
   $('#flip-all').addEventListener('click', () => { const any = [...rb.children].some(c => !c.classList.contains('flip')); [...rb.children].forEach(c => c.classList.toggle('flip', any)); });
   memo();
 
+  if (L.memo === 'hex') hexMemo($('#hexm'));
   quizBlock($('#rq'), L.rq, `${L.id}:r`);
   quizBlock($('#qs'), L.qs, `${L.id}:q`);
 
